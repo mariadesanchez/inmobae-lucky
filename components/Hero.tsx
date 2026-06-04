@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, Suspense } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import FiltersModal from './FiltersModal';
 
 const CATEGORY_FILTERS = ['All', 'House', 'Apartment', 'Villa', 'Penthouse'];
@@ -9,9 +9,11 @@ const CATEGORY_FILTERS = ['All', 'House', 'Apartment', 'Villa', 'Penthouse'];
 const HeroInner = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  
   const [isFiltersOpen, setFiltersOpen] = useState(false);
-  const [searchText, setSearchText] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchText, setSearchText] = useState(searchParams.get('location') ?? '');
+  const [activeCategory, setActiveCategory] = useState(searchParams.get('type') ?? 'All');
 
   const handleSearch = () => {
     const params = new URLSearchParams();

@@ -63,7 +63,7 @@ export default async function Home({ searchParams }: HomePageProps) {
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <Hero />
-        <FeaturedCollection />
+        {!hasActiveFilters && <FeaturedCollection />}
         <NewInMarket
           properties={mappedProperties}
           totalCount={count ?? 0}
