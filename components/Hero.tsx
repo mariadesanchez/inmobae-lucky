@@ -83,33 +83,37 @@ const HeroInner = ({ dict }: { dict?: any }) => {
           </div>
         </div>
 
-        {/* Category filter — dropdown on mobile, pills on desktop */}
-        <div className="flex items-center gap-2 max-w-2xl mx-auto">
+        {/* Category filter — stacked full-width on mobile, pills row on desktop */}
+        <div className="max-w-2xl mx-auto">
 
-          {/* Mobile: select dropdown */}
-          <div className="flex-1 sm:hidden relative">
-            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-nordic-muted material-icons text-base">
-              tune
-            </span>
-            <select
-              id="category-select-mobile"
-              value={activeCategory}
-              onChange={(e) => handleCategory(e.target.value)}
-              className="w-full appearance-none pl-9 pr-8 py-2.5 rounded-full bg-white border border-nordic/10 text-sm font-medium text-nordic shadow-sm focus:outline-none focus:ring-2 focus:ring-mosque"
+          {/* Mobile: stacked full-width buttons */}
+          <div className="flex flex-col gap-2 sm:hidden">
+            {CATEGORY_FILTERS.map((cat) => (
+              <button
+                key={cat.id}
+                id={`category-${cat.id.toLowerCase()}-mobile`}
+                onClick={() => handleCategory(cat.id)}
+                className={`w-full py-3 rounded-xl text-sm font-medium transition-all ${
+                  activeCategory === cat.id
+                    ? 'bg-nordic text-white shadow-md'
+                    : 'bg-white border border-nordic/10 text-nordic-muted hover:text-nordic hover:border-mosque/40'
+                }`}
+              >
+                {cat.id === 'All' && dict?.any ? dict.any : cat.id}
+              </button>
+            ))}
+            <button
+              id="filters-btn-mobile"
+              onClick={() => setFiltersOpen(true)}
+              className="w-full py-3 rounded-xl text-sm font-medium bg-white border border-nordic/10 text-nordic flex items-center justify-center gap-2 hover:bg-mosque/5 transition-colors"
             >
-              {CATEGORY_FILTERS.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.id === 'All' && dict?.any ? dict.any : cat.id}
-                </option>
-              ))}
-            </select>
-            <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-nordic-muted material-icons text-base">
-              expand_more
-            </span>
+              <span className="material-icons text-base font-material-icons">tune</span>
+              {dict?.filters || 'Filters'}
+            </button>
           </div>
 
-          {/* Desktop: pill buttons */}
-          <div className="hidden sm:flex items-center gap-2 flex-1 overflow-x-auto hide-scroll py-2">
+          {/* Desktop: horizontal pill row */}
+          <div className="hidden sm:flex items-center gap-2 overflow-x-auto hide-scroll py-2">
             {CATEGORY_FILTERS.map((cat) => (
               <button
                 key={cat.id}
@@ -124,19 +128,16 @@ const HeroInner = ({ dict }: { dict?: any }) => {
                 {cat.id === 'All' && dict?.any ? dict.any : cat.id}
               </button>
             ))}
+            <div className="w-px h-6 bg-nordic/10 mx-1" />
+            <button
+              id="filters-btn"
+              onClick={() => setFiltersOpen(true)}
+              className="whitespace-nowrap flex items-center gap-1 px-4 py-2 rounded-full bg-white border border-nordic/5 text-nordic font-medium text-sm hover:bg-mosque/5 transition-colors shadow-sm"
+            >
+              <span className="material-icons text-base font-material-icons">tune</span>
+              {dict?.filters || 'Filters'}
+            </button>
           </div>
-
-          <div className="hidden sm:block w-px h-6 bg-nordic/10" />
-
-          {/* Filters button — always visible */}
-          <button
-            id="filters-btn"
-            onClick={() => setFiltersOpen(true)}
-            className="whitespace-nowrap flex items-center gap-1 px-4 py-2.5 rounded-full bg-white border border-nordic/10 text-nordic font-medium text-sm hover:bg-mosque/5 transition-colors shadow-sm"
-          >
-            <span className="material-icons text-base font-material-icons">tune</span>
-            <span className="hidden sm:inline">{dict?.filters || 'Filters'}</span>
-          </button>
 
         </div>
       </div>
