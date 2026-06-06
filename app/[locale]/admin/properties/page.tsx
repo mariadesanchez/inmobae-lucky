@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import Image from 'next/image';
 import Link from 'next/link';
-import DeletePropertyButton from '@/components/admin/DeletePropertyButton';
+import TogglePropertyButton from '@/components/admin/TogglePropertyButton';
+import EditPropertyButton from '@/components/admin/EditPropertyButton';
 
 export default async function AdminPropertiesPage({
   searchParams,
@@ -21,7 +22,7 @@ export default async function AdminPropertiesPage({
 
   const supabase = await createClient();
   
-  // Fetch paginated properties
+  // Fetch paginated properties — admin sees ALL (active and inactive)
   const { data: properties, error, count } = await supabase
     .from('properties')
     .select('*', { count: 'exact' })
@@ -62,7 +63,7 @@ export default async function AdminPropertiesPage({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
         <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Total Listings</p>
+            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Total Listados</p>
             <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{totalItems}</p>
           </div>
           <div className="h-10 w-10 rounded-full bg-mosque/10 flex items-center justify-center text-mosque">
@@ -71,8 +72,8 @@ export default async function AdminPropertiesPage({
         </div>
         <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Active Properties</p>
-            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{properties?.filter(p => p.type === 'sale').length || 0}</p>
+            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Activas</p>
+            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{properties?.filter(p => p.is_active !== false).length || 0}</p>
           </div>
           <div className="h-10 w-10 rounded-full bg-hint-of-green flex items-center justify-center text-mosque">
             <span className="material-icons">check_circle</span>
@@ -80,11 +81,11 @@ export default async function AdminPropertiesPage({
         </div>
         <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Pending Sale</p>
-            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">0</p>
+            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Desactivadas</p>
+            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{properties?.filter(p => p.is_active === false).length || 0}</p>
           </div>
-          <div className="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
-            <span className="material-icons">pending</span>
+          <div className="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-500">
+            <span className="material-icons">visibility_off</span>
           </div>
         </div>
       </div>
@@ -101,7 +102,9 @@ export default async function AdminPropertiesPage({
 
         {/* List Items */}
         {properties?.map((prop) => (
-          <div key={prop.id} className="group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 border-b border-nordic/5 dark:border-mosque/10 hover:bg-clear-day dark:hover:bg-mosque/5 transition-colors items-center">
+          <div key={prop.id} className={`group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 border-b border-nordic/5 dark:border-mosque/10 hover:bg-clear-day dark:hover:bg-mosque/5 transition-colors items-center ${
+            prop.is_active === false ? 'opacity-60' : ''
+          }`}>
             {/* Property Details */}
             <div className="col-span-12 md:col-span-6 flex gap-4 items-center">
               <div className="relative h-20 w-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200">
@@ -140,30 +143,29 @@ export default async function AdminPropertiesPage({
             </div>
 
             {/* Status */}
-            <div className="col-span-6 md:col-span-2">
-              {prop.type === 'sale' ? (
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-hint-of-green text-mosque border border-mosque/10">
+            <div className="col-span-6 md:col-span-2 flex flex-col gap-1.5">
+              {prop.is_active === false ? (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-600 border border-orange-200 w-fit">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-1.5"></span>
+                  Inactiva
+                </span>
+              ) : prop.status === 'sale' ? (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-hint-of-green text-mosque border border-mosque/10 w-fit">
                   <span className="w-1.5 h-1.5 rounded-full bg-mosque mr-1.5"></span>
-                  For Sale
+                  En Venta
                 </span>
               ) : (
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 w-fit">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>
-                  For Rent
+                  En Alquiler
                 </span>
               )}
             </div>
 
                   {/* Actions */}
                   <div className="col-span-12 md:col-span-2 flex justify-end gap-2">
-                    <Link 
-                      href={`/${locale}/admin/properties/${prop.id}/edit`}
-                      className="p-2 text-nordic-muted dark:text-gray-400 hover:text-mosque hover:bg-mosque/5 dark:hover:bg-mosque/20 rounded-md transition-colors"
-                      title="Edit Property"
-                    >
-                      <span className="material-icons text-[18px]">edit</span>
-                    </Link>
-                    <DeletePropertyButton id={prop.id} />
+                    <EditPropertyButton id={prop.id} isActive={prop.is_active !== false} locale={locale} />
+                    <TogglePropertyButton id={prop.id} isActive={prop.is_active !== false} />
                   </div>
           </div>
         ))}

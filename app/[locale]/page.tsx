@@ -33,15 +33,26 @@ export default async function Home({ params, searchParams }: HomePageProps) {
 
   const supabase = await createClient();
 
-  // Build query with filters
+  // Build query with filters — only show active properties publicly
   let query = supabase
     .from('properties')
     .select('*', { count: 'exact' })
+    .eq('is_active', true)
     .order('id', { ascending: false });
 
-  // Location filter — search in title or location columns
+  // Search filter — case-insensitive partial match across title and location in all languages
   if (location && location.trim()) {
-    query = query.or(`location.ilike.%${location.trim()}%,title.ilike.%${location.trim()}%`);
+    const term = location.trim();
+    query = query.or(
+      [
+        `title.ilike.%${term}%`,
+        `title_es.ilike.%${term}%`,
+        `title_fr.ilike.%${term}%`,
+        `location.ilike.%${term}%`,
+        `location_es.ilike.%${term}%`,
+        `location_fr.ilike.%${term}%`,
+      ].join(',')
+    );
   }
 
   // Price range

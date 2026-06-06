@@ -224,7 +224,7 @@ export async function uploadPropertyImage(formData: FormData) {
   return publicUrl;
 }
 
-export async function deleteProperty(id: number) {
+export async function togglePropertyStatus(id: number, isActive: boolean) {
   const supabase = await getSupabase();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authenticated');
@@ -237,17 +237,25 @@ export async function deleteProperty(id: number) {
     .single();
 
   if (!roleData || roleData.role !== 'admin') {
-    throw new Error('Not authorized to delete properties');
+    throw new Error('Not authorized to update properties');
   }
 
   const { error } = await adminSupabase
     .from('properties')
-    .delete()
+    .update({ is_active: isActive })
     .eq('id', id);
 
   if (error) {
-    console.error('Error deleting property:', error);
-    throw new Error('Failed to delete property: ' + error.message);
+    // If schema cache hasn't updated for is_active column yet
+    if (error.message.includes("Could not find the 'is_active' column")) {
+      console.warn("Schema cache missing is_active column. Please run: NOTIFY pgrst, 'reload schema'; in Supabase SQL Editor.");
+      throw new Error(
+        "La columna 'is_active' aún no está en el caché de Supabase. " +
+        "Ve al SQL Editor de Supabase y ejecuta: NOTIFY pgrst, 'reload schema';"
+      );
+    }
+    console.error('Error updating property status:', error);
+    throw new Error('Failed to update property status: ' + error.message);
   }
 
   revalidatePath('/[locale]/admin/properties', 'page');
