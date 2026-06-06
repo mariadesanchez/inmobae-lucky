@@ -4,9 +4,15 @@ import { useState, Suspense } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import FiltersModal from './FiltersModal';
 
-const CATEGORY_FILTERS = ['All', 'House', 'Apartment', 'Villa', 'Penthouse'];
+const CATEGORY_FILTERS = [
+  { id: 'All', key: 'any' },
+  { id: 'House', key: 'house' },
+  { id: 'Apartment', key: 'apartment' },
+  { id: 'Villa', key: 'villa' },
+  { id: 'Penthouse', key: 'penthouse' }
+];
 
-const HeroInner = () => {
+const HeroInner = ({ dict }: { dict?: any }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -40,9 +46,9 @@ const HeroInner = () => {
     <section className="py-12 md:py-16">
       <div className="max-w-3xl mx-auto text-center space-y-8">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-nordic leading-tight">
-          Find your{' '}
+          {dict?.title || 'Find your '}{' '}
           <span className="relative inline-block">
-            <span className="relative z-10 font-medium">sanctuary</span>
+            <span className="relative z-10 font-medium">{dict?.highlight || 'sanctuary'}</span>
             <span className="absolute bottom-2 left-0 w-full h-3 bg-mosque/20 -rotate-1 z-0"></span>
           </span>
           .
@@ -62,14 +68,14 @@ const HeroInner = () => {
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown}
             className="block w-full pl-12 pr-4 py-4 rounded-xl border-none bg-white text-nordic shadow-soft placeholder-nordic-muted/60 focus:ring-2 focus:ring-mosque focus:bg-white transition-all text-lg outline-none"
-            placeholder="Search by city, neighborhood, or address..."
+            placeholder={dict?.searchPlaceholder || "Search by city, neighborhood, or address..."}
           />
           <button
             id="hero-search-btn"
             onClick={handleSearch}
             className="absolute inset-y-2 right-2 px-6 bg-mosque hover:bg-mosque/90 text-white font-medium rounded-lg transition-colors flex items-center justify-center shadow-lg shadow-mosque/20"
           >
-            Search
+            {dict?.search || 'Search'}
           </button>
         </div>
 
@@ -77,16 +83,16 @@ const HeroInner = () => {
         <div className="flex items-center justify-center gap-3 overflow-x-auto hide-scroll py-2 px-4 -mx-4">
           {CATEGORY_FILTERS.map((cat) => (
             <button
-              key={cat}
-              id={`category-${cat.toLowerCase()}`}
-              onClick={() => handleCategory(cat)}
+              key={cat.id}
+              id={`category-${cat.id.toLowerCase()}`}
+              onClick={() => handleCategory(cat.id)}
               className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 ${
-                activeCategory === cat
+                activeCategory === cat.id
                   ? 'bg-nordic text-white shadow-lg shadow-nordic/10'
                   : 'bg-white border border-nordic/5 text-nordic-muted hover:text-nordic hover:border-mosque/50 hover:bg-mosque/5'
               }`}
             >
-              {cat}
+              {cat.id === 'All' && dict?.any ? dict.any : cat.id}
             </button>
           ))}
 
@@ -98,7 +104,7 @@ const HeroInner = () => {
             className="whitespace-nowrap flex items-center gap-1 px-4 py-2 rounded-full text-nordic font-medium text-sm hover:bg-black/5 transition-colors"
           >
             <span className="material-icons text-base font-material-icons">tune</span>{' '}
-            Filters
+            {dict?.filters || 'Filters'}
           </button>
         </div>
       </div>
@@ -107,14 +113,15 @@ const HeroInner = () => {
       <FiltersModal
         isOpen={isFiltersOpen}
         onClose={() => setFiltersOpen(false)}
+        dict={dict?.filters}
       />
     </section>
   );
 };
 
-const Hero = () => (
+const Hero = ({ dict }: { dict?: any }) => (
   <Suspense>
-    <HeroInner />
+    <HeroInner dict={dict} />
   </Suspense>
 );
 

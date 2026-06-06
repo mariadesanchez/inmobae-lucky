@@ -22,9 +22,9 @@ export const parsePrice = (priceVal: any): number => {
   return 0;
 };
 
-export const mapDbRowToProperty = (row: any): Property => {
+export const mapDbRowToProperty = (row: any, locale: string = 'en'): Property => {
   const id = String(row.id || '');
-  const title = row.title || '';
+  const title = row[`title_${locale}`] || row.title || '';
   const generatedSlug = `${slugify(title)}-${id}`;
   const slug = row.slug || generatedSlug;
 
@@ -79,7 +79,7 @@ export const mapDbRowToProperty = (row: any): Property => {
   return {
     id,
     title,
-    location: row.location || '',
+    location: row[`location_${locale}`] || row.location || '',
     price: parsePrice(row.price),
     image: images[0] || row.image || '',
     beds: typeof row.beds === 'number' ? row.beds : parseFloat(row.beds) || 0,

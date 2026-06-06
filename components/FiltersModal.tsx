@@ -31,9 +31,10 @@ interface FiltersModalProps {
   isOpen: boolean;
   onClose: () => void;
   totalCount?: number;
+  dict?: any;
 }
 
-export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersModalProps) {
+export default function FiltersModal({ isOpen, onClose, totalCount, dict }: FiltersModalProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -134,7 +135,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
         
         {/* Header */}
         <header className="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-30">
-          <h2 className="text-2xl font-semibold tracking-tight text-gray-900">Filters</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-gray-900">{dict?.title || 'Filters'}</h2>
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500"
@@ -150,7 +151,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
           {/* Section 1: Location */}
           <section>
             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              Location
+              {dict?.location || 'Location'}
             </label>
             <div className="relative group">
               <span className="material-icons font-material-icons absolute left-4 top-3.5 text-gray-400 group-focus-within:text-mosque transition-colors">
@@ -170,7 +171,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
           <section>
             <div className="flex justify-between items-end mb-4">
               <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Price Range
+                {dict?.priceRange || 'Price Range'}
               </label>
               <span className="text-sm font-medium text-mosque">
                 {formatPrice(filters.minPrice)} – {formatPrice(filters.maxPrice)}
@@ -218,7 +219,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
             {/* Min / Max inputs */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-mosque/30 transition-colors">
-                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Min Price</label>
+                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{dict?.minPrice || 'Min Price'}</label>
                 <div className="flex items-center">
                   <span className="text-gray-400 mr-1">$</span>
                   <input
@@ -235,7 +236,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
                 </div>
               </div>
               <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-mosque/30 transition-colors">
-                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Max Price</label>
+                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{dict?.maxPrice || 'Max Price'}</label>
                 <div className="flex items-center">
                   <span className="text-gray-400 mr-1">$</span>
                   <input
@@ -259,7 +260,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
             {/* Property Type */}
             <div className="space-y-3">
               <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Property Type
+                {dict?.propertyType || 'Property Type'}
               </label>
               <div className="relative">
                 <select
@@ -281,7 +282,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
             <div className="space-y-4">
               {/* Bedrooms */}
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-900">Bedrooms</span>
+                <span className="text-sm font-medium text-gray-900">{dict?.bedrooms || 'Bedrooms'}</span>
                 <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1">
                   <button
                     onClick={() => setFilters((p) => ({ ...p, beds: Math.max(0, p.beds - 1) }))}
@@ -291,7 +292,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
                     <span className="material-icons font-material-icons text-base">remove</span>
                   </button>
                   <span className="text-sm font-semibold w-6 text-center">
-                    {filters.beds === 0 ? 'Any' : `${filters.beds}+`}
+                    {filters.beds === 0 ? (dict?.any || 'Any') : `${filters.beds}+`}
                   </span>
                   <button
                     onClick={() => setFilters((p) => ({ ...p, beds: p.beds + 1 }))}
@@ -304,7 +305,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
 
               {/* Bathrooms */}
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-900">Bathrooms</span>
+                <span className="text-sm font-medium text-gray-900">{dict?.bathrooms || 'Bathrooms'}</span>
                 <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1">
                   <button
                     onClick={() => setFilters((p) => ({ ...p, baths: Math.max(0, p.baths - 1) }))}
@@ -314,7 +315,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
                     <span className="material-icons font-material-icons text-base">remove</span>
                   </button>
                   <span className="text-sm font-semibold w-6 text-center">
-                    {filters.baths === 0 ? 'Any' : `${filters.baths}+`}
+                    {filters.baths === 0 ? (dict?.any || 'Any') : `${filters.baths}+`}
                   </span>
                   <button
                     onClick={() => setFilters((p) => ({ ...p, baths: p.baths + 1 }))}
@@ -330,7 +331,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
           {/* Section 4: Amenities */}
           <section>
             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Amenities &amp; Features
+              {dict?.amenities || 'Amenities & Features'}
             </label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {AMENITIES.map((amenity) => {
@@ -371,13 +372,15 @@ export default function FiltersModal({ isOpen, onClose, totalCount }: FiltersMod
             onClick={clearAll}
             className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors underline decoration-gray-300 underline-offset-4"
           >
-            Clear all filters
+            {dict?.clearAll || 'Clear all filters'}
           </button>
           <button
             onClick={applyFilters}
             className="bg-mosque hover:bg-mosque/90 text-white px-8 py-3 rounded-lg font-medium shadow-lg shadow-mosque/30 transition-all hover:shadow-mosque/40 flex items-center gap-2 active:scale-95"
           >
-            {totalCount !== undefined ? `Show ${totalCount} Homes` : 'Apply Filters'}
+            {totalCount !== undefined 
+              ? (dict?.showHomes ? dict.showHomes.replace('{count}', totalCount.toString()) : `Show ${totalCount} Homes`) 
+              : (dict?.applyFilters || 'Apply Filters')}
             <span className="material-icons font-material-icons text-sm">arrow_forward</span>
           </button>
         </footer>

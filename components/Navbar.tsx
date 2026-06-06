@@ -1,7 +1,44 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import LanguageSelector from './LanguageSelector';
+import { Locale } from '@/i18n-config';
+import UserMenu from './UserMenu';
+import { createClient } from '@/lib/supabase/server';
 
-const Navbar = () => {
+interface NavbarProps {
+  dict?: any;
+  locale?: Locale;
+}
+
+const Navbar = async ({ dict, locale = 'en' }: NavbarProps) => {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let isAdmin = false;
+  if (user) {
+    const { createServerClient } = await import('@supabase/ssr');
+    const adminSupabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      {
+        cookies: {
+          getAll() { return []; },
+          setAll() {}
+        }
+      }
+    );
+
+    const { data: roleData, error } = await adminSupabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .single();
+      
+    if (roleData && roleData.role === 'admin') {
+      isAdmin = true;
+    }
+  }
+
   return (
     <nav className="sticky top-0 z-50 bg-clear-day/95 backdrop-blur-md border-b border-nordic/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,26 +64,46 @@ const Navbar = () => {
               href="#"
               className="text-mosque font-medium text-sm border-b-2 border-mosque px-1 py-1"
             >
-              Buy
+              {dict?.buy || 'Buy'}
             </Link>
             <Link
               href="#"
               className="text-nordic/70 hover:text-nordic font-medium text-sm hover:border-b-2 hover:border-nordic/20 px-1 py-1 transition-all"
             >
-              Rent
+              {dict?.rent || 'Rent'}
             </Link>
             <Link
               href="#"
               className="text-nordic/70 hover:text-nordic font-medium text-sm hover:border-b-2 hover:border-nordic/20 px-1 py-1 transition-all"
             >
-              Sell
+              {dict?.commercial || 'Commercial'}
             </Link>
             <Link
               href="#"
               className="text-nordic/70 hover:text-nordic font-medium text-sm hover:border-b-2 hover:border-nordic/20 px-1 py-1 transition-all"
             >
-              Saved Homes
+              {dict?.saved || 'Saved Homes'}
             </Link>
+
+            {/* Admin Links */}
+            {isAdmin && (
+              <div className="flex items-center space-x-6 border-l border-nordic/20 pl-6 ml-2">
+                <Link
+                  href={`/${locale}/admin/properties`}
+                  className="flex items-center gap-1.5 text-mosque font-semibold text-sm hover:text-mosque/80 transition-colors bg-hint-of-green/30 px-3 py-1.5 rounded-md"
+                >
+                  <span className="material-icons text-[16px]">holiday_village</span>
+                  Properties
+                </Link>
+                <Link
+                  href={`/${locale}/admin/users`}
+                  className="flex items-center gap-1.5 text-mosque font-semibold text-sm hover:text-mosque/80 transition-colors bg-hint-of-green/30 px-3 py-1.5 rounded-md"
+                >
+                  <span className="material-icons text-[16px]">people</span>
+                  Users
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Actions */}
@@ -61,17 +118,23 @@ const Navbar = () => {
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-clear-day"></span>
             </button>
 
-            {/* Profile */}
-            <button className="flex items-center gap-2 pl-2 border-l border-nordic/10 ml-2">
-              <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-transparent hover:ring-mosque transition-all relative">
-                <Image
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWhQZ663Bd08kmzjbOPmUk4UIxYooNONShMEFXLR-DtmVi6Oz-TiaY77SPwFk7g0OobkeZEOMvt6v29mSOD0Xm2g95WbBG3ZjWXmiABOUwGU0LOySRfVDo-JTXQ0-gtwjWxbmue0qDm91m-zEOEZwAW6iRFB1qC1bAU-wkjxm67Sbztq8w7srHkFT9bVEC86qG-FzhOBTomhAurNRmx9l8Yfqabk328NfdKuVLckgCdaPsNFE3yN65MeoRi05GA_gXIMwG4YDIeA"
-                  alt="Profile"
-                  fill
-                  className="object-cover"
-                />
+            <LanguageSelector currentLocale={locale} />
+
+            {/* Profile / Auth */}
+            {user ? (
+              <div className="ml-2 pl-2 border-l border-nordic/10">
+                <UserMenu user={user} />
               </div>
-            </button>
+            ) : (
+              <div className="ml-2 pl-2 border-l border-nordic/10">
+                <Link 
+                  href={`/${locale}/login`}
+                  className="px-4 py-2 bg-mosque hover:bg-mosque/90 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+                >
+                  {dict?.login || 'Login'}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

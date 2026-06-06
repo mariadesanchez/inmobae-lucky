@@ -7,8 +7,11 @@ import Navbar from '@/components/Navbar';
 import PropertyGallery from '@/components/PropertyGallery';
 import PropertyMapWrapper from '@/components/PropertyMapWrapper';
 
+import { getDictionary } from '@/lib/dictionaries';
+import { Locale } from '@/i18n-config';
+
 interface PropertyPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 
@@ -95,7 +98,8 @@ const getPropertyDetailData = (id: string, title: string, location: string, beds
 };
 
 export default async function PropertyDetailPage({ params }: PropertyPageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const dict = await getDictionary(locale as Locale);
   
   // Extract property ID from the end of the slug (slugify(title)-id)
   const segments = slug.split('-');
@@ -116,7 +120,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
     return notFound();
   }
 
-  const property = mapDbRowToProperty(rawRow);
+  const property = mapDbRowToProperty(rawRow, locale);
   const details = getPropertyDetailData(property.id, property.title, property.location, property.beds, property.baths);
 
   // SEO Schema.org JSON-LD Structured Data
@@ -146,7 +150,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       
-      <Navbar />
+      <Navbar dict={dict.navbar} locale={locale as Locale} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">

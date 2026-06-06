@@ -5,9 +5,13 @@ import NewInMarket from '@/components/NewInMarket';
 import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 
+import { getDictionary } from '@/lib/dictionaries';
+import { Locale } from '@/i18n-config';
+
 const PAGE_SIZE = 8;
 
 interface HomePageProps {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{
     page?: string;
     location?: string;
@@ -19,7 +23,9 @@ interface HomePageProps {
   }>;
 }
 
-export default async function Home({ searchParams }: HomePageProps) {
+export default async function Home({ params, searchParams }: HomePageProps) {
+  const { locale } = await params;
+  const dict = await getDictionary(locale as Locale);
   const { page, location, minPrice, maxPrice, type, beds, baths } = await searchParams;
   const currentPage = Math.max(1, parseInt(page ?? '1', 10));
   const from = (currentPage - 1) * PAGE_SIZE;
@@ -53,23 +59,24 @@ export default async function Home({ searchParams }: HomePageProps) {
 
   const { data: propertiesData, count } = await query.range(from, to);
 
-  const mappedProperties = (propertiesData ?? []).map(mapDbRowToProperty);
+  const mappedProperties = (propertiesData ?? []).map(row => mapDbRowToProperty(row, locale));
 
   // Check if any filter is active (for UI feedback)
   const hasActiveFilters = !!(location || minPrice || maxPrice || (type && type !== 'Any Type') || beds || baths);
 
   return (
     <>
-      <Navbar />
+      <Navbar dict={dict.navbar} locale={locale as Locale} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <Hero />
-        {!hasActiveFilters && <FeaturedCollection />}
+        <Hero dict={dict.hero} />
+        {!hasActiveFilters && <FeaturedCollection dict={{ ...dict.featured, property: dict.property }} locale={locale} />}
         <NewInMarket
           properties={mappedProperties}
           totalCount={count ?? 0}
           currentPage={currentPage}
           pageSize={PAGE_SIZE}
           hasActiveFilters={hasActiveFilters}
+          dict={{ ...dict.newInMarket, property: dict.property }}
         />
       </main>
     </>

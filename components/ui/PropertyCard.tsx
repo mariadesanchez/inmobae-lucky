@@ -7,9 +7,10 @@ import { Property } from '@/types/property';
 
 interface PropertyCardProps {
   property: Property;
+  dict?: any;
 }
 
-const PropertyCard = ({ property }: PropertyCardProps) => {
+const PropertyCard = ({ property, dict }: PropertyCardProps) => {
   return (
     <Link href={`/propiedades/${property.slug}`} className="block h-full group">
       <article className="bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 cursor-pointer h-full flex flex-col">
@@ -40,7 +41,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           <div
             className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${property.type === 'sale' ? 'bg-nordic/90' : 'bg-mosque/90'}`}
           >
-            {property.type === 'sale' ? 'FOR SALE' : 'FOR RENT'}
+            {property.type === 'sale' ? (dict?.property?.sale || 'FOR SALE') : (dict?.property?.rent || 'FOR RENT')}
           </div>
         </div>
 

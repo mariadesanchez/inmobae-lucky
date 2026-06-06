@@ -1,0 +1,61 @@
+{
+  "navbar": {
+    "buy": "Buy",
+    "rent": "Rent",
+    "commercial": "Commercial",
+    "saved": "Saved",
+    "language": "Language",
+    "login": "Log in",
+    "signup": "Sign up"
+  },
+  "login": {
+    "title": "Welcome to LuxeEstate",
+    "subtitle": "Unlock exclusive properties worldwide.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "noAccount": "Don't have an account?",
+    "signup": "Sign up"
+  },
+  "hero": {
+    "title": "Find your ",
+    "highlight": "sanctuary",
+    "searchPlaceholder": "Search by city, neighborhood, or address...",
+    "search": "Search",
+    "filters": "Filters"
+  },
+  "filters": {
+    "title": "Filters",
+    "location": "Location",
+    "priceRange": "Price Range",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "propertyType": "Property Type",
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "any": "Any",
+    "amenities": "Amenities & Features",
+    "clearAll": "Clear all filters",
+    "applyFilters": "Apply Filters",
+    "showHomes": "Show {count} Homes"
+  },
+  "newInMarket": {
+    "searchResults": "Search Results",
+    "found": "{count} properties found",
+    "newInMarket": "New in Market",
+    "fresh": "Fresh opportunities added this week.",
+    "noResults": "No properties found",
+    "tryAdjusting": "Try adjusting your filters or search in a different location."
+  },
+  "featured": {
+    "title": "Featured Collections",
+    "subtitle": "Curated properties for the discerning eye.",
+    "viewAll": "View all"
+  },
+  "property": {
+    "beds": "Beds",
+    "baths": "Baths",
+    "sale": "FOR SALE",
+    "rent": "FOR RENT"
+  }
+}

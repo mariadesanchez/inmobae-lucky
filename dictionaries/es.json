@@ -1,0 +1,61 @@
+{
+  "navbar": {
+    "buy": "Comprar",
+    "rent": "Alquilar",
+    "commercial": "Comercial",
+    "saved": "Guardados",
+    "language": "Idioma",
+    "login": "Iniciar sesión",
+    "signup": "Registrarse"
+  },
+  "login": {
+    "title": "Bienvenido a LuxeEstate",
+    "subtitle": "Desbloquea propiedades exclusivas en todo el mundo.",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Iniciar Sesión",
+    "noAccount": "¿No tienes una cuenta?",
+    "signup": "Regístrate"
+  },
+  "hero": {
+    "title": "Encuentra tu ",
+    "highlight": "santuario",
+    "searchPlaceholder": "Busca por ciudad, vecindario o dirección...",
+    "search": "Buscar",
+    "filters": "Filtros"
+  },
+  "filters": {
+    "title": "Filtros",
+    "location": "Ubicación",
+    "priceRange": "Rango de Precio",
+    "minPrice": "Precio Mín.",
+    "maxPrice": "Precio Máx.",
+    "propertyType": "Tipo de Propiedad",
+    "bedrooms": "Habitaciones",
+    "bathrooms": "Baños",
+    "any": "Cualquiera",
+    "amenities": "Comodidades y Características",
+    "clearAll": "Limpiar todos los filtros",
+    "applyFilters": "Aplicar Filtros",
+    "showHomes": "Mostrar {count} Propiedades"
+  },
+  "newInMarket": {
+    "searchResults": "Resultados de Búsqueda",
+    "found": "{count} propiedades encontradas",
+    "newInMarket": "Nuevas en el Mercado",
+    "fresh": "Oportunidades frescas añadidas esta semana.",
+    "noResults": "No se encontraron propiedades",
+    "tryAdjusting": "Intenta ajustar tus filtros o busca en otra ubicación."
+  },
+  "featured": {
+    "title": "Colecciones Destacadas",
+    "subtitle": "Propiedades seleccionadas para el ojo exigente.",
+    "viewAll": "Ver todas"
+  },
+  "property": {
+    "beds": "Hab",
+    "baths": "Baños",
+    "sale": "EN VENTA",
+    "rent": "ALQUILER"
+  }
+}

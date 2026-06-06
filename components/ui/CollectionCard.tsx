@@ -7,9 +7,10 @@ import { Collection } from '@/data/mockData';
 
 interface CollectionCardProps {
   collection: Collection;
+  dict?: any;
 }
 
-const CollectionCard = ({ collection }: CollectionCardProps) => {
+const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
   return (
     <Link href={`/propiedades/${collection.slug || ''}`} className="block group relative rounded-xl overflow-hidden shadow-soft bg-white cursor-pointer">
       {/* Image Container */}
@@ -69,13 +70,13 @@ const CollectionCard = ({ collection }: CollectionCardProps) => {
             <span className="material-icons text-lg font-material-icons">
               king_bed
             </span>{' '}
-            {collection.beds} Beds
+            {collection.beds} {dict?.property?.beds || 'Beds'}
           </div>
           <div className="flex items-center gap-2 text-nordic-muted text-sm">
             <span className="material-icons text-lg font-material-icons">
               bathtub
             </span>{' '}
-            {collection.baths} Baths
+            {collection.baths} {dict?.property?.baths || 'Baths'}
           </div>
           <div className="flex items-center gap-2 text-nordic-muted text-sm">
             <span className="material-icons text-lg font-material-icons">

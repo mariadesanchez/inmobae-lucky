@@ -8,6 +8,7 @@ interface NewInMarketProps {
   currentPage: number;
   pageSize: number;
   hasActiveFilters?: boolean;
+  dict?: any;
 }
 
 const NewInMarket = ({
@@ -16,6 +17,7 @@ const NewInMarket = ({
   currentPage,
   pageSize,
   hasActiveFilters,
+  dict,
 }: NewInMarketProps) => {
   const totalPages = Math.ceil(totalCount / pageSize);
 
@@ -24,12 +26,12 @@ const NewInMarket = ({
       <div className="flex items-end justify-between mb-8">
         <div>
           <h2 className="text-2xl font-light text-nordic">
-            {hasActiveFilters ? 'Search Results' : 'New in Market'}
+            {hasActiveFilters ? (dict?.searchResults || 'Search Results') : (dict?.newInMarket || 'New in Market')}
           </h2>
           <p className="text-nordic-muted mt-1 text-sm">
             {hasActiveFilters
-              ? `${totalCount} propert${totalCount === 1 ? 'y' : 'ies'} found`
-              : 'Fresh opportunities added this week.'}
+              ? (dict?.found ? dict.found.replace('{count}', totalCount.toString()) : `${totalCount} properties found`)
+              : (dict?.fresh || 'Fresh opportunities added this week.')}
           </p>
         </div>
         <div className="hidden md:flex bg-white p-1 rounded-lg">
@@ -50,15 +52,15 @@ const NewInMarket = ({
           <span className="material-icons font-material-icons text-6xl text-nordic/20 mb-4">
             search_off
           </span>
-          <h3 className="text-xl font-medium text-nordic mb-2">No properties found</h3>
+          <h3 className="text-xl font-medium text-nordic mb-2">{dict?.noResults || 'No properties found'}</h3>
           <p className="text-nordic-muted text-sm max-w-xs">
-            Try adjusting your filters or search in a different location.
+            {dict?.tryAdjusting || 'Try adjusting your filters or search in a different location.'}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {properties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
+            <PropertyCard key={property.id} property={property} dict={dict} />
           ))}
         </div>
       )}

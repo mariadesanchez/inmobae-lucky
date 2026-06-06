@@ -1,0 +1,202 @@
+import { createClient } from '@/lib/supabase/server';
+import Image from 'next/image';
+import Link from 'next/link';
+import DeletePropertyButton from '@/components/admin/DeletePropertyButton';
+
+export default async function AdminPropertiesPage({
+  searchParams,
+  params,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ locale: string }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale;
+  
+  const page = parseInt(resolvedSearchParams.page as string || '1', 10);
+  const pageSize = 10;
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const supabase = await createClient();
+  
+  // Fetch paginated properties
+  const { data: properties, error, count } = await supabase
+    .from('properties')
+    .select('*', { count: 'exact' })
+    .order('id', { ascending: false })
+    .range(from, to);
+
+  const totalItems = count || 0;
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const isFirstPage = page <= 1;
+  const isLastPage = page >= totalPages;
+
+  if (error) {
+    console.error('Error fetching properties:', error);
+  }
+
+  return (
+    <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-nordic dark:text-white tracking-tight">My Properties</h1>
+          <p className="text-nordic-muted dark:text-gray-400 mt-1">Manage your portfolio and track performance.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="bg-white dark:bg-[#152e2a] border border-nordic/10 dark:border-mosque/30 text-nordic dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-mosque/10 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+            <span className="material-icons text-base">filter_list</span> Filter
+          </button>
+            <Link 
+              href={`/${locale}/admin/properties/create`}
+              className="bg-mosque hover:bg-mosque/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-mosque/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2"
+            >
+              <span className="material-icons text-base">add</span> Add New Property
+            </Link>
+        </div>
+      </div>
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Total Listings</p>
+            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{totalItems}</p>
+          </div>
+          <div className="h-10 w-10 rounded-full bg-mosque/10 flex items-center justify-center text-mosque">
+            <span className="material-icons">apartment</span>
+          </div>
+        </div>
+        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Active Properties</p>
+            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{properties?.filter(p => p.type === 'sale').length || 0}</p>
+          </div>
+          <div className="h-10 w-10 rounded-full bg-hint-of-green flex items-center justify-center text-mosque">
+            <span className="material-icons">check_circle</span>
+          </div>
+        </div>
+        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Pending Sale</p>
+            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">0</p>
+          </div>
+          <div className="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+            <span className="material-icons">pending</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Property List Container */}
+      <div className="bg-white dark:bg-[#152e2a] rounded-xl shadow-sm border border-nordic/10 dark:border-mosque/20 overflow-hidden">
+        {/* Table Header */}
+        <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-clear-day/50 dark:bg-mosque/5 border-b border-nordic/5 dark:border-mosque/10 text-xs font-semibold text-nordic-muted dark:text-gray-400 uppercase tracking-wider">
+          <div className="col-span-6">Property Details</div>
+          <div className="col-span-2">Price</div>
+          <div className="col-span-2">Status</div>
+          <div className="col-span-2 text-right">Actions</div>
+        </div>
+
+        {/* List Items */}
+        {properties?.map((prop) => (
+          <div key={prop.id} className="group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 border-b border-nordic/5 dark:border-mosque/10 hover:bg-clear-day dark:hover:bg-mosque/5 transition-colors items-center">
+            {/* Property Details */}
+            <div className="col-span-12 md:col-span-6 flex gap-4 items-center">
+              <div className="relative h-20 w-28 flex-shrink-0 rounded-lg overflow-hidden bg-gray-200">
+                {prop.images?.[0] ? (
+                  <Image 
+                    src={prop.images[0]} 
+                    alt={prop.title_en || 'Property'} 
+                    fill 
+                    className="object-cover transition-transform duration-500 group-hover:scale-105" 
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="material-icons text-gray-400">image</span>
+                  </div>
+                )}
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-nordic dark:text-white group-hover:text-mosque transition-colors cursor-pointer truncate max-w-[200px] sm:max-w-sm">
+                  {prop.title_en}
+                </h3>
+                <p className="text-sm text-nordic-muted dark:text-gray-400">{prop.location}</p>
+                <div className="flex items-center gap-3 mt-1.5 text-xs text-nordic-muted dark:text-gray-500">
+                  <span className="flex items-center gap-1"><span className="material-icons text-[14px]">bed</span> {prop.beds} Beds</span>
+                  <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                  <span className="flex items-center gap-1"><span className="material-icons text-[14px]">bathtub</span> {prop.baths} Baths</span>
+                  <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                  <span>{prop.area} sqft</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Price */}
+            <div className="col-span-6 md:col-span-2">
+              <div className="text-base font-semibold text-nordic dark:text-gray-200">${prop.price?.toLocaleString()}</div>
+              <div className="text-xs text-nordic-muted dark:text-gray-400">Type: {prop.type}</div>
+            </div>
+
+            {/* Status */}
+            <div className="col-span-6 md:col-span-2">
+              {prop.type === 'sale' ? (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-hint-of-green text-mosque border border-mosque/10">
+                  <span className="w-1.5 h-1.5 rounded-full bg-mosque mr-1.5"></span>
+                  For Sale
+                </span>
+              ) : (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>
+                  For Rent
+                </span>
+              )}
+            </div>
+
+                  {/* Actions */}
+                  <div className="col-span-12 md:col-span-2 flex justify-end gap-2">
+                    <Link 
+                      href={`/${locale}/admin/properties/${prop.id}/edit`}
+                      className="p-2 text-nordic-muted dark:text-gray-400 hover:text-mosque hover:bg-mosque/5 dark:hover:bg-mosque/20 rounded-md transition-colors"
+                      title="Edit Property"
+                    >
+                      <span className="material-icons text-[18px]">edit</span>
+                    </Link>
+                    <DeletePropertyButton id={prop.id} />
+                  </div>
+          </div>
+        ))}
+        
+        {(!properties || properties.length === 0) && (
+          <div className="px-6 py-12 text-center text-nordic-muted">
+            No properties found.
+          </div>
+        )}
+
+        {/* Pagination */}
+        <div className="px-6 py-4 border-t border-nordic/5 dark:border-mosque/20 flex items-center justify-between bg-clear-day/50 dark:bg-mosque/5">
+          <div className="text-sm text-nordic-muted dark:text-gray-400">
+            Showing <span className="font-medium text-nordic dark:text-white">{Math.min(from + 1, totalItems)}</span> to <span className="font-medium text-nordic dark:text-white">{Math.min(to + 1, totalItems)}</span> of <span className="font-medium text-nordic dark:text-white">{totalItems}</span> results
+          </div>
+          <div className="flex gap-2">
+            <Link 
+              href={`/${locale}/admin/properties?page=${page - 1}`}
+              className={`px-3 py-1 text-sm border border-nordic/10 dark:border-mosque/30 rounded-md text-nordic-muted dark:text-gray-300 hover:bg-white dark:hover:bg-mosque/20 transition-colors ${isFirstPage ? 'pointer-events-none opacity-50' : ''}`}
+              aria-disabled={isFirstPage}
+            >
+              Previous
+            </Link>
+            <Link 
+              href={`/${locale}/admin/properties?page=${page + 1}`}
+              className={`px-3 py-1 text-sm border border-nordic/10 dark:border-mosque/30 rounded-md text-nordic-muted dark:text-gray-300 hover:bg-white dark:hover:bg-mosque/20 transition-colors ${isLastPage ? 'pointer-events-none opacity-50' : ''}`}
+              aria-disabled={isLastPage}
+            >
+              Next
+            </Link>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
