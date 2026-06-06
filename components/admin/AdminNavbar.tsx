@@ -20,6 +20,7 @@ interface AdminNavbarProps {
 export default function AdminNavbar({ locale, user }: AdminNavbarProps) {
   const pathname = usePathname();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const name = user.user_metadata?.full_name || user.email || 'Admin';
@@ -78,11 +79,11 @@ export default function AdminNavbar({ locale, user }: AdminNavbarProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-5">
-          <button className="text-nordic/60 dark:text-gray-400 hover:text-mosque transition-colors">
+        <div className="flex items-center gap-3">
+          <button className="hidden sm:block text-nordic/60 dark:text-gray-400 hover:text-mosque transition-colors">
             <span className="material-symbols-outlined text-xl">search</span>
           </button>
-          <button className="text-nordic/60 dark:text-gray-400 hover:text-mosque transition-colors relative">
+          <button className="hidden sm:block text-nordic/60 dark:text-gray-400 hover:text-mosque transition-colors relative">
             <span className="material-symbols-outlined text-xl">notifications</span>
             <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#152e2a]"></span>
           </button>
@@ -123,8 +124,60 @@ export default function AdminNavbar({ locale, user }: AdminNavbarProps) {
               )}
             </div>
           </div>
+
+          {/* Hamburger — mobile only */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-nordic/70 dark:text-gray-300 hover:bg-nordic/5 transition-colors"
+            aria-label="Toggle menu"
+          >
+            <span className="material-icons text-xl">
+              {isMobileMenuOpen ? 'close' : 'menu'}
+            </span>
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t border-nordic/10 bg-white dark:bg-[#152e2a] shadow-lg">
+          <div className="px-4 py-3 space-y-1">
+            <Link
+              href={`/${locale}/admin/properties`}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold ${isProperties ? 'text-mosque bg-hint-of-green/30' : 'text-nordic/70 dark:text-gray-300 hover:bg-nordic/5'}`}
+            >
+              <span className="material-icons text-base">holiday_village</span>
+              Properties
+            </Link>
+            <Link
+              href={`/${locale}/admin/users`}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold ${isUsers ? 'text-mosque bg-hint-of-green/30' : 'text-nordic/70 dark:text-gray-300 hover:bg-nordic/5'}`}
+            >
+              <span className="material-icons text-base">people</span>
+              Users
+            </Link>
+            <Link
+              href={`/${locale}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-nordic/60 dark:text-gray-400 hover:bg-nordic/5"
+            >
+              <span className="material-icons text-base">open_in_new</span>
+              Sitio Principal
+            </Link>
+            <div className="pt-2 border-t border-nordic/10">
+              <button
+                onClick={handleSignOut}
+                className="w-full text-left flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+              >
+                <span className="material-icons text-base">logout</span>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

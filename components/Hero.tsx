@@ -56,27 +56,31 @@ const HeroInner = ({ dict }: { dict?: any }) => {
 
         {/* Search Bar */}
         <div className="relative group max-w-2xl mx-auto">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <span className="material-icons text-nordic-muted text-2xl group-focus-within:text-mosque transition-colors font-material-icons">
-              search
-            </span>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
+            <div className="relative flex-1">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <span className="material-icons text-nordic-muted text-2xl group-focus-within:text-mosque transition-colors font-material-icons">
+                  search
+                </span>
+              </div>
+              <input
+                type="text"
+                id="hero-search"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="block w-full pl-12 pr-4 py-4 rounded-xl sm:rounded-r-none border-none bg-white text-nordic shadow-soft placeholder-nordic-muted/60 focus:ring-2 focus:ring-mosque focus:bg-white transition-all text-lg outline-none"
+                placeholder={dict?.searchPlaceholder || "Search by city, neighborhood, or address..."}
+              />
+            </div>
+            <button
+              id="hero-search-btn"
+              onClick={handleSearch}
+              className="w-full sm:w-auto px-6 py-4 bg-mosque hover:bg-mosque/90 text-white font-medium rounded-xl sm:rounded-l-none transition-colors flex items-center justify-center shadow-lg shadow-mosque/20"
+            >
+              {dict?.search || 'Search'}
+            </button>
           </div>
-          <input
-            type="text"
-            id="hero-search"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="block w-full pl-12 pr-4 py-4 rounded-xl border-none bg-white text-nordic shadow-soft placeholder-nordic-muted/60 focus:ring-2 focus:ring-mosque focus:bg-white transition-all text-lg outline-none"
-            placeholder={dict?.searchPlaceholder || "Search by city, neighborhood, or address..."}
-          />
-          <button
-            id="hero-search-btn"
-            onClick={handleSearch}
-            className="absolute inset-y-2 right-2 px-6 bg-mosque hover:bg-mosque/90 text-white font-medium rounded-lg transition-colors flex items-center justify-center shadow-lg shadow-mosque/20"
-          >
-            {dict?.search || 'Search'}
-          </button>
         </div>
 
         {/* Category pills + Filters button */}
