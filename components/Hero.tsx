@@ -83,33 +83,61 @@ const HeroInner = ({ dict }: { dict?: any }) => {
           </div>
         </div>
 
-        {/* Category pills + Filters button */}
-        <div className="flex items-center justify-center gap-3 overflow-x-auto hide-scroll py-2 px-4 -mx-4">
-          {CATEGORY_FILTERS.map((cat) => (
-            <button
-              key={cat.id}
-              id={`category-${cat.id.toLowerCase()}`}
-              onClick={() => handleCategory(cat.id)}
-              className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 ${
-                activeCategory === cat.id
-                  ? 'bg-nordic text-white shadow-lg shadow-nordic/10'
-                  : 'bg-white border border-nordic/5 text-nordic-muted hover:text-nordic hover:border-mosque/50 hover:bg-mosque/5'
-              }`}
+        {/* Category filter — dropdown on mobile, pills on desktop */}
+        <div className="flex items-center gap-2 max-w-2xl mx-auto">
+
+          {/* Mobile: select dropdown */}
+          <div className="flex-1 sm:hidden relative">
+            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-nordic-muted material-icons text-base">
+              tune
+            </span>
+            <select
+              id="category-select-mobile"
+              value={activeCategory}
+              onChange={(e) => handleCategory(e.target.value)}
+              className="w-full appearance-none pl-9 pr-8 py-2.5 rounded-full bg-white border border-nordic/10 text-sm font-medium text-nordic shadow-sm focus:outline-none focus:ring-2 focus:ring-mosque"
             >
-              {cat.id === 'All' && dict?.any ? dict.any : cat.id}
-            </button>
-          ))}
+              {CATEGORY_FILTERS.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.id === 'All' && dict?.any ? dict.any : cat.id}
+                </option>
+              ))}
+            </select>
+            <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-nordic-muted material-icons text-base">
+              expand_more
+            </span>
+          </div>
 
-          <div className="w-px h-6 bg-nordic/10 mx-2" />
+          {/* Desktop: pill buttons */}
+          <div className="hidden sm:flex items-center gap-2 flex-1 overflow-x-auto hide-scroll py-2">
+            {CATEGORY_FILTERS.map((cat) => (
+              <button
+                key={cat.id}
+                id={`category-${cat.id.toLowerCase()}`}
+                onClick={() => handleCategory(cat.id)}
+                className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 ${
+                  activeCategory === cat.id
+                    ? 'bg-nordic text-white shadow-lg shadow-nordic/10'
+                    : 'bg-white border border-nordic/5 text-nordic-muted hover:text-nordic hover:border-mosque/50 hover:bg-mosque/5'
+                }`}
+              >
+                {cat.id === 'All' && dict?.any ? dict.any : cat.id}
+              </button>
+            ))}
+          </div>
 
+          <div className="hidden sm:block w-px h-6 bg-nordic/10" />
+
+          {/* Filters button — always visible */}
           <button
             id="filters-btn"
             onClick={() => setFiltersOpen(true)}
-            className="whitespace-nowrap flex items-center gap-1 px-4 py-2 rounded-full text-nordic font-medium text-sm hover:bg-black/5 transition-colors"
+            className="whitespace-nowrap flex items-center gap-1 px-4 py-2.5 rounded-full bg-white border border-nordic/10 text-nordic font-medium text-sm hover:bg-mosque/5 transition-colors shadow-sm"
           >
-            <span className="material-icons text-base font-material-icons">tune</span>{' '}
-            {dict?.filters || 'Filters'}
+            <span className="material-icons text-base font-material-icons">tune</span>
+            <span className="hidden sm:inline">{dict?.filters || 'Filters'}</span>
           </button>
+
         </div>
       </div>
 
