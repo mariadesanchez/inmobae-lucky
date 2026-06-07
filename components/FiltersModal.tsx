@@ -22,7 +22,7 @@ const AMENITIES = [
   { id: 'terrace', label: 'Patio / Terrace', icon: 'deck' },
 ];
 
-const PROPERTY_TYPES = ['Any Type', 'House', 'Apartment', 'Condo', 'Townhouse', 'Villa', 'Penthouse'];
+const PROPERTY_TYPES = ['Todos', 'Terreno', 'Casa', 'Departamento', 'PH', 'Cochera', 'Local', 'Edificio Comercial', 'Campo', 'Oficina', 'Quinta', 'Depósito', 'Fondo de Comercio', 'Chacra', 'Hotel'];
 
 const MIN_PRICE = 0;
 const MAX_PRICE = 10_000_000;
@@ -44,7 +44,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
     location: searchParams.get('location') ?? '',
     minPrice: Number(searchParams.get('minPrice') ?? MIN_PRICE),
     maxPrice: Number(searchParams.get('maxPrice') ?? MAX_PRICE),
-    propertyType: searchParams.get('type') ?? 'Any Type',
+    propertyType: searchParams.get('type') || 'Todos',
     beds: Number(searchParams.get('beds') ?? 0),
     baths: Number(searchParams.get('baths') ?? 0),
     amenities: searchParams.get('amenities') ? searchParams.get('amenities')!.split(',') : [],
@@ -74,7 +74,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
       location: '',
       minPrice: MIN_PRICE,
       maxPrice: MAX_PRICE,
-      propertyType: 'Any Type',
+      propertyType: 'Todos',
       beds: 0,
       baths: 0,
       amenities: [],
@@ -86,7 +86,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
     if (filters.location) params.set('location', filters.location);
     if (filters.minPrice > MIN_PRICE) params.set('minPrice', String(filters.minPrice));
     if (filters.maxPrice < MAX_PRICE) params.set('maxPrice', String(filters.maxPrice));
-    if (filters.propertyType !== 'Any Type') params.set('type', filters.propertyType);
+    if (filters.propertyType !== 'Todos') params.set('type', filters.propertyType);
     if (filters.beds > 0) params.set('beds', String(filters.beds));
     if (filters.baths > 0) params.set('baths', String(filters.baths));
     if (filters.amenities.length > 0) params.set('amenities', filters.amenities.join(','));
