@@ -85,13 +85,14 @@ export default function FavoriteButton({ propertyId, initialIsFavorite = false, 
         <div 
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-argentina-navy/40 backdrop-blur-sm transition-opacity"
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             setShowAuthModal(false);
           }}
         >
           <div 
             className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 transform transition-all text-center border border-gray-100"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
           >
             <div className="w-16 h-16 bg-argentina-blue/10 text-argentina-blue rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="material-icons text-3xl">lock</span>
@@ -103,6 +104,7 @@ export default function FavoriteButton({ propertyId, initialIsFavorite = false, 
             <div className="flex gap-3 justify-center">
               <button 
                 onClick={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
                   setShowAuthModal(false);
                 }}
@@ -112,6 +114,7 @@ export default function FavoriteButton({ propertyId, initialIsFavorite = false, 
               </button>
               <button 
                 onClick={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
                   setShowAuthModal(false);
                   router.push('/login');
