@@ -32,14 +32,9 @@ const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
-        {/* Tag */}
-        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-argentina-navy z-10">
-          {collection.tag}
-        </div>
-
         {/* New Badge */}
         {isNew && (
-          <div className="absolute top-4 right-16 bg-argentina-sun/90 backdrop-blur-sm text-argentina-navy text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10 uppercase tracking-wider flex items-center">
+          <div className="absolute top-4 right-16 h-10 bg-white/95 text-argentina-navy text-xs font-bold px-4 rounded-full shadow-md z-10 uppercase tracking-widest flex items-center justify-center border border-gray-100 backdrop-blur-sm">
             {dict?.property?.new || 'Nueva'}
           </div>
         )}

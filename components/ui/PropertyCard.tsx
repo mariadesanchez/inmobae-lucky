@@ -48,7 +48,7 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
 
           {/* New Badge */}
           {isNew && (
-            <div className="absolute top-3 right-14 bg-argentina-sun/90 backdrop-blur-sm text-argentina-navy text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10 uppercase tracking-wider flex items-center">
+            <div className="absolute top-3 right-[3.25rem] h-[34px] bg-white/95 text-argentina-navy text-xs font-bold px-4 rounded-full shadow-md z-10 uppercase tracking-widest flex items-center justify-center border border-gray-100 backdrop-blur-sm">
               {dict?.property?.new || 'Nueva'}
             </div>
           )}
