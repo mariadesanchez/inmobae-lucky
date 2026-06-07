@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Collection } from '@/data/mockData';
 import CollectionCard from './ui/CollectionCard';
+import AutoCarousel from './AutoCarousel';
 import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 
@@ -36,8 +37,8 @@ const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?
 
 
   return (
-    <section className="mb-16">
-      <div className="flex items-end justify-between mb-8">
+    <section className="mb-8">
+      <div className="flex items-end justify-between mb-8 max-w-7xl mx-auto">
         <div>
           <h2 className="text-2xl font-light text-argentina-navy">
             {dict?.title || 'Featured Collections'}
@@ -57,13 +58,7 @@ const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?
         </Link>
       </div>
 
-      <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scroll" style={{ WebkitOverflowScrolling: 'touch' }}>
-        {collections.map((collection) => (
-          <div key={collection.id} className="w-[85vw] sm:w-[350px] md:w-[400px] shrink-0 snap-center sm:snap-start">
-            <CollectionCard collection={collection} dict={dict} />
-          </div>
-        ))}
-      </div>
+      <AutoCarousel collections={collections} dict={dict} />
     </section>
   );
 };
