@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 export default async function EditPropertyPage({
   params
 }: {
-  params: Promise<{ locale: string, id: string }>;
+  params: Promise<{  id: string }>;
 }) {
   const resolvedParams = await params;
   const propertyId = parseInt(resolvedParams.id);
@@ -31,7 +31,7 @@ export default async function EditPropertyPage({
         <div className="space-y-4">
           <nav aria-label="Breadcrumb" className="flex">
             <ol className="flex items-center space-x-2 text-sm text-gray-500 font-medium font-sf-pro">
-              <li><a href={`/${resolvedParams.locale}/admin/properties`} className="hover:text-argentina-blue transition-colors">Properties</a></li>
+              <li><a href={`/admin/properties`} className="hover:text-argentina-blue transition-colors">Properties</a></li>
               <li><span className="material-icons text-xs text-gray-400">chevron_right</span></li>
               <li aria-current="page" className="text-argentina-navy">Edit Property</li>
             </ol>

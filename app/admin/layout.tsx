@@ -6,17 +6,17 @@ import { redirect } from 'next/navigation';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{  }>;
 }
 
 export default async function AdminLayout({ children, params }: AdminLayoutProps) {
-  const { locale } = await params;
+  
   const dict = await getDictionary(locale as Locale);
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/${locale}/login`);
+    redirect(`/login`);
   }
 
   return (

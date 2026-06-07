@@ -1,15 +1,13 @@
 import 'server-only';
-import { Locale } from '@/i18n-config';
+import type { Locale } from '@/i18n-config';
 
-// We enumerate all dictionaries here for better webpack/turbopack bundling
+// Import directly the Spanish dictionary
+import esDict from '@/dictionaries/es.json';
+
 const dictionaries = {
-  en: () => import('@/dictionaries/en.json').then((module) => module.default),
-  es: () => import('@/dictionaries/es.json').then((module) => module.default),
-  fr: () => import('@/dictionaries/fr.json').then((module) => module.default),
+  es: () => esDict,
 };
 
-export const getDictionary = async (locale: Locale) => {
-  // Add fallback just in case
-  const loadDict = dictionaries[locale] || dictionaries.en;
-  return loadDict();
+export const getDictionary = async (_locale?: Locale) => {
+  return esDict;
 };

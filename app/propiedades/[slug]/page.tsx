@@ -11,7 +11,7 @@ import { getDictionary } from '@/lib/dictionaries';
 import { Locale } from '@/i18n-config';
 
 interface PropertyPageProps {
-  params: Promise<{ slug: string; locale: string }>;
+  params: Promise<{ slug: string;  }>;
 }
 
 

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import '../globals.css';
+import './globals.css';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -15,14 +15,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }>) {
-  const { locale } = await params;
+  
   return (
-    <html lang={locale}>
+    <html lang="es">
       <head>
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons"

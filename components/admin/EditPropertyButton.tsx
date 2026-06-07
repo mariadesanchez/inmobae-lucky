@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function EditPropertyButton({ id, isActive, locale }: { id: number; isActive: boolean; locale: string }) {
+export default function EditPropertyButton({ id, isActive, locale }: { id: number; isActive: boolean;  }) {
   const [showModal, setShowModal] = useState(false);
 
   if (isActive) {
     return (
       <Link
-        href={`/${locale}/admin/properties/${id}/edit`}
+        href={`/admin/properties/${id}/edit`}
         className="p-2 text-argentina-navy-muted dark:text-gray-400 hover:text-argentina-blue hover:bg-argentina-blue/5 dark:hover:bg-argentina-blue/20 rounded-md transition-colors"
         title="Editar Propiedad"
       >

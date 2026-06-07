@@ -3,11 +3,11 @@ import { getDictionary } from '@/lib/dictionaries';
 import { Locale } from '@/i18n-config';
 
 interface LoginPageProps {
-  params: Promise<{ locale: string }>;
+  params: Promise<{  }>;
 }
 
 export default async function LoginPage({ params }: LoginPageProps) {
-  const { locale } = await params;
+  
   const dict = await getDictionary(locale as Locale);
 
   return (

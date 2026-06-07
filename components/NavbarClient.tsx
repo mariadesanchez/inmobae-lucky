@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Locale } from '@/i18n-config';
 import UserMenu from './UserMenu';
-import LanguageSelector from './LanguageSelector';
 import { useState } from 'react';
 
 interface NavbarClientProps {
@@ -36,17 +35,17 @@ export default function NavbarClient({ dict, locale, user, isAdmin }: NavbarClie
             <Link href="#" className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
               {dict?.commercial || 'Commercial'}
             </Link>
-            <Link href="#" className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
-              {dict?.saved || 'Saved Homes'}
+            <Link href={`/favoritos`} className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
+              {dict?.saved || 'Favorites'}
             </Link>
 
             {isAdmin && (
               <div className="flex items-center space-x-4 border-l border-argentina-navy/20 pl-6 ml-2">
-                <Link href={`/${locale}/admin/properties`} className="flex items-center gap-1.5 text-argentina-blue font-semibold text-sm hover:text-argentina-blue/80 transition-colors bg-argentina-sun/30 px-3 py-1.5 rounded-md">
+                <Link href={`/admin/properties`} className="flex items-center gap-1.5 text-argentina-blue font-semibold text-sm hover:text-argentina-blue/80 transition-colors bg-argentina-sun/30 px-3 py-1.5 rounded-md">
                   <span className="material-icons text-[16px]">holiday_village</span>
                   Properties
                 </Link>
-                <Link href={`/${locale}/admin/users`} className="flex items-center gap-1.5 text-argentina-blue font-semibold text-sm hover:text-argentina-blue/80 transition-colors bg-argentina-sun/30 px-3 py-1.5 rounded-md">
+                <Link href={`/admin/users`} className="flex items-center gap-1.5 text-argentina-blue font-semibold text-sm hover:text-argentina-blue/80 transition-colors bg-argentina-sun/30 px-3 py-1.5 rounded-md">
                   <span className="material-icons text-[16px]">people</span>
                   Users
                 </Link>
@@ -56,9 +55,6 @@ export default function NavbarClient({ dict, locale, user, isAdmin }: NavbarClie
 
           {/* Desktop Actions */}
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="hidden sm:block">
-              <LanguageSelector currentLocale={locale} />
-            </div>
 
             {user ? (
               <div className="pl-2 border-l border-argentina-navy/10">
@@ -66,7 +62,7 @@ export default function NavbarClient({ dict, locale, user, isAdmin }: NavbarClie
               </div>
             ) : (
               <Link
-                href={`/${locale}/login`}
+                href={`/login`}
                 className="px-3 py-1.5 sm:px-4 sm:py-2 bg-argentina-blue hover:bg-argentina-blue/90 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
               >
                 {dict?.login || 'Login'}
@@ -100,27 +96,24 @@ export default function NavbarClient({ dict, locale, user, isAdmin }: NavbarClie
             <Link href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
               {dict?.commercial || 'Commercial'}
             </Link>
-            <Link href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
-              {dict?.saved || 'Saved Homes'}
+            <Link href={`/favoritos`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
+              {dict?.saved || 'Favorites'}
             </Link>
 
             {isAdmin && (
               <>
                 <div className="my-2 border-t border-argentina-navy/10" />
-                <Link href={`/${locale}/admin/properties`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-argentina-blue bg-argentina-sun/30">
+                <Link href={`/admin/properties`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-argentina-blue bg-argentina-sun/30">
                   <span className="material-icons text-base">holiday_village</span>
                   Admin – Properties
                 </Link>
-                <Link href={`/${locale}/admin/users`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-argentina-blue bg-argentina-sun/30">
+                <Link href={`/admin/users`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-semibold text-argentina-blue bg-argentina-sun/30">
                   <span className="material-icons text-base">people</span>
                   Admin – Users
                 </Link>
               </>
             )}
 
-            <div className="pt-2 border-t border-argentina-navy/10">
-              <LanguageSelector currentLocale={locale} />
-            </div>
           </div>
         </div>
       )}

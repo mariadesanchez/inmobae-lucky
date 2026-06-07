@@ -8,11 +8,11 @@ export default async function AdminUsersPage({
   params,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  params: Promise<{ locale: string }>;
+  params: Promise<{  }>;
 }) {
   const resolvedSearchParams = await searchParams;
   const resolvedParams = await params;
-  const locale = resolvedParams.locale;
+  
   
   const page = parseInt(resolvedSearchParams.page as string || '1', 10);
   const pageSize = 10;
@@ -130,14 +130,14 @@ export default async function AdminUsersPage({
           </div>
           <div className="flex gap-2">
             <Link 
-              href={`/${locale}/admin/users?page=${page - 1}`}
+              href={`/admin/users?page=${page - 1}`}
               className={`px-3 py-1 text-sm border border-argentina-navy/10 dark:border-argentina-blue/30 rounded-md text-argentina-navy-muted dark:text-gray-300 hover:bg-white dark:hover:bg-argentina-blue/20 transition-colors ${isFirstPage ? 'pointer-events-none opacity-50' : ''}`}
               aria-disabled={isFirstPage}
             >
               Previous
             </Link>
             <Link 
-              href={`/${locale}/admin/users?page=${page + 1}`}
+              href={`/admin/users?page=${page + 1}`}
               className={`px-3 py-1 text-sm border border-argentina-navy/10 dark:border-argentina-blue/30 rounded-md text-argentina-navy-muted dark:text-gray-300 hover:bg-white dark:hover:bg-argentina-blue/20 transition-colors ${isLastPage ? 'pointer-events-none opacity-50' : ''}`}
               aria-disabled={isLastPage}
             >

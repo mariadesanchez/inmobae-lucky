@@ -9,11 +9,11 @@ export default async function AdminPropertiesPage({
   params,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-  params: Promise<{ locale: string }>;
+  params: Promise<{  }>;
 }) {
   const resolvedSearchParams = await searchParams;
   const resolvedParams = await params;
-  const locale = resolvedParams.locale;
+  
   
   const page = parseInt(resolvedSearchParams.page as string || '1', 10);
   const pageSize = 10;
@@ -51,7 +51,7 @@ export default async function AdminPropertiesPage({
             <span className="material-icons text-base">filter_list</span> Filter
           </button>
             <Link 
-              href={`/${locale}/admin/properties/create`}
+              href={`/admin/properties/create`}
               className="bg-argentina-blue hover:bg-argentina-blue/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-argentina-blue/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2"
             >
               <span className="material-icons text-base">add</span> Add New Property
@@ -183,14 +183,14 @@ export default async function AdminPropertiesPage({
           </div>
           <div className="flex gap-2">
             <Link 
-              href={`/${locale}/admin/properties?page=${page - 1}`}
+              href={`/admin/properties?page=${page - 1}`}
               className={`px-3 py-1 text-sm border border-argentina-navy/10 dark:border-argentina-blue/30 rounded-md text-argentina-navy-muted dark:text-gray-300 hover:bg-white dark:hover:bg-argentina-blue/20 transition-colors ${isFirstPage ? 'pointer-events-none opacity-50' : ''}`}
               aria-disabled={isFirstPage}
             >
               Previous
             </Link>
             <Link 
-              href={`/${locale}/admin/properties?page=${page + 1}`}
+              href={`/admin/properties?page=${page + 1}`}
               className={`px-3 py-1 text-sm border border-argentina-navy/10 dark:border-argentina-blue/30 rounded-md text-argentina-navy-muted dark:text-gray-300 hover:bg-white dark:hover:bg-argentina-blue/20 transition-colors ${isLastPage ? 'pointer-events-none opacity-50' : ''}`}
               aria-disabled={isLastPage}
             >

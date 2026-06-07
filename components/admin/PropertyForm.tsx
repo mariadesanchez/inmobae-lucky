@@ -15,7 +15,7 @@ type Language = 'en' | 'es' | 'fr';
 
 interface PropertyFormProps {
   initialData?: any;
-  locale: string;
+  
 }
 
 export default function PropertyForm({ initialData, locale }: PropertyFormProps) {
@@ -138,7 +138,7 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
         await createProperty(payload);
       }
       
-      router.push(`/${locale}/admin/properties`);
+      router.push(`/admin/properties`);
     } catch (error: any) {
       console.error('Save error:', error);
       alert(error.message);

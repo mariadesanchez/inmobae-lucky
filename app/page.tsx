@@ -11,7 +11,7 @@ import { Locale } from '@/i18n-config';
 const PAGE_SIZE = 8;
 
 interface HomePageProps {
-  params: Promise<{ locale: string }>;
+  params: Promise<{  }>;
   searchParams: Promise<{
     page?: string;
     location?: string;
@@ -24,7 +24,7 @@ interface HomePageProps {
 }
 
 export default async function Home({ params, searchParams }: HomePageProps) {
-  const { locale } = await params;
+  
   const dict = await getDictionary(locale as Locale);
   const { page, location, minPrice, maxPrice, type, beds, baths } = await searchParams;
   const currentPage = Math.max(1, parseInt(page ?? '1', 10));
