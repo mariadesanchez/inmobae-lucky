@@ -28,19 +28,15 @@ const HeroInner = ({ dict }: { dict?: any }) => {
     if (activeCategory !== 'All') params.set('type', activeCategory);
     // You can extend the API to filter by operation later
     params.set('page', '1');
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}#propiedades`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') handleSearch();
   };
 
-  const handleInventoryClick = () => {
-    router.push(`${pathname}?page=1`);
-  };
-
   return (
-    <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-center pt-20 pb-16 mt-[-80px] z-0">
+    <section className="relative w-full h-screen flex flex-col items-center justify-center pt-20 pb-16 mt-[-80px] z-0">
       {/* Background Image & Overlay */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
@@ -99,16 +95,6 @@ const HeroInner = ({ dict }: { dict?: any }) => {
             aria-label="Buscar"
           >
             <span className="material-icons font-bold text-2xl">search</span>
-          </button>
-        </div>
-
-        {/* View All Button */}
-        <div className="w-full max-w-5xl flex justify-start">
-          <button 
-            onClick={handleInventoryClick}
-            className="px-5 py-2.5 bg-[#C8B17A]/90 hover:bg-[#C8B17A] text-black font-semibold text-sm transition-colors shadow-md"
-          >
-            Consulta todo el inventario
           </button>
         </div>
 

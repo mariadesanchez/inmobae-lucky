@@ -95,8 +95,9 @@ export default async function Home({ params, searchParams }: HomePageProps) {
       <Navbar dict={dict.navbar} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <Hero dict={dict.hero} />
-        {!hasActiveFilters && <FeaturedCollection dict={{ ...dict.featured, property: dict.property }} />}
-        <NewInMarket
+        <div id="propiedades" className="pt-8">
+          {!hasActiveFilters && <FeaturedCollection dict={{ ...dict.featured, property: dict.property }} />}
+          <NewInMarket
           properties={mappedProperties}
           totalCount={count ?? 0}
           currentPage={currentPage}
@@ -104,6 +105,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
           hasActiveFilters={hasActiveFilters}
           dict={{ ...dict.newInMarket, property: dict.property }}
         />
+        </div>
       </main>
     </>
   );
