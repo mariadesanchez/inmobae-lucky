@@ -5,11 +5,11 @@
   --foreground: #1A3A5C; /* Argentina Navy */
 
   /* Custom Palette */
-  --argentina-navy: #1A3A5C;
-  --argentina-blue: #74ACDF;
-  --argentina-sun: #F6B40E;
-  --argentina-light: #F0F8FF;
-  --argentina-navy-muted: #5c706d;
+  --argentina-navy: #1E3A8A; /* Elegant Navy */
+  --argentina-blue: #3B82F6; /* Darker Celeste / Blue */
+  --argentina-sun: #EFF6FF;  /* Very Light Blue (replaces yellow) */
+  --argentina-light: #F8FAFC; /* Subtle background */
+  --argentina-navy-muted: #64748B;
 }
 
 @theme inline {
