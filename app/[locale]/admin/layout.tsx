@@ -20,7 +20,7 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
   }
 
   return (
-    <div className="bg-clear-day dark:bg-background-dark text-nordic dark:text-gray-100 font-display min-h-screen flex flex-col antialiased">
+    <div className="bg-argentina-light dark:bg-background-dark text-argentina-navy dark:text-gray-100 font-display min-h-screen flex flex-col antialiased">
       <AdminNavbar locale={locale} user={user} />
       
       {/* Main Content */}

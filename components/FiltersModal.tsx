@@ -154,7 +154,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
               {dict?.location || 'Location'}
             </label>
             <div className="relative group">
-              <span className="material-icons font-material-icons absolute left-4 top-3.5 text-gray-400 group-focus-within:text-mosque transition-colors">
+              <span className="material-icons font-material-icons absolute left-4 top-3.5 text-gray-400 group-focus-within:text-argentina-blue transition-colors">
                 location_on
               </span>
               <input
@@ -162,7 +162,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                 value={filters.location}
                 onChange={(e) => setFilters((p) => ({ ...p, location: e.target.value }))}
                 placeholder="City, neighborhood, or address"
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 border-0 rounded-lg text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-mosque focus:bg-white transition-all shadow-sm outline-none"
+                className="w-full pl-12 pr-4 py-3 bg-gray-50 border-0 rounded-lg text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-argentina-blue focus:bg-white transition-all shadow-sm outline-none"
               />
             </div>
           </section>
@@ -173,7 +173,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
               <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 {dict?.priceRange || 'Price Range'}
               </label>
-              <span className="text-sm font-medium text-mosque">
+              <span className="text-sm font-medium text-argentina-blue">
                 {formatPrice(filters.minPrice)} – {formatPrice(filters.maxPrice)}
               </span>
             </div>
@@ -182,7 +182,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
             <div className="relative h-12 flex items-center mb-6 px-2">
               <div className="absolute inset-x-2 h-1 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="absolute h-full bg-mosque"
+                  className="absolute h-full bg-argentina-blue"
                   style={{ left: `${minPct}%`, right: `${100 - maxPct}%` }}
                 />
               </div>
@@ -218,7 +218,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
 
             {/* Min / Max inputs */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-mosque/30 transition-colors">
+              <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-argentina-blue/30 transition-colors">
                 <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{dict?.minPrice || 'Min Price'}</label>
                 <div className="flex items-center">
                   <span className="text-gray-400 mr-1">$</span>
@@ -235,7 +235,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                   />
                 </div>
               </div>
-              <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-mosque/30 transition-colors">
+              <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-argentina-blue/30 transition-colors">
                 <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{dict?.maxPrice || 'Max Price'}</label>
                 <div className="flex items-center">
                   <span className="text-gray-400 mr-1">$</span>
@@ -266,7 +266,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                 <select
                   value={filters.propertyType}
                   onChange={(e) => setFilters((p) => ({ ...p, propertyType: e.target.value }))}
-                  className="w-full bg-gray-50 border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-mosque cursor-pointer outline-none"
+                  className="w-full bg-gray-50 border-0 rounded-lg py-3 pl-4 pr-10 text-gray-900 appearance-none focus:ring-2 focus:ring-argentina-blue cursor-pointer outline-none"
                 >
                   {PROPERTY_TYPES.map((t) => (
                     <option key={t}>{t}</option>
@@ -286,7 +286,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                 <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1">
                   <button
                     onClick={() => setFilters((p) => ({ ...p, beds: Math.max(0, p.beds - 1) }))}
-                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-mosque disabled:opacity-40 transition-colors"
+                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-argentina-blue disabled:opacity-40 transition-colors"
                     disabled={filters.beds === 0}
                   >
                     <span className="material-icons font-material-icons text-base">remove</span>
@@ -296,7 +296,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                   </span>
                   <button
                     onClick={() => setFilters((p) => ({ ...p, beds: p.beds + 1 }))}
-                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-mosque hover:bg-mosque hover:text-white transition-colors"
+                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-argentina-blue hover:bg-argentina-blue hover:text-white transition-colors"
                   >
                     <span className="material-icons font-material-icons text-base">add</span>
                   </button>
@@ -309,7 +309,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                 <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1">
                   <button
                     onClick={() => setFilters((p) => ({ ...p, baths: Math.max(0, p.baths - 1) }))}
-                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-mosque disabled:opacity-40 transition-colors"
+                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-argentina-blue disabled:opacity-40 transition-colors"
                     disabled={filters.baths === 0}
                   >
                     <span className="material-icons font-material-icons text-base">remove</span>
@@ -319,7 +319,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                   </span>
                   <button
                     onClick={() => setFilters((p) => ({ ...p, baths: p.baths + 1 }))}
-                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-mosque hover:bg-mosque hover:text-white transition-colors"
+                    className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-argentina-blue hover:bg-argentina-blue hover:text-white transition-colors"
                   >
                     <span className="material-icons font-material-icons text-base">add</span>
                   </button>
@@ -347,17 +347,17 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                     <div
                       className={`h-full px-4 py-3 rounded-lg border text-sm flex items-center justify-center gap-2 transition-all
                         ${active
-                          ? 'border-mosque bg-mosque/5 text-mosque font-medium'
+                          ? 'border-argentina-blue bg-argentina-blue/5 text-argentina-blue font-medium'
                           : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
                         }`}
                     >
-                      <span className={`material-icons font-material-icons text-lg ${active ? 'text-mosque' : 'text-gray-400 group-hover:text-gray-500'}`}>
+                      <span className={`material-icons font-material-icons text-lg ${active ? 'text-argentina-blue' : 'text-gray-400 group-hover:text-gray-500'}`}>
                         {amenity.icon}
                       </span>
                       {amenity.label}
                     </div>
                     {active && (
-                      <div className="absolute top-2 right-2 w-2 h-2 bg-mosque rounded-full" />
+                      <div className="absolute top-2 right-2 w-2 h-2 bg-argentina-blue rounded-full" />
                     )}
                   </label>
                 );
@@ -376,7 +376,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
           </button>
           <button
             onClick={applyFilters}
-            className="bg-mosque hover:bg-mosque/90 text-white px-8 py-3 rounded-lg font-medium shadow-lg shadow-mosque/30 transition-all hover:shadow-mosque/40 flex items-center gap-2 active:scale-95"
+            className="bg-argentina-blue hover:bg-argentina-blue/90 text-white px-8 py-3 rounded-lg font-medium shadow-lg shadow-argentina-blue/30 transition-all hover:shadow-argentina-blue/40 flex items-center gap-2 active:scale-95"
           >
             {totalCount !== undefined 
               ? (dict?.showHomes ? dict.showHomes.replace('{count}', totalCount.toString()) : `Show ${totalCount} Homes`) 

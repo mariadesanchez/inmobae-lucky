@@ -41,12 +41,12 @@ export default function UserMenu({ user }: UserMenuProps) {
 
   return (
     <div className="flex items-center gap-3">
-      <div className="relative border-nordic/10 flex items-center" ref={dropdownRef}>
+      <div className="relative border-argentina-navy/10 flex items-center" ref={dropdownRef}>
         <button 
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center gap-2"
         >
-          <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-transparent hover:ring-mosque transition-all relative">
+          <div className="w-9 h-9 rounded-full bg-gray-200 overflow-hidden ring-2 ring-transparent hover:ring-argentina-blue transition-all relative">
             <Image
               src={avatarUrl}
               alt={name}
@@ -59,8 +59,8 @@ export default function UserMenu({ user }: UserMenuProps) {
         {isOpen && (
           <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
             <div className="px-4 py-2 border-b border-gray-50">
-              <p className="text-sm font-medium text-nordic truncate">{name}</p>
-              {user.email && <p className="text-xs text-nordic-muted truncate">{user.email}</p>}
+              <p className="text-sm font-medium text-argentina-navy truncate">{name}</p>
+              {user.email && <p className="text-xs text-argentina-navy-muted truncate">{user.email}</p>}
             </div>
             <button
               onClick={handleSignOut}
@@ -76,7 +76,7 @@ export default function UserMenu({ user }: UserMenuProps) {
       {/* Explicit Logout Button next to avatar */}
       <button
         onClick={handleSignOut}
-        className="p-2 text-nordic-muted hover:text-red-500 transition-colors rounded-full hover:bg-red-50 flex items-center"
+        className="p-2 text-argentina-navy-muted hover:text-red-500 transition-colors rounded-full hover:bg-red-50 flex items-center"
         title="Sign Out"
       >
         <span className="material-icons font-material-icons">logout</span>

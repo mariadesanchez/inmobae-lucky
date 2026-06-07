@@ -47,20 +47,20 @@ export default function LanguageSelector({ currentLocale }: { currentLocale: Loc
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 text-nordic-muted hover:text-mosque font-medium transition-colors p-2 rounded-md hover:bg-nordic/5 text-sm"
+        className="flex items-center gap-1.5 text-argentina-navy-muted hover:text-argentina-blue font-medium transition-colors p-2 rounded-md hover:bg-argentina-navy/5 text-sm"
       >
         <span className="material-icons font-material-icons text-[18px]">language</span>
         <span className="hidden sm:inline">{activeLang.code.toUpperCase()}</span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-36 bg-white rounded-lg shadow-lg border border-nordic/5 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute right-0 mt-2 w-36 bg-white rounded-lg shadow-lg border border-argentina-navy/5 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-100">
           {languages.map((lang) => (
             <button
               key={lang.code}
               onClick={() => handleSelect(lang.code)}
-              className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 hover:bg-mosque/5 transition-colors ${
-                currentLocale === lang.code ? 'text-mosque font-medium bg-mosque/5' : 'text-nordic'
+              className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 hover:bg-argentina-blue/5 transition-colors ${
+                currentLocale === lang.code ? 'text-argentina-blue font-medium bg-argentina-blue/5' : 'text-argentina-navy'
               }`}
             >
               <span className="text-base leading-none">{lang.flag}</span>

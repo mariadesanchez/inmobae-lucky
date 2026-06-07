@@ -25,23 +25,23 @@ const NewInMarket = ({
     <section>
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-light text-nordic">
+          <h2 className="text-2xl font-light text-argentina-navy">
             {hasActiveFilters ? (dict?.searchResults || 'Search Results') : (dict?.newInMarket || 'New in Market')}
           </h2>
-          <p className="text-nordic-muted mt-1 text-sm">
+          <p className="text-argentina-navy-muted mt-1 text-sm">
             {hasActiveFilters
               ? (dict?.found ? dict.found.replace('{count}', totalCount.toString()) : `${totalCount} properties found`)
               : (dict?.fresh || 'Fresh opportunities added this week.')}
           </p>
         </div>
         <div className="hidden md:flex bg-white p-1 rounded-lg">
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium bg-nordic text-white shadow-sm">
+          <button className="px-4 py-1.5 rounded-md text-sm font-medium bg-argentina-navy text-white shadow-sm">
             All
           </button>
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic">
+          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-argentina-navy-muted hover:text-argentina-navy">
             Buy
           </button>
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-nordic-muted hover:text-nordic">
+          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-argentina-navy-muted hover:text-argentina-navy">
             Rent
           </button>
         </div>
@@ -49,11 +49,11 @@ const NewInMarket = ({
 
       {properties.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <span className="material-icons font-material-icons text-6xl text-nordic/20 mb-4">
+          <span className="material-icons font-material-icons text-6xl text-argentina-navy/20 mb-4">
             search_off
           </span>
-          <h3 className="text-xl font-medium text-nordic mb-2">{dict?.noResults || 'No properties found'}</h3>
-          <p className="text-nordic-muted text-sm max-w-xs">
+          <h3 className="text-xl font-medium text-argentina-navy mb-2">{dict?.noResults || 'No properties found'}</h3>
+          <p className="text-argentina-navy-muted text-sm max-w-xs">
             {dict?.tryAdjusting || 'Try adjusting your filters or search in a different location.'}
           </p>
         </div>

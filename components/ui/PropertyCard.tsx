@@ -30,7 +30,7 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
               e.preventDefault();
               e.stopPropagation();
             }}
-            className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-mosque hover:text-white transition-colors text-nordic z-10"
+            className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-argentina-blue hover:text-white transition-colors text-argentina-navy z-10"
           >
             <span className="material-icons text-lg font-material-icons">
               favorite_border
@@ -39,7 +39,7 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
 
           {/* Type Tag */}
           <div
-            className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${property.type === 'sale' ? 'bg-nordic/90' : 'bg-mosque/90'}`}
+            className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${property.type === 'sale' ? 'bg-argentina-navy/90' : 'bg-argentina-blue/90'}`}
           >
             {property.type === 'sale' ? (dict?.property?.sale || 'FOR SALE') : (dict?.property?.rent || 'FOR RENT')}
           </div>
@@ -48,35 +48,35 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
         {/* Content */}
         <div className="p-4 flex flex-col grow">
           <div className="flex justify-between items-baseline mb-2">
-            <h3 className="font-bold text-lg text-nordic">
+            <h3 className="font-bold text-lg text-argentina-navy">
               ${property.price.toLocaleString('en-US')}
               {property.type === 'rent' && (
-                <span className="text-sm font-normal text-nordic-muted">/mo</span>
+                <span className="text-sm font-normal text-argentina-navy-muted">/mo</span>
               )}
             </h3>
           </div>
 
-          <h4 className="text-nordic font-medium truncate mb-1">
+          <h4 className="text-argentina-navy font-medium truncate mb-1">
             {property.title}
           </h4>
-          <p className="text-nordic-muted text-xs mb-4">{property.location}</p>
+          <p className="text-argentina-navy-muted text-xs mb-4">{property.location}</p>
 
           {/* Footer Features */}
           <div className="mt-auto flex items-center justify-between pt-3 border-t border-gray-100">
-            <div className="flex items-center gap-1 text-nordic-muted text-xs">
-              <span className="material-icons text-sm text-mosque/80 font-material-icons">
+            <div className="flex items-center gap-1 text-argentina-navy-muted text-xs">
+              <span className="material-icons text-sm text-argentina-blue/80 font-material-icons">
                 king_bed
               </span>{' '}
               {property.beds}
             </div>
-            <div className="flex items-center gap-1 text-nordic-muted text-xs">
-              <span className="material-icons text-sm text-mosque/80 font-material-icons">
+            <div className="flex items-center gap-1 text-argentina-navy-muted text-xs">
+              <span className="material-icons text-sm text-argentina-blue/80 font-material-icons">
                 bathtub
               </span>{' '}
               {property.baths}
             </div>
-            <div className="flex items-center gap-1 text-nordic-muted text-xs">
-              <span className="material-icons text-sm text-mosque/80 font-material-icons">
+            <div className="flex items-center gap-1 text-argentina-navy-muted text-xs">
+              <span className="material-icons text-sm text-argentina-blue/80 font-material-icons">
                 square_foot
               </span>{' '}
               {property.sqft}m²

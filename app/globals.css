@@ -1,25 +1,25 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #eef6f6; /* Clear Day */
-  --foreground: #19322f; /* Nordic */
+  --background: #F0F8FF; /* Argentina Light */
+  --foreground: #1A3A5C; /* Argentina Navy */
 
   /* Custom Palette */
-  --nordic: #19322f;
-  --mosque: #006655;
-  --hint-of-green: #d9ecc8;
-  --clear-day: #eef6f6;
-  --nordic-muted: #5c706d;
+  --argentina-navy: #1A3A5C;
+  --argentina-blue: #74ACDF;
+  --argentina-sun: #F6B40E;
+  --argentina-light: #F0F8FF;
+  --argentina-navy-muted: #5c706d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-nordic: var(--nordic);
-  --color-mosque: var(--mosque);
-  --color-hint-of-green: var(--hint-of-green);
-  --color-clear-day: var(--clear-day);
-  --color-nordic-muted: var(--nordic-muted);
+  --color-argentina-navy: var(--argentina-navy);
+  --color-argentina-blue: var(--argentina-blue);
+  --color-argentina-sun: var(--argentina-sun);
+  --color-argentina-light: var(--argentina-light);
+  --color-argentina-navy-muted: var(--argentina-navy-muted);
 
   --font-display: 'Inter', sans-serif;
 
@@ -61,7 +61,7 @@ body {
   width: 22px;
   border-radius: 50%;
   background: white;
-  border: 2px solid #006655;
+  border: 2px solid var(--argentina-blue);
   cursor: pointer;
   pointer-events: all;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
@@ -75,7 +75,7 @@ body {
   width: 22px;
   border-radius: 50%;
   background: white;
-  border: 2px solid #006655;
+  border: 2px solid var(--argentina-blue);
   cursor: pointer;
   pointer-events: all;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);

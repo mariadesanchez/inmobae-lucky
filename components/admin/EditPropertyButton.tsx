@@ -10,7 +10,7 @@ export default function EditPropertyButton({ id, isActive, locale }: { id: numbe
     return (
       <Link
         href={`/${locale}/admin/properties/${id}/edit`}
-        className="p-2 text-nordic-muted dark:text-gray-400 hover:text-mosque hover:bg-mosque/5 dark:hover:bg-mosque/20 rounded-md transition-colors"
+        className="p-2 text-argentina-navy-muted dark:text-gray-400 hover:text-argentina-blue hover:bg-argentina-blue/5 dark:hover:bg-argentina-blue/20 rounded-md transition-colors"
         title="Editar Propiedad"
       >
         <span className="material-icons text-[18px]">edit</span>
@@ -29,18 +29,18 @@ export default function EditPropertyButton({ id, isActive, locale }: { id: numbe
       </button>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-nordic/40 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-argentina-navy/40 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 text-center border border-gray-100">
             <div className="w-16 h-16 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="material-icons text-3xl">lock</span>
             </div>
-            <h3 className="text-xl font-bold text-nordic mb-2">Propiedad Inactiva</h3>
+            <h3 className="text-xl font-bold text-argentina-navy mb-2">Propiedad Inactiva</h3>
             <p className="text-gray-500 text-sm mb-6">
               Para poder editar esta propiedad primero debes <strong>activarla</strong> usando el botón del ojo.
             </p>
             <button
               onClick={() => setShowModal(false)}
-              className="w-full px-5 py-2.5 rounded-lg bg-mosque hover:bg-mosque/90 text-white font-medium shadow-md transition-colors text-sm"
+              className="w-full px-5 py-2.5 rounded-lg bg-argentina-blue hover:bg-argentina-blue/90 text-white font-medium shadow-md transition-colors text-sm"
             >
               Entendido
             </button>

@@ -43,16 +43,16 @@ export default async function AdminPropertiesPage({
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-nordic dark:text-white tracking-tight">My Properties</h1>
-          <p className="text-nordic-muted dark:text-gray-400 mt-1">Manage your portfolio and track performance.</p>
+          <h1 className="text-3xl font-bold text-argentina-navy dark:text-white tracking-tight">My Properties</h1>
+          <p className="text-argentina-navy-muted dark:text-gray-400 mt-1">Manage your portfolio and track performance.</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="bg-white dark:bg-[#152e2a] border border-nordic/10 dark:border-mosque/30 text-nordic dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-mosque/10 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
+          <button className="bg-white dark:bg-[#152e2a] border border-argentina-navy/10 dark:border-argentina-blue/30 text-argentina-navy dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-argentina-blue/10 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm inline-flex items-center gap-2">
             <span className="material-icons text-base">filter_list</span> Filter
           </button>
             <Link 
               href={`/${locale}/admin/properties/create`}
-              className="bg-mosque hover:bg-mosque/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-mosque/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2"
+              className="bg-argentina-blue hover:bg-argentina-blue/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-argentina-blue/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2"
             >
               <span className="material-icons text-base">add</span> Add New Property
             </Link>
@@ -61,28 +61,28 @@ export default async function AdminPropertiesPage({
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-argentina-blue/10 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Total Listados</p>
-            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{totalItems}</p>
+            <p className="text-sm font-medium text-argentina-navy-muted dark:text-gray-400">Total Listados</p>
+            <p className="text-2xl font-bold text-argentina-navy dark:text-white mt-1">{totalItems}</p>
           </div>
-          <div className="h-10 w-10 rounded-full bg-mosque/10 flex items-center justify-center text-mosque">
+          <div className="h-10 w-10 rounded-full bg-argentina-blue/10 flex items-center justify-center text-argentina-blue">
             <span className="material-icons">apartment</span>
           </div>
         </div>
-        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-argentina-blue/10 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Activas</p>
-            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{properties?.filter(p => p.is_active !== false).length || 0}</p>
+            <p className="text-sm font-medium text-argentina-navy-muted dark:text-gray-400">Activas</p>
+            <p className="text-2xl font-bold text-argentina-navy dark:text-white mt-1">{properties?.filter(p => p.is_active !== false).length || 0}</p>
           </div>
-          <div className="h-10 w-10 rounded-full bg-hint-of-green flex items-center justify-center text-mosque">
+          <div className="h-10 w-10 rounded-full bg-argentina-sun flex items-center justify-center text-argentina-blue">
             <span className="material-icons">check_circle</span>
           </div>
         </div>
-        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-mosque/10 shadow-sm flex items-center justify-between">
+        <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-argentina-blue/10 shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-nordic-muted dark:text-gray-400">Desactivadas</p>
-            <p className="text-2xl font-bold text-nordic dark:text-white mt-1">{properties?.filter(p => p.is_active === false).length || 0}</p>
+            <p className="text-sm font-medium text-argentina-navy-muted dark:text-gray-400">Desactivadas</p>
+            <p className="text-2xl font-bold text-argentina-navy dark:text-white mt-1">{properties?.filter(p => p.is_active === false).length || 0}</p>
           </div>
           <div className="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-500">
             <span className="material-icons">visibility_off</span>
@@ -91,9 +91,9 @@ export default async function AdminPropertiesPage({
       </div>
 
       {/* Property List Container */}
-      <div className="bg-white dark:bg-[#152e2a] rounded-xl shadow-sm border border-nordic/10 dark:border-mosque/20 overflow-hidden">
+      <div className="bg-white dark:bg-[#152e2a] rounded-xl shadow-sm border border-argentina-navy/10 dark:border-argentina-blue/20 overflow-hidden">
         {/* Table Header */}
-        <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-clear-day/50 dark:bg-mosque/5 border-b border-nordic/5 dark:border-mosque/10 text-xs font-semibold text-nordic-muted dark:text-gray-400 uppercase tracking-wider">
+        <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-argentina-light/50 dark:bg-argentina-blue/5 border-b border-argentina-navy/5 dark:border-argentina-blue/10 text-xs font-semibold text-argentina-navy-muted dark:text-gray-400 uppercase tracking-wider">
           <div className="col-span-6">Property Details</div>
           <div className="col-span-2">Price</div>
           <div className="col-span-2">Status</div>
@@ -102,7 +102,7 @@ export default async function AdminPropertiesPage({
 
         {/* List Items */}
         {properties?.map((prop) => (
-          <div key={prop.id} className={`group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 border-b border-nordic/5 dark:border-mosque/10 hover:bg-clear-day dark:hover:bg-mosque/5 transition-colors items-center ${
+          <div key={prop.id} className={`group grid grid-cols-1 md:grid-cols-12 gap-4 px-6 py-5 border-b border-argentina-navy/5 dark:border-argentina-blue/10 hover:bg-argentina-light dark:hover:bg-argentina-blue/5 transition-colors items-center ${
             prop.is_active === false ? 'opacity-60' : ''
           }`}>
             {/* Property Details */}
@@ -122,11 +122,11 @@ export default async function AdminPropertiesPage({
                 )}
               </div>
               <div>
-                <h3 className="text-lg font-bold text-nordic dark:text-white group-hover:text-mosque transition-colors cursor-pointer truncate max-w-[200px] sm:max-w-sm">
+                <h3 className="text-lg font-bold text-argentina-navy dark:text-white group-hover:text-argentina-blue transition-colors cursor-pointer truncate max-w-[200px] sm:max-w-sm">
                   {prop.title_en}
                 </h3>
-                <p className="text-sm text-nordic-muted dark:text-gray-400">{prop.location}</p>
-                <div className="flex items-center gap-3 mt-1.5 text-xs text-nordic-muted dark:text-gray-500">
+                <p className="text-sm text-argentina-navy-muted dark:text-gray-400">{prop.location}</p>
+                <div className="flex items-center gap-3 mt-1.5 text-xs text-argentina-navy-muted dark:text-gray-500">
                   <span className="flex items-center gap-1"><span className="material-icons text-[14px]">bed</span> {prop.beds} Beds</span>
                   <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                   <span className="flex items-center gap-1"><span className="material-icons text-[14px]">bathtub</span> {prop.baths} Baths</span>
@@ -138,8 +138,8 @@ export default async function AdminPropertiesPage({
 
             {/* Price */}
             <div className="col-span-6 md:col-span-2">
-              <div className="text-base font-semibold text-nordic dark:text-gray-200">${prop.price?.toLocaleString()}</div>
-              <div className="text-xs text-nordic-muted dark:text-gray-400">Type: {prop.type}</div>
+              <div className="text-base font-semibold text-argentina-navy dark:text-gray-200">${prop.price?.toLocaleString()}</div>
+              <div className="text-xs text-argentina-navy-muted dark:text-gray-400">Type: {prop.type}</div>
             </div>
 
             {/* Status */}
@@ -150,8 +150,8 @@ export default async function AdminPropertiesPage({
                   Inactiva
                 </span>
               ) : prop.status === 'sale' ? (
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-hint-of-green text-mosque border border-mosque/10 w-fit">
-                  <span className="w-1.5 h-1.5 rounded-full bg-mosque mr-1.5"></span>
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-argentina-sun text-argentina-blue border border-argentina-blue/10 w-fit">
+                  <span className="w-1.5 h-1.5 rounded-full bg-argentina-blue mr-1.5"></span>
                   En Venta
                 </span>
               ) : (
@@ -171,27 +171,27 @@ export default async function AdminPropertiesPage({
         ))}
         
         {(!properties || properties.length === 0) && (
-          <div className="px-6 py-12 text-center text-nordic-muted">
+          <div className="px-6 py-12 text-center text-argentina-navy-muted">
             No properties found.
           </div>
         )}
 
         {/* Pagination */}
-        <div className="px-6 py-4 border-t border-nordic/5 dark:border-mosque/20 flex items-center justify-between bg-clear-day/50 dark:bg-mosque/5">
-          <div className="text-sm text-nordic-muted dark:text-gray-400">
-            Showing <span className="font-medium text-nordic dark:text-white">{Math.min(from + 1, totalItems)}</span> to <span className="font-medium text-nordic dark:text-white">{Math.min(to + 1, totalItems)}</span> of <span className="font-medium text-nordic dark:text-white">{totalItems}</span> results
+        <div className="px-6 py-4 border-t border-argentina-navy/5 dark:border-argentina-blue/20 flex items-center justify-between bg-argentina-light/50 dark:bg-argentina-blue/5">
+          <div className="text-sm text-argentina-navy-muted dark:text-gray-400">
+            Showing <span className="font-medium text-argentina-navy dark:text-white">{Math.min(from + 1, totalItems)}</span> to <span className="font-medium text-argentina-navy dark:text-white">{Math.min(to + 1, totalItems)}</span> of <span className="font-medium text-argentina-navy dark:text-white">{totalItems}</span> results
           </div>
           <div className="flex gap-2">
             <Link 
               href={`/${locale}/admin/properties?page=${page - 1}`}
-              className={`px-3 py-1 text-sm border border-nordic/10 dark:border-mosque/30 rounded-md text-nordic-muted dark:text-gray-300 hover:bg-white dark:hover:bg-mosque/20 transition-colors ${isFirstPage ? 'pointer-events-none opacity-50' : ''}`}
+              className={`px-3 py-1 text-sm border border-argentina-navy/10 dark:border-argentina-blue/30 rounded-md text-argentina-navy-muted dark:text-gray-300 hover:bg-white dark:hover:bg-argentina-blue/20 transition-colors ${isFirstPage ? 'pointer-events-none opacity-50' : ''}`}
               aria-disabled={isFirstPage}
             >
               Previous
             </Link>
             <Link 
               href={`/${locale}/admin/properties?page=${page + 1}`}
-              className={`px-3 py-1 text-sm border border-nordic/10 dark:border-mosque/30 rounded-md text-nordic-muted dark:text-gray-300 hover:bg-white dark:hover:bg-mosque/20 transition-colors ${isLastPage ? 'pointer-events-none opacity-50' : ''}`}
+              className={`px-3 py-1 text-sm border border-argentina-navy/10 dark:border-argentina-blue/30 rounded-md text-argentina-navy-muted dark:text-gray-300 hover:bg-white dark:hover:bg-argentina-blue/20 transition-colors ${isLastPage ? 'pointer-events-none opacity-50' : ''}`}
               aria-disabled={isLastPage}
             >
               Next

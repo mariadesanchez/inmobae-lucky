@@ -25,8 +25,8 @@ export default function TogglePropertyButton({ id, isActive }: { id: number; isA
         isPending
           ? 'text-gray-400 cursor-not-allowed'
           : isActive
-          ? 'text-nordic-muted dark:text-gray-400 hover:text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20'
-          : 'text-nordic-muted dark:text-gray-400 hover:text-mosque hover:bg-mosque/5 dark:hover:bg-mosque/20'
+          ? 'text-argentina-navy-muted dark:text-gray-400 hover:text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20'
+          : 'text-argentina-navy-muted dark:text-gray-400 hover:text-argentina-blue hover:bg-argentina-blue/5 dark:hover:bg-argentina-blue/20'
       }`}
       title={isActive ? 'Desactivar Propiedad' : 'Activar Propiedad'}
     >

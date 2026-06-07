@@ -157,14 +157,14 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
         <button 
           type="button" 
           onClick={() => router.back()}
-          className="flex-1 py-3 rounded-lg border border-gray-300 bg-white text-nordic font-medium font-sf-pro"
+          className="flex-1 py-3 rounded-lg border border-gray-300 bg-white text-argentina-navy font-medium font-sf-pro"
         >
           Cancel
         </button>
         <button 
           type="submit" 
           disabled={isLoading || uploadingImage}
-          className="flex-1 py-3 rounded-lg bg-mosque text-white font-medium font-sf-pro flex justify-center items-center gap-2 disabled:opacity-70"
+          className="flex-1 py-3 rounded-lg bg-argentina-blue text-white font-medium font-sf-pro flex justify-center items-center gap-2 disabled:opacity-70"
         >
           {isLoading ? 'Saving...' : 'Save'}
         </button>
@@ -182,8 +182,8 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
               onClick={() => setActiveLang(lang)}
               className={`px-6 py-2 rounded-lg text-sm font-bold uppercase tracking-wider transition-colors ${
                 activeLang === lang 
-                  ? 'bg-mosque text-white shadow-sm' 
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-nordic'
+                  ? 'bg-argentina-blue text-white shadow-sm' 
+                  : 'text-gray-500 hover:bg-gray-50 hover:text-argentina-navy'
               }`}
             >
               {lang}
@@ -194,14 +194,14 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
         {/* Basic Information */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-8 py-6 border-b border-hint-green/30 flex items-center gap-3 bg-gradient-to-r from-hint-green/10 to-transparent">
-            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-nordic">
+            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">info</span>
             </div>
-            <h2 className="text-xl font-bold text-nordic">Basic Information ({activeLang.toUpperCase()})</h2>
+            <h2 className="text-xl font-bold text-argentina-navy">Basic Information ({activeLang.toUpperCase()})</h2>
           </div>
           <div className="p-8 space-y-6">
             <div className="group">
-              <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor={currentTitleKey}>
+              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor={currentTitleKey}>
                 Property Title <span className="text-red-500">*</span>
               </label>
               <input 
@@ -210,13 +210,13 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                 required
                 value={formData[currentTitleKey] as string}
                 onChange={handleInputChange}
-                className="w-full text-base px-4 py-2.5 rounded-md border border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all font-sf-pro outline-none" 
+                className="w-full text-base px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all font-sf-pro outline-none" 
                 placeholder="e.g. Modern Penthouse with Ocean View" 
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor="price">
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="price">
                   Price <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -227,18 +227,18 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                     required
                     value={formData.price}
                     onChange={handleInputChange}
-                    className="w-full pl-7 pr-4 py-2.5 rounded-md border border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-base font-medium font-sf-pro outline-none" 
+                    className="w-full pl-7 pr-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-medium font-sf-pro outline-none" 
                     placeholder="0.00" 
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor="status">Status</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="status">Status</label>
                 <select 
                   id="status"
                   value={formData.status}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-nordic focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-base font-sf-pro cursor-pointer outline-none"
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro cursor-pointer outline-none"
                 >
                   <option value="for-sale">For Sale</option>
                   <option value="for-rent">For Rent</option>
@@ -246,12 +246,12 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor="category">Property Type</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="category">Property Type</label>
                 <select 
                   id="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-nordic focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-base font-sf-pro cursor-pointer outline-none"
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro cursor-pointer outline-none"
                 >
                   <option value="apartment">Apartment</option>
                   <option value="house">House</option>
@@ -266,26 +266,26 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
         {/* Description */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-8 py-6 border-b border-hint-green/30 flex items-center gap-3 bg-gradient-to-r from-hint-green/10 to-transparent">
-            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-nordic">
+            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">description</span>
             </div>
-            <h2 className="text-xl font-bold text-nordic">Description ({activeLang.toUpperCase()})</h2>
+            <h2 className="text-xl font-bold text-argentina-navy">Description ({activeLang.toUpperCase()})</h2>
           </div>
           <div className="p-8">
             <div className="mb-3 flex gap-2 border-b border-gray-100 pb-2">
-              <button type="button" className="p-1.5 text-gray-400 hover:text-nordic hover:bg-gray-50 rounded transition-colors"><span className="material-icons text-lg">format_bold</span></button>
-              <button type="button" className="p-1.5 text-gray-400 hover:text-nordic hover:bg-gray-50 rounded transition-colors"><span className="material-icons text-lg">format_italic</span></button>
-              <button type="button" className="p-1.5 text-gray-400 hover:text-nordic hover:bg-gray-50 rounded transition-colors"><span className="material-icons text-lg">format_list_bulleted</span></button>
+              <button type="button" className="p-1.5 text-gray-400 hover:text-argentina-navy hover:bg-gray-50 rounded transition-colors"><span className="material-icons text-lg">format_bold</span></button>
+              <button type="button" className="p-1.5 text-gray-400 hover:text-argentina-navy hover:bg-gray-50 rounded transition-colors"><span className="material-icons text-lg">format_italic</span></button>
+              <button type="button" className="p-1.5 text-gray-400 hover:text-argentina-navy hover:bg-gray-50 rounded transition-colors"><span className="material-icons text-lg">format_list_bulleted</span></button>
             </div>
             <textarea 
               id={currentDescKey}
               value={formData[currentDescKey] as string}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 rounded-md border border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-base font-sf-pro leading-relaxed resize-y min-h-[200px] outline-none" 
+              className="w-full px-4 py-3 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro leading-relaxed resize-y min-h-[200px] outline-none" 
               placeholder="Describe the property features, neighborhood, and unique selling points..."
             />
             <div className="mt-2 text-right text-xs text-gray-400 font-sf-pro">
-              <span className="text-mosque font-medium text-xs">Note: Description fields must be manually added to DB schema to persist.</span>
+              <span className="text-argentina-blue font-medium text-xs">Note: Description fields must be manually added to DB schema to persist.</span>
             </div>
           </div>
         </div>
@@ -294,17 +294,17 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-8 py-6 border-b border-hint-green/30 flex justify-between items-center bg-gradient-to-r from-hint-green/10 to-transparent">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-nordic">
+              <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
                 <span className="material-icons text-lg">image</span>
               </div>
-              <h2 className="text-xl font-bold text-nordic">Gallery</h2>
+              <h2 className="text-xl font-bold text-argentina-navy">Gallery</h2>
             </div>
             <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded font-sf-pro">JPG, PNG, WEBP</span>
           </div>
           <div className="p-8">
             <div 
               onClick={() => fileInputRef.current?.click()}
-              className={`relative border-2 border-dashed ${uploadingImage ? 'border-mosque bg-hint-green/10' : 'border-gray-300 bg-gray-50/50'} rounded-xl p-10 text-center hover:bg-hint-green/10 hover:border-mosque/40 transition-colors cursor-pointer group`}
+              className={`relative border-2 border-dashed ${uploadingImage ? 'border-argentina-blue bg-hint-green/10' : 'border-gray-300 bg-gray-50/50'} rounded-xl p-10 text-center hover:bg-hint-green/10 hover:border-argentina-blue/40 transition-colors cursor-pointer group`}
             >
               <input 
                 ref={fileInputRef}
@@ -315,11 +315,11 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                 className="hidden" 
               />
               <div className="flex flex-col items-center justify-center space-y-3 pointer-events-none">
-                <div className={`w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-mosque ${uploadingImage ? 'animate-bounce' : 'group-hover:scale-110 transition-transform duration-300'}`}>
+                <div className={`w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-argentina-blue ${uploadingImage ? 'animate-bounce' : 'group-hover:scale-110 transition-transform duration-300'}`}>
                   <span className="material-icons text-2xl">{uploadingImage ? 'sync' : 'cloud_upload'}</span>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-base font-medium text-nordic font-sf-pro">
+                  <p className="text-base font-medium text-argentina-navy font-sf-pro">
                     {uploadingImage ? 'Uploading...' : 'Click or drag images here'}
                   </p>
                   <p className="text-xs text-gray-400 font-sf-pro">Max file size 5MB per image</p>
@@ -332,7 +332,7 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                 {images.map((img, i) => (
                   <div key={i} className="aspect-square rounded-lg overflow-hidden relative group shadow-sm bg-gray-100">
                     <img src={img} alt={`Gallery image ${i+1}`} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-nordic/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
+                    <div className="absolute inset-0 bg-argentina-navy/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
                       <button 
                         type="button" 
                         onClick={() => removeImage(i)}
@@ -342,7 +342,7 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                       </button>
                     </div>
                     {i === 0 && (
-                      <span className="absolute top-2 left-2 bg-mosque text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm font-sf-pro uppercase tracking-wider">Main</span>
+                      <span className="absolute top-2 left-2 bg-argentina-blue text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm font-sf-pro uppercase tracking-wider">Main</span>
                     )}
                   </div>
                 ))}
@@ -360,14 +360,14 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
           <button 
             type="button"
             onClick={() => router.back()}
-            className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-nordic hover:bg-gray-50 transition-colors font-medium font-sf-pro text-sm"
+            className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-argentina-navy hover:bg-gray-50 transition-colors font-medium font-sf-pro text-sm"
           >
             Cancel
           </button>
           <button 
             type="submit"
             disabled={isLoading || uploadingImage}
-            className="px-5 py-2.5 rounded-lg bg-mosque hover:bg-mosque/90 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 font-sf-pro text-sm disabled:opacity-70"
+            className="px-5 py-2.5 rounded-lg bg-argentina-blue hover:bg-argentina-blue/90 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 font-sf-pro text-sm disabled:opacity-70"
           >
             <span className="material-icons text-sm">save</span>
             {isLoading ? 'Saving...' : 'Save Property'}
@@ -377,43 +377,43 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
         {/* Location */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-hint-green/30 flex items-center gap-3 bg-gradient-to-r from-hint-green/10 to-transparent">
-            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-nordic">
+            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">place</span>
             </div>
-            <h2 className="text-lg font-bold text-nordic">Location ({activeLang.toUpperCase()})</h2>
+            <h2 className="text-lg font-bold text-argentina-navy">Location ({activeLang.toUpperCase()})</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor={currentLocationKey}>Address</label>
+              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor={currentLocationKey}>Address</label>
               <input 
                 id={currentLocationKey}
                 type="text" 
                 value={formData[currentLocationKey] as string}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-sm font-sf-pro outline-none" 
+                className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-sm font-sf-pro outline-none" 
                 placeholder="Street Address, City, Zip" 
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor="latitude">Latitude</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="latitude">Latitude</label>
                 <input 
                   id="latitude"
                   type="text" 
                   value={formData.latitude}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-sm font-sf-pro outline-none" 
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-sm font-sf-pro outline-none" 
                   placeholder="-34.6037" 
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-nordic mb-1.5 font-sf-pro" htmlFor="longitude">Longitude</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="longitude">Longitude</label>
                 <input 
                   id="longitude"
                   type="text" 
                   value={formData.longitude}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-nordic placeholder-gray-400 focus:ring-1 focus:ring-mosque focus:border-mosque transition-all text-sm font-sf-pro outline-none" 
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-sm font-sf-pro outline-none" 
                   placeholder="-58.3816" 
                 />
               </div>
@@ -427,10 +427,10 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
         {/* Details */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-24">
           <div className="px-6 py-4 border-b border-hint-green/30 flex items-center gap-3 bg-gradient-to-r from-hint-green/10 to-transparent">
-            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-nordic">
+            <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">straighten</span>
             </div>
-            <h2 className="text-lg font-bold text-nordic">Details</h2>
+            <h2 className="text-lg font-bold text-argentina-navy">Details</h2>
           </div>
           <div className="p-6 space-y-6">
             <div className="grid grid-cols-2 gap-4">
@@ -441,7 +441,7 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                   type="number" 
                   value={formData.area}
                   onChange={handleInputChange}
-                  className="w-full text-left px-3 py-2 rounded border border-gray-200 bg-gray-50 text-nordic focus:bg-white focus:ring-1 focus:ring-mosque focus:border-mosque transition-all font-sf-pro text-sm outline-none" 
+                  className="w-full text-left px-3 py-2 rounded border border-gray-200 bg-gray-50 text-argentina-navy focus:bg-white focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all font-sf-pro text-sm outline-none" 
                   placeholder="0" 
                 />
               </div>
@@ -452,7 +452,7 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
                   type="number" 
                   value={formData.year}
                   onChange={handleInputChange}
-                  className="w-full text-left px-3 py-2 rounded border border-gray-200 bg-gray-50 text-nordic focus:bg-white focus:ring-1 focus:ring-mosque focus:border-mosque transition-all font-sf-pro text-sm outline-none" 
+                  className="w-full text-left px-3 py-2 rounded border border-gray-200 bg-gray-50 text-argentina-navy focus:bg-white focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all font-sf-pro text-sm outline-none" 
                   placeholder="YYYY" 
                 />
               </div>
@@ -462,34 +462,34 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
             
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-nordic font-sf-pro flex items-center gap-2">
+                <label className="text-sm font-medium text-argentina-navy font-sf-pro flex items-center gap-2">
                   <span className="material-icons text-gray-400 text-sm">bed</span> Bedrooms
                 </label>
                 <div className="flex items-center border border-gray-200 rounded-md overflow-hidden bg-white shadow-sm">
                   <button type="button" onClick={() => handleNumberChange('beds', -1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-100">-</button>
-                  <input type="text" readOnly value={formData.beds} className="w-10 text-center border-none bg-transparent text-nordic p-0 focus:ring-0 text-sm font-medium font-sf-pro outline-none" />
+                  <input type="text" readOnly value={formData.beds} className="w-10 text-center border-none bg-transparent text-argentina-navy p-0 focus:ring-0 text-sm font-medium font-sf-pro outline-none" />
                   <button type="button" onClick={() => handleNumberChange('beds', 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-l border-gray-100">+</button>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-nordic font-sf-pro flex items-center gap-2">
+                <label className="text-sm font-medium text-argentina-navy font-sf-pro flex items-center gap-2">
                   <span className="material-icons text-gray-400 text-sm">shower</span> Bathrooms
                 </label>
                 <div className="flex items-center border border-gray-200 rounded-md overflow-hidden bg-white shadow-sm">
                   <button type="button" onClick={() => handleNumberChange('baths', -1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-100">-</button>
-                  <input type="text" readOnly value={formData.baths} className="w-10 text-center border-none bg-transparent text-nordic p-0 focus:ring-0 text-sm font-medium font-sf-pro outline-none" />
+                  <input type="text" readOnly value={formData.baths} className="w-10 text-center border-none bg-transparent text-argentina-navy p-0 focus:ring-0 text-sm font-medium font-sf-pro outline-none" />
                   <button type="button" onClick={() => handleNumberChange('baths', 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-l border-gray-100">+</button>
                 </div>
               </div>
               
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-nordic font-sf-pro flex items-center gap-2">
+                <label className="text-sm font-medium text-argentina-navy font-sf-pro flex items-center gap-2">
                   <span className="material-icons text-gray-400 text-sm">directions_car</span> Parking
                 </label>
                 <div className="flex items-center border border-gray-200 rounded-md overflow-hidden bg-white shadow-sm">
                   <button type="button" onClick={() => handleNumberChange('parking', -1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-100">-</button>
-                  <input type="text" readOnly value={formData.parking} className="w-10 text-center border-none bg-transparent text-nordic p-0 focus:ring-0 text-sm font-medium font-sf-pro outline-none" />
+                  <input type="text" readOnly value={formData.parking} className="w-10 text-center border-none bg-transparent text-argentina-navy p-0 focus:ring-0 text-sm font-medium font-sf-pro outline-none" />
                   <button type="button" onClick={() => handleNumberChange('parking', 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-l border-gray-100">+</button>
                 </div>
               </div>
@@ -501,20 +501,20 @@ export default function PropertyForm({ initialData, locale }: PropertyFormProps)
               <h3 className="font-bold mb-3 font-sf-pro uppercase tracking-wider text-xs text-gray-500">Amenities</h3>
               <div className="space-y-2">
                 <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-pool" type="checkbox" checked={formData.amenities.pool} onChange={handleInputChange} className="w-4 h-4 text-mosque border-gray-300 rounded focus:ring-mosque" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-nordic transition-colors">Swimming Pool</span>
+                  <input id="amenity-pool" type="checkbox" checked={formData.amenities.pool} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Swimming Pool</span>
                 </label>
                 <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-garden" type="checkbox" checked={formData.amenities.garden} onChange={handleInputChange} className="w-4 h-4 text-mosque border-gray-300 rounded focus:ring-mosque" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-nordic transition-colors">Garden</span>
+                  <input id="amenity-garden" type="checkbox" checked={formData.amenities.garden} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Garden</span>
                 </label>
                 <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-ac" type="checkbox" checked={formData.amenities.ac} onChange={handleInputChange} className="w-4 h-4 text-mosque border-gray-300 rounded focus:ring-mosque" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-nordic transition-colors">Air Conditioning</span>
+                  <input id="amenity-ac" type="checkbox" checked={formData.amenities.ac} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Air Conditioning</span>
                 </label>
                 <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-smart" type="checkbox" checked={formData.amenities.smart} onChange={handleInputChange} className="w-4 h-4 text-mosque border-gray-300 rounded focus:ring-mosque" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-nordic transition-colors">Smart Home</span>
+                  <input id="amenity-smart" type="checkbox" checked={formData.amenities.smart} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Smart Home</span>
                 </label>
               </div>
             </div>

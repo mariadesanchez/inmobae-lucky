@@ -30,7 +30,7 @@ export default function Pagination({
       {currentPage > 1 ? (
         <Link
           href={buildHref(currentPage - 1)}
-          className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-nordic bg-white border border-nordic/10 rounded-lg hover:border-mosque hover:text-mosque transition-all hover:shadow-sm"
+          className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-argentina-navy bg-white border border-argentina-navy/10 rounded-lg hover:border-argentina-blue hover:text-argentina-blue transition-all hover:shadow-sm"
         >
           <span className="material-icons text-base font-material-icons">
             chevron_left
@@ -38,7 +38,7 @@ export default function Pagination({
           Anterior
         </Link>
       ) : (
-        <span className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-nordic-muted bg-white border border-nordic/10 rounded-lg opacity-40 cursor-not-allowed">
+        <span className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-argentina-navy-muted bg-white border border-argentina-navy/10 rounded-lg opacity-40 cursor-not-allowed">
           <span className="material-icons text-base font-material-icons">
             chevron_left
           </span>
@@ -54,8 +54,8 @@ export default function Pagination({
             href={buildHref(page)}
             className={`w-9 h-9 flex items-center justify-center text-sm font-medium rounded-lg transition-all ${
               page === currentPage
-                ? 'bg-nordic text-white shadow-sm'
-                : 'bg-white text-nordic border border-nordic/10 hover:border-mosque hover:text-mosque hover:shadow-sm'
+                ? 'bg-argentina-navy text-white shadow-sm'
+                : 'bg-white text-argentina-navy border border-argentina-navy/10 hover:border-argentina-blue hover:text-argentina-blue hover:shadow-sm'
             }`}
           >
             {page}
@@ -67,7 +67,7 @@ export default function Pagination({
       {currentPage < totalPages ? (
         <Link
           href={buildHref(currentPage + 1)}
-          className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-nordic bg-white border border-nordic/10 rounded-lg hover:border-mosque hover:text-mosque transition-all hover:shadow-sm"
+          className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-argentina-navy bg-white border border-argentina-navy/10 rounded-lg hover:border-argentina-blue hover:text-argentina-blue transition-all hover:shadow-sm"
         >
           Siguiente
           <span className="material-icons text-base font-material-icons">
@@ -75,7 +75,7 @@ export default function Pagination({
           </span>
         </Link>
       ) : (
-        <span className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-nordic-muted bg-white border border-nordic/10 rounded-lg opacity-40 cursor-not-allowed">
+        <span className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-argentina-navy-muted bg-white border border-argentina-navy/10 rounded-lg opacity-40 cursor-not-allowed">
           Siguiente
           <span className="material-icons text-base font-material-icons">
             chevron_right

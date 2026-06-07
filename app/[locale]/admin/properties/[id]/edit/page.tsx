@@ -31,13 +31,13 @@ export default async function EditPropertyPage({
         <div className="space-y-4">
           <nav aria-label="Breadcrumb" className="flex">
             <ol className="flex items-center space-x-2 text-sm text-gray-500 font-medium font-sf-pro">
-              <li><a href={`/${resolvedParams.locale}/admin/properties`} className="hover:text-mosque transition-colors">Properties</a></li>
+              <li><a href={`/${resolvedParams.locale}/admin/properties`} className="hover:text-argentina-blue transition-colors">Properties</a></li>
               <li><span className="material-icons text-xs text-gray-400">chevron_right</span></li>
-              <li aria-current="page" className="text-nordic">Edit Property</li>
+              <li aria-current="page" className="text-argentina-navy">Edit Property</li>
             </ol>
           </nav>
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-nordic tracking-tight mb-2">Edit Property</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-argentina-navy tracking-tight mb-2">Edit Property</h1>
             <p className="text-base text-gray-500 max-w-2xl font-normal font-sf-pro">
               Update the details below. Fields marked with * are mandatory.
             </p>
