@@ -49,10 +49,10 @@ const HeroInner = ({ dict }: { dict?: any }) => {
         {/* Floating Box Container */}
         <div className="w-full bg-white rounded-lg shadow-2xl p-4 sm:p-6 sm:pb-8 flex flex-col gap-4 sm:gap-6 mt-16">
           
-          {/* Top Row: Tabs and Button */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-200 pb-2 gap-4">
+          {/* Top Row: Tabs */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-start border-b border-gray-200 pb-2 gap-4">
             {/* Tabs */}
-            <div className="flex items-center gap-6 text-sm font-bold text-gray-400 overflow-x-auto hide-scroll">
+            <div className="flex items-center gap-6 text-sm font-bold text-gray-400 overflow-x-auto hide-scroll w-full">
               {['COMPRAR', 'ALQUILAR', 'VENDER'].map(tab => (
                 <button
                   key={tab}
@@ -61,7 +61,7 @@ const HeroInner = ({ dict }: { dict?: any }) => {
                     (activeOperation === 'Venta' && tab === 'COMPRAR') ||
                     (activeOperation === 'Alquiler' && tab === 'ALQUILAR') ||
                     (activeOperation === 'Comercial' && tab === 'VENDER')
-                      ? 'text-[#F97316]' 
+                      ? 'text-argentina-blue' 
                       : 'hover:text-gray-700'
                   }`}
                 >
@@ -69,16 +69,11 @@ const HeroInner = ({ dict }: { dict?: any }) => {
                   {((activeOperation === 'Venta' && tab === 'COMPRAR') ||
                     (activeOperation === 'Alquiler' && tab === 'ALQUILAR') ||
                     (activeOperation === 'Comercial' && tab === 'VENDER')) && (
-                    <span className="absolute bottom-[-9px] left-0 right-0 h-[2px] bg-[#F97316]" />
+                    <span className="absolute bottom-[-9px] left-0 right-0 h-[2px] bg-argentina-blue" />
                   )}
                 </button>
               ))}
             </div>
-
-            {/* Emprendimientos Button */}
-            <button className="px-5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded shadow-sm transition-colors uppercase whitespace-nowrap self-start sm:self-auto">
-              Emprendimientos
-            </button>
           </div>
 
           {/* Bottom Row: Search Inputs */}
@@ -88,7 +83,7 @@ const HeroInner = ({ dict }: { dict?: any }) => {
               <select 
                 value={activeCategory}
                 onChange={(e) => setActiveCategory(e.target.value)}
-                className="w-full h-12 px-4 border border-gray-300 rounded text-gray-700 font-medium outline-none focus:border-[#F97316] focus:ring-1 focus:ring-[#F97316] transition-all cursor-pointer appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+')] bg-no-repeat bg-[position:calc(100%-1rem)_center] bg-[length:1em]"
+                className="w-full h-12 px-4 border border-gray-300 rounded text-gray-700 font-medium outline-none focus:border-argentina-blue focus:ring-1 focus:ring-argentina-blue transition-all cursor-pointer appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+')] bg-no-repeat bg-[position:calc(100%-1rem)_center] bg-[length:1em]"
               >
                 {CATEGORY_FILTERS.map(cat => (
                   <option key={cat.id} value={cat.id}>{cat.label}</option>
@@ -97,7 +92,7 @@ const HeroInner = ({ dict }: { dict?: any }) => {
             </div>
 
             {/* Location Input and Search Button */}
-            <div className="flex-1 flex border border-gray-300 rounded overflow-hidden focus-within:border-[#F97316] focus-within:ring-1 focus-within:ring-[#F97316] transition-all bg-white h-12">
+            <div className="flex-1 flex border border-gray-300 rounded overflow-hidden focus-within:border-argentina-blue focus-within:ring-1 focus-within:ring-argentina-blue transition-all bg-white h-12">
               <input
                 type="text"
                 value={searchText}
@@ -108,7 +103,7 @@ const HeroInner = ({ dict }: { dict?: any }) => {
               />
               <button
                 onClick={handleSearch}
-                className="w-12 h-full bg-[#F97316] hover:bg-[#EA580C] text-white transition-colors flex items-center justify-center flex-shrink-0"
+                className="w-12 h-full bg-argentina-blue hover:bg-argentina-blue/90 text-white transition-colors flex items-center justify-center flex-shrink-0"
                 aria-label="Buscar"
               >
                 <span className="material-icons font-bold text-xl">search</span>
