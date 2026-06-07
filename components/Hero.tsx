@@ -57,7 +57,7 @@ const HeroInner = ({ dict }: { dict?: any }) => {
       <div className="relative z-10 w-full max-w-4xl mx-auto px-4 flex flex-col items-center justify-center">
         
         {/* Floating Box Container */}
-        <div className="w-full bg-white rounded-lg shadow-2xl p-4 sm:p-6 sm:pb-8 flex flex-col gap-4 sm:gap-6 mt-16">
+        <div className="w-full bg-white/95 backdrop-blur-sm rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.4)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.5)] hover:-translate-y-1.5 transition-all duration-500 p-4 sm:p-6 sm:pb-8 flex flex-col gap-4 sm:gap-6 mt-16 ring-1 ring-white/20">
           
           {/* Top Row: Tabs */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-start border-b border-gray-200 pb-2 gap-4">

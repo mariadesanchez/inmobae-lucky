@@ -22,20 +22,11 @@ function getAdminSupabase() {
   );
 }
 
+import { createClient } from '@/lib/supabase/server';
+
 export async function updateUserRole(userId: string, newRole: 'admin' | 'user') {
-  const cookieStore = await cookies();
-  
   // Verify current user is admin first!
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll(); },
-        setAll() {}
-      }
-    }
-  );
+  const supabase = await createClient();
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authenticated');
@@ -92,6 +83,6 @@ export async function updateUserRole(userId: string, newRole: 'admin' | 'user') 
     return { error: 'No se pudo actualizar el rol.' };
   }
 
-  revalidatePath('/[locale]/admin/users', 'page');
+  revalidatePath('/admin/users', 'page');
   return { success: true };
 }
