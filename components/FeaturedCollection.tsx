@@ -14,7 +14,7 @@ const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?
     .select('*')
     .eq('is_featured', true)
     .eq('is_active', true)
-    .limit(2);
+    .limit(15);
 
   const collections: Collection[] = (properties || []).map((p) => {
     const prop = mapDbRowToProperty(p, locale);
@@ -57,9 +57,11 @@ const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scroll" style={{ WebkitOverflowScrolling: 'touch' }}>
         {collections.map((collection) => (
-          <CollectionCard key={collection.id} collection={collection} dict={dict} />
+          <div key={collection.id} className="w-[85vw] sm:w-[350px] md:w-[400px] shrink-0 snap-center sm:snap-start">
+            <CollectionCard collection={collection} dict={dict} />
+          </div>
         ))}
       </div>
     </section>
