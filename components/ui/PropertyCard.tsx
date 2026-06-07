@@ -46,9 +46,9 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
             </span>
           </button>
 
-          {/* New Badge */}
+          {/* New Ribbon */}
           {isNew && (
-            <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow-md z-10 uppercase tracking-wider">
+            <div className="absolute top-4 -left-8 w-32 bg-red-500/80 backdrop-blur-md text-white text-[10px] font-bold py-1 text-center -rotate-45 shadow-sm z-20 uppercase tracking-widest">
               {dict?.property?.new || 'Nueva'}
             </div>
           )}

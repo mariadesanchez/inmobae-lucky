@@ -37,9 +37,9 @@ const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
           {collection.tag}
         </div>
 
-        {/* New Badge */}
+        {/* New Ribbon */}
         {isNew && (
-          <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10 uppercase tracking-wider">
+          <div className="absolute top-5 -left-8 w-32 bg-red-500/80 backdrop-blur-md text-white text-[10px] font-bold py-1 text-center -rotate-45 shadow-sm z-20 uppercase tracking-widest">
             {dict?.property?.new || 'Nueva'}
           </div>
         )}
