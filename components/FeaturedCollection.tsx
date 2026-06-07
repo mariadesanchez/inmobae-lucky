@@ -31,6 +31,7 @@ const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?
       sqft: prop.sqft,
       tag: p.category === 'new' ? 'New Arrival' : 'Exclusive',
       slug: prop.slug,
+      date_entry: prop.date_entry,
     };
   });
 

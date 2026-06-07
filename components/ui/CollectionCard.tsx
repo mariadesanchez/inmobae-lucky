@@ -34,7 +34,7 @@ const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
 
         {/* New Badge */}
         {isNew && (
-          <div className="absolute top-4 right-16 h-10 bg-white/95 text-argentina-navy text-xs font-bold px-4 rounded-full shadow-md z-10 uppercase tracking-widest flex items-center justify-center border border-gray-100 backdrop-blur-sm">
+          <div className="absolute top-4 right-16 h-10 bg-gradient-to-r from-argentina-sun to-yellow-400 text-argentina-navy text-xs font-bold px-5 rounded-full shadow-[0_4px_12px_rgba(246,180,14,0.4)] z-10 uppercase tracking-widest flex items-center justify-center border border-yellow-300">
             {dict?.property?.new || 'Nueva'}
           </div>
         )}
