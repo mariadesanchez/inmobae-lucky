@@ -11,7 +11,6 @@ interface AutoCarouselProps {
 
 export default function AutoCarousel({ collections, dict }: AutoCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleScroll = () => {
@@ -21,36 +20,22 @@ export default function AutoCarousel({ collections, dict }: AutoCarouselProps) {
     setActiveIndex(index);
   };
 
-  useEffect(() => {
-    if (isHovered) return; // Pause on hover
+  const scrollPrev = () => {
+    if (!scrollRef.current || !scrollRef.current.firstElementChild) return;
+    const cardWidth = scrollRef.current.firstElementChild.clientWidth + 24;
+    scrollRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+  };
 
-    const interval = setInterval(() => {
-      if (scrollRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-        
-        // If we reached the end, scroll back to start
-        if (scrollLeft + clientWidth >= scrollWidth - 10) {
-          scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          // Scroll by roughly one card width (350px + 24px gap)
-          scrollRef.current.scrollBy({ left: 374, behavior: 'smooth' });
-        }
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isHovered]);
+  const scrollNext = () => {
+    if (!scrollRef.current || !scrollRef.current.firstElementChild) return;
+    const cardWidth = scrollRef.current.firstElementChild.clientWidth + 24;
+    scrollRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
+  };
 
   if (!collections || collections.length === 0) return null;
 
   return (
-    <div 
-      className="relative w-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={() => setIsHovered(true)}
-      onTouchEnd={() => setIsHovered(false)}
-    >
+    <div className="relative w-full group">
       <div 
         ref={scrollRef}
         onScroll={handleScroll}
@@ -64,6 +49,23 @@ export default function AutoCarousel({ collections, dict }: AutoCarouselProps) {
         ))}
       </div>
       
+      {/* Navigation Arrows (Visible on Desktop Hover) */}
+      <button 
+        onClick={scrollPrev}
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-argentina-navy hover:bg-argentina-light opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 z-10"
+        aria-label="Previous property"
+      >
+        <span className="material-icons font-material-icons">chevron_left</span>
+      </button>
+      
+      <button 
+        onClick={scrollNext}
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center text-argentina-navy hover:bg-argentina-light opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 z-10"
+        aria-label="Next property"
+      >
+        <span className="material-icons font-material-icons">chevron_right</span>
+      </button>
+
       {/* Pagination Dots */}
       <div className="flex justify-center items-center gap-2 mt-2 pb-4">
         {collections.map((_, idx) => (
