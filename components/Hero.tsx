@@ -5,11 +5,11 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import FiltersModal from './FiltersModal';
 
 const CATEGORY_FILTERS = [
-  { id: 'All', key: 'any' },
-  { id: 'House', key: 'house' },
-  { id: 'Apartment', key: 'apartment' },
-  { id: 'Villa', key: 'villa' },
-  { id: 'Penthouse', key: 'penthouse' }
+  { id: 'All', key: 'any', label: 'Todas' },
+  { id: 'House', key: 'house', label: 'Casas' },
+  { id: 'Apartment', key: 'apartment', label: 'Departamentos' },
+  { id: 'Villa', key: 'villa', label: 'Villas' },
+  { id: 'Penthouse', key: 'penthouse', label: 'Penthouses' }
 ];
 
 const HeroInner = ({ dict }: { dict?: any }) => {
@@ -20,11 +20,13 @@ const HeroInner = ({ dict }: { dict?: any }) => {
   const [isFiltersOpen, setFiltersOpen] = useState(false);
   const [searchText, setSearchText] = useState(searchParams.get('location') ?? '');
   const [activeCategory, setActiveCategory] = useState(searchParams.get('type') ?? 'All');
+  const [activeOperation, setActiveOperation] = useState('Venta');
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (searchText.trim()) params.set('location', searchText.trim());
     if (activeCategory !== 'All') params.set('type', activeCategory);
+    // You can extend the API to filter by operation later
     params.set('page', '1');
     router.push(`${pathname}?${params.toString()}`);
   };
@@ -33,106 +35,83 @@ const HeroInner = ({ dict }: { dict?: any }) => {
     if (e.key === 'Enter') handleSearch();
   };
 
-  const handleCategory = (cat: string) => {
-    setActiveCategory(cat);
-    const params = new URLSearchParams();
-    if (searchText.trim()) params.set('location', searchText.trim());
-    if (cat !== 'All') params.set('type', cat);
-    params.set('page', '1');
-    router.push(`${pathname}?${params.toString()}`);
+  const handleInventoryClick = () => {
+    router.push(`${pathname}?page=1`);
   };
 
   return (
-    <section className="py-12 md:py-16">
-      <div className="max-w-3xl mx-auto text-center space-y-8">
+    <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-center pt-20 pb-16 mt-[-80px] z-0">
+      {/* Background Image & Overlay */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2000')" }}
+      />
+      <div className="absolute inset-0 z-0 bg-black/40" />
 
-
-        {/* Search Bar */}
-        <div className="relative group max-w-2xl mx-auto">
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <span className="material-icons text-argentina-navy-muted text-2xl group-focus-within:text-argentina-blue transition-colors font-material-icons">
-                  search
-                </span>
-              </div>
-              <input
-                type="text"
-                id="hero-search"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="block w-full pl-12 pr-4 py-4 rounded-xl sm:rounded-r-none border-none bg-white text-argentina-navy shadow-soft placeholder-argentina-navy-muted/60 focus:ring-2 focus:ring-argentina-blue focus:bg-white transition-all text-lg outline-none"
-                placeholder={dict?.searchPlaceholder || "Search by city, neighborhood, or address..."}
-              />
-            </div>
-            <button
-              id="hero-search-btn"
-              onClick={handleSearch}
-              className="w-full sm:w-auto px-6 py-4 bg-argentina-blue hover:bg-argentina-blue/90 text-white font-medium rounded-xl sm:rounded-l-none transition-colors flex items-center justify-center shadow-lg shadow-argentina-blue/20"
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center gap-4 mt-16">
+        
+        {/* Search Bar Container */}
+        <div className="w-full max-w-5xl bg-white rounded-xl sm:rounded-sm shadow-2xl flex flex-col sm:flex-row overflow-hidden border border-white/20">
+          
+          {/* Operation Type */}
+          <div className="flex-1 border-b sm:border-b-0 sm:border-r border-gray-200">
+            <select 
+              value={activeOperation}
+              onChange={(e) => setActiveOperation(e.target.value)}
+              className="w-full h-full min-h-[60px] px-6 bg-transparent text-gray-700 font-medium outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+')] bg-no-repeat bg-[position:calc(100%-1rem)_center] bg-[length:1em]"
             >
-              {dict?.search || 'Search'}
-            </button>
+              <option value="Venta">Venta</option>
+              <option value="Alquiler">Alquiler</option>
+              <option value="Comercial">Comercial</option>
+            </select>
           </div>
+
+          {/* Property Type */}
+          <div className="flex-1 border-b sm:border-b-0 sm:border-r border-gray-200">
+            <select 
+              value={activeCategory}
+              onChange={(e) => setActiveCategory(e.target.value)}
+              className="w-full h-full min-h-[60px] px-6 bg-transparent text-gray-700 font-medium outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+')] bg-no-repeat bg-[position:calc(100%-1rem)_center] bg-[length:1em]"
+            >
+              {CATEGORY_FILTERS.map(cat => (
+                <option key={cat.id} value={cat.id}>{cat.label}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Location Input */}
+          <div className="flex-[2] relative">
+            <input
+              type="text"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Ingresa Ubicación, Asesor, Oficina, ID"
+              className="w-full h-full min-h-[60px] pl-6 pr-12 bg-transparent text-gray-800 placeholder-gray-400 font-medium outline-none"
+            />
+          </div>
+
+          {/* Search Button */}
+          <button
+            onClick={handleSearch}
+            className="min-h-[60px] w-full sm:w-[80px] bg-[#C8B17A] hover:bg-[#b09b67] text-black transition-colors flex items-center justify-center"
+            aria-label="Buscar"
+          >
+            <span className="material-icons font-bold text-2xl">search</span>
+          </button>
         </div>
 
-        {/* Category filter — stacked full-width on mobile, pills row on desktop */}
-        <div className="max-w-2xl mx-auto">
-
-          {/* Mobile: stacked full-width buttons */}
-          <div className="flex flex-col gap-2 sm:hidden">
-            {CATEGORY_FILTERS.map((cat) => (
-              <button
-                key={cat.id}
-                id={`category-${cat.id.toLowerCase()}-mobile`}
-                onClick={() => handleCategory(cat.id)}
-                className={`w-full py-3 rounded-xl text-sm font-medium transition-all ${
-                  activeCategory === cat.id
-                    ? 'bg-argentina-navy text-white shadow-md'
-                    : 'bg-white border border-argentina-navy/10 text-argentina-navy-muted hover:text-argentina-navy hover:border-argentina-blue/40'
-                }`}
-              >
-                {cat.id === 'All' && dict?.any ? dict.any : cat.id}
-              </button>
-            ))}
-            <button
-              id="filters-btn-mobile"
-              onClick={() => setFiltersOpen(true)}
-              className="w-full py-3 rounded-xl text-sm font-medium bg-white border border-argentina-navy/10 text-argentina-navy flex items-center justify-center gap-2 hover:bg-argentina-blue/5 transition-colors"
-            >
-              <span className="material-icons text-base font-material-icons">tune</span>
-              {dict?.filters || 'Filters'}
-            </button>
-          </div>
-
-          {/* Desktop: horizontal pill row */}
-          <div className="hidden sm:flex items-center gap-2 overflow-x-auto hide-scroll py-2">
-            {CATEGORY_FILTERS.map((cat) => (
-              <button
-                key={cat.id}
-                id={`category-${cat.id.toLowerCase()}`}
-                onClick={() => handleCategory(cat.id)}
-                className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 ${
-                  activeCategory === cat.id
-                    ? 'bg-argentina-navy text-white shadow-lg shadow-argentina-navy/10'
-                    : 'bg-white border border-argentina-navy/5 text-argentina-navy-muted hover:text-argentina-navy hover:border-argentina-blue/50 hover:bg-argentina-blue/5'
-                }`}
-              >
-                {cat.id === 'All' && dict?.any ? dict.any : cat.id}
-              </button>
-            ))}
-            <div className="w-px h-6 bg-argentina-navy/10 mx-1" />
-            <button
-              id="filters-btn"
-              onClick={() => setFiltersOpen(true)}
-              className="whitespace-nowrap flex items-center gap-1 px-4 py-2 rounded-full bg-white border border-argentina-navy/5 text-argentina-navy font-medium text-sm hover:bg-argentina-blue/5 transition-colors shadow-sm"
-            >
-              <span className="material-icons text-base font-material-icons">tune</span>
-              {dict?.filters || 'Filters'}
-            </button>
-          </div>
-
+        {/* View All Button */}
+        <div className="w-full max-w-5xl flex justify-start">
+          <button 
+            onClick={handleInventoryClick}
+            className="px-5 py-2.5 bg-[#C8B17A]/90 hover:bg-[#C8B17A] text-black font-semibold text-sm transition-colors shadow-md"
+          >
+            Consulta todo el inventario
+          </button>
         </div>
+
       </div>
 
       {/* Filters Modal */}
