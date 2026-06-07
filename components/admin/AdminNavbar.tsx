@@ -51,8 +51,7 @@ export default function AdminNavbar({ locale, user }: AdminNavbarProps) {
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
         <div className="flex items-center gap-12">
           <Link href={`/${locale}`} className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
-            <img src="/inmobae-lucky-logo.png" alt="Inmobae-Lucky Logo" className="h-12 w-auto object-contain group-hover:scale-110 transition-transform" />
-            <span className="font-bold text-lg text-argentina-navy dark:text-white tracking-tight">Inmobae-Lucky</span>
+            <span className="text-2xl font-serif font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-argentina-navy to-argentina-blue">Inmobae-Lucky</span>
           </Link>
           <div className="hidden md:flex space-x-2">
             <Link 
