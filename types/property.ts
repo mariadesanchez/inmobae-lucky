@@ -1,4 +1,4 @@
-export type PropertyType = 'sale' | 'rent';
+export type PropertyType = 'comprar' | 'alquilar';
 
 export interface Property {
   id: string;
@@ -10,7 +10,8 @@ export interface Property {
   beds: number;
   baths: number;
   sqft: number;
-  type: PropertyType;
+  type: string;
+  status: PropertyType;
   is_new: boolean;
   created_at: string;
   date_entry?: string;

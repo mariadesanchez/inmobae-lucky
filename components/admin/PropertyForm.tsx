@@ -30,8 +30,8 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
     title: initialData?.title || '',
     description: initialData?.description || '',
     price: initialData?.price || '',
-    status: initialData?.status || 'for-sale',
-    category: initialData?.category || 'apartment',
+    status: initialData?.status || 'comprar',
+    type: initialData?.type || 'Departamento',
     location: initialData?.location || '',
     latitude: initialData?.latitude || '',
     longitude: initialData?.longitude || '',
@@ -114,7 +114,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         location: formData.location,
         latitude: formData.latitude,
         longitude: formData.longitude,
-        category: formData.category,
+        type: formData.type,
         status: formData.status,
         beds: formData.beds,
         baths: formData.baths,
@@ -208,23 +208,32 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                   onChange={handleInputChange}
                   className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro cursor-pointer outline-none"
                 >
-                  <option value="for-sale">For Sale</option>
-                  <option value="for-rent">For Rent</option>
-                  <option value="sold">Sold</option>
+                  <option value="comprar">En Venta (Comprar)</option>
+                  <option value="alquilar">En Alquiler</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="category">Property Type</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="type">Property Type</label>
                 <select 
-                  id="category"
-                  value={formData.category}
+                  id="type"
+                  value={formData.type}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro cursor-pointer outline-none"
                 >
-                  <option value="apartment">Apartment</option>
-                  <option value="house">House</option>
-                  <option value="villa">Villa</option>
-                  <option value="commercial">Commercial</option>
+                  <option value="Terreno">Terreno</option>
+                  <option value="Casa">Casa</option>
+                  <option value="Departamento">Departamento</option>
+                  <option value="PH">PH</option>
+                  <option value="Cochera">Cochera</option>
+                  <option value="Local">Local</option>
+                  <option value="Edificio Comercial">Edificio Comercial</option>
+                  <option value="Campo">Campo</option>
+                  <option value="Oficina">Oficina</option>
+                  <option value="Quinta">Quinta</option>
+                  <option value="Depósito">Depósito</option>
+                  <option value="Fondo de Comercio">Fondo de Comercio</option>
+                  <option value="Chacra">Chacra</option>
+                  <option value="Hotel">Hotel</option>
                 </select>
               </div>
             </div>

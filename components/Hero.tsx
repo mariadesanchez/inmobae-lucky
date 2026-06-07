@@ -5,11 +5,21 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import FiltersModal from './FiltersModal';
 
 const CATEGORY_FILTERS = [
-  { id: 'All', key: 'any', label: 'Tipo de propiedad' },
-  { id: 'House', key: 'house', label: 'Casas' },
-  { id: 'Apartment', key: 'apartment', label: 'Departamentos' },
-  { id: 'Villa', key: 'villa', label: 'Villas' },
-  { id: 'Penthouse', key: 'penthouse', label: 'Penthouses' }
+  { id: 'All', key: 'Todos', label: 'Tipo de propiedad' },
+  { id: 'Terreno', key: 'Terreno', label: 'Terreno' },
+  { id: 'Casa', key: 'Casa', label: 'Casa' },
+  { id: 'Departamento', key: 'Departamento', label: 'Departamento' },
+  { id: 'PH', key: 'PH', label: 'PH' },
+  { id: 'Cochera', key: 'Cochera', label: 'Cochera' },
+  { id: 'Local', key: 'Local', label: 'Local' },
+  { id: 'Edificio Comercial', key: 'Edificio Comercial', label: 'Edificio Comercial' },
+  { id: 'Campo', key: 'Campo', label: 'Campo' },
+  { id: 'Oficina', key: 'Oficina', label: 'Oficina' },
+  { id: 'Quinta', key: 'Quinta', label: 'Quinta' },
+  { id: 'Depósito', key: 'Depósito', label: 'Depósito' },
+  { id: 'Fondo de Comercio', key: 'Fondo de Comercio', label: 'Fondo de Comercio' },
+  { id: 'Chacra', key: 'Chacra', label: 'Chacra' },
+  { id: 'Hotel', key: 'Hotel', label: 'Hotel' }
 ];
 
 const HeroInner = ({ dict }: { dict?: any }) => {
@@ -18,14 +28,14 @@ const HeroInner = ({ dict }: { dict?: any }) => {
   
   const [isFiltersOpen, setFiltersOpen] = useState(false);
   const [searchText, setSearchText] = useState(searchParams.get('location') ?? '');
-  const [activeCategory, setActiveCategory] = useState(searchParams.get('type') ?? 'All');
-  const [activeOperation, setActiveOperation] = useState('Comprar');
+  const [activeCategory, setActiveCategory] = useState(searchParams.get('type') ?? 'Todos');
+  const [activeOperation, setActiveOperation] = useState('comprar');
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (searchText.trim()) params.set('location', searchText.trim());
-    if (activeCategory !== 'All') params.set('type', activeCategory);
-    params.set('operation', activeOperation);
+    if (activeCategory !== 'Todos') params.set('type', activeCategory);
+    params.set('status', activeOperation);
     params.set('page', '1');
     router.push(`/buscar?${params.toString()}`);
   };
@@ -56,19 +66,19 @@ const HeroInner = ({ dict }: { dict?: any }) => {
               {['COMPRAR', 'ALQUILAR', 'VENDER'].map(tab => (
                 <button
                   key={tab}
-                  onClick={() => setActiveOperation(tab === 'COMPRAR' ? 'Venta' : tab === 'ALQUILAR' ? 'Alquiler' : 'Comercial')}
+                  onClick={() => setActiveOperation(tab === 'COMPRAR' ? 'comprar' : tab === 'ALQUILAR' ? 'alquilar' : 'vender')}
                   className={`pb-2 relative whitespace-nowrap transition-colors ${
-                    (activeOperation === 'Venta' && tab === 'COMPRAR') ||
-                    (activeOperation === 'Alquiler' && tab === 'ALQUILAR') ||
-                    (activeOperation === 'Comercial' && tab === 'VENDER')
+                    (tab === 'COMPRAR' && activeOperation === 'comprar') || 
+                    (tab === 'ALQUILAR' && activeOperation === 'alquilar') ||
+                    (tab === 'VENDER' && activeOperation === 'vender')
                       ? 'text-argentina-blue' 
                       : 'hover:text-gray-700'
                   }`}
                 >
                   {tab}
-                  {((activeOperation === 'Venta' && tab === 'COMPRAR') ||
-                    (activeOperation === 'Alquiler' && tab === 'ALQUILAR') ||
-                    (activeOperation === 'Comercial' && tab === 'VENDER')) && (
+                  {((activeOperation === 'comprar' && tab === 'COMPRAR') ||
+                    (activeOperation === 'alquilar' && tab === 'ALQUILAR') ||
+                    (activeOperation === 'vender' && tab === 'VENDER')) && (
                     <span className="absolute bottom-[-9px] left-0 right-0 h-[2px] bg-argentina-blue" />
                   )}
                 </button>

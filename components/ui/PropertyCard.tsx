@@ -45,22 +45,22 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
           )}
 
           {/* Type Tag */}
-          <div
-            className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${property.type === 'sale' ? 'bg-argentina-navy/90' : 'bg-argentina-blue/90'}`}
+          <div 
+            className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${property.status === 'comprar' ? 'bg-argentina-navy/90' : 'bg-argentina-blue/90'}`}
           >
-            {property.type === 'sale' ? (dict?.property?.sale || 'FOR SALE') : (dict?.property?.rent || 'FOR RENT')}
+            {property.status === 'comprar' ? 'EN VENTA' : 'ALQUILER'}
           </div>
         </div>
 
         {/* Content */}
         <div className="p-4 flex flex-col grow">
           <div className="flex justify-between items-baseline mb-2">
-            <h3 className="font-bold text-lg text-argentina-navy">
-              ${property.price.toLocaleString('en-US')}
-              {property.type === 'rent' && (
-                <span className="text-sm font-normal text-argentina-navy-muted">/mo</span>
+            <p className="text-2xl font-bold text-argentina-navy font-sf-pro">
+              ${property.price.toLocaleString()}
+              {property.status === 'alquilar' && (
+                <span className="text-sm font-normal text-gray-500 font-sf-pro"> /mes</span>
               )}
-            </h3>
+            </p>
           </div>
 
           <h4 className="text-argentina-navy font-medium truncate mb-1">

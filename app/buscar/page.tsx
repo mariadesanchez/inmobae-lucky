@@ -16,6 +16,7 @@ interface HomePageProps {
     minPrice?: string;
     maxPrice?: string;
     type?: string;
+    status?: string;
     beds?: string;
     baths?: string;
   }>;
@@ -24,7 +25,7 @@ interface HomePageProps {
 export default async function BuscarPage({ params, searchParams }: HomePageProps) {
   
   const dict = await getDictionary();
-  const { page, location, minPrice, maxPrice, type, beds, baths } = await searchParams;
+  const { page, location, minPrice, maxPrice, type, status, beds, baths } = await searchParams;
   const currentPage = Math.max(1, parseInt(page ?? '1', 10));
   const from = (currentPage - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
@@ -66,9 +67,14 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
   if (minPrice) query = query.gte('price', Number(minPrice));
   if (maxPrice) query = query.lte('price', Number(maxPrice));
 
-  // Property type → maps to "category" column in DB (or status for buy/rent)
-  if (type && type !== 'Any Type') {
-    query = query.ilike('category', type);
+  // Property type
+  if (type && type !== 'Todos' && type !== 'Any Type') {
+    query = query.ilike('type', type);
+  }
+
+  // Status (comprar / alquilar)
+  if (status) {
+    query = query.eq('status', status);
   }
 
   // Beds & Baths — minimum count

@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   const supabase = getBotSupabase();
   let query = supabase
     .from('properties')
-    .select('id, title, description, location, price, status, category, beds, baths, area, is_active, images')
+    .select('id, title, description, location, price, status, type, beds, baths, area, is_active, images')
     .order('id', { ascending: false })
     .limit(limit);
 
@@ -63,8 +63,8 @@ export async function POST(request: NextRequest) {
     location: body.location || '',
     latitude: body.latitude ? parseFloat(body.latitude) : null,
     longitude: body.longitude ? parseFloat(body.longitude) : null,
-    category: ['new', 'market', 'featured'].includes(body.category) ? body.category : 'market',
-    status: body.status === 'rent' ? 'rent' : 'sale',
+    type: body.type || 'Departamento',
+    status: body.status === 'alquilar' ? 'alquilar' : 'comprar',
     beds: parseInt(body.beds) || 0,
     baths: parseInt(body.baths) || 0,
     area: parseInt(body.area) || 0,
@@ -103,7 +103,7 @@ export async function PATCH(request: NextRequest) {
   if (updates.baths !== undefined) payload.baths = parseInt(updates.baths);
   if (updates.area !== undefined) payload.area = parseInt(updates.area);
   if (updates.status !== undefined) payload.status = updates.status;
-  if (updates.category !== undefined) payload.category = updates.category;
+  if (updates.type !== undefined) payload.type = updates.type;
   if (updates.is_active !== undefined) payload.is_active = updates.is_active;
   if (updates.is_featured !== undefined) payload.is_featured = updates.is_featured;
   if (updates.latitude !== undefined) payload.latitude = updates.latitude ? parseFloat(updates.latitude) : null;
