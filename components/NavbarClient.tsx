@@ -22,7 +22,7 @@ export default function NavbarClient({ dict, locale, user, isAdmin }: NavbarClie
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo */}
           <Link href="/" className="shrink-0 flex items-center gap-2 cursor-pointer">
-            <img src="/inmobae-lucky-logo.png" alt="Inmobae-Lucky Logo" className="w-10 h-10 object-contain" />
+            <img src="/inmobae-lucky-logo.png" alt="Inmobae-Lucky Logo" className="h-14 w-auto object-contain" />
             <span className="text-xl font-semibold tracking-tight text-argentina-navy">Inmobae-Lucky</span>
           </Link>
 

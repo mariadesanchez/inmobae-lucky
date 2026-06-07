@@ -45,14 +45,7 @@ const HeroInner = ({ dict }: { dict?: any }) => {
   return (
     <section className="py-12 md:py-16">
       <div className="max-w-3xl mx-auto text-center space-y-8">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-argentina-navy leading-tight">
-          {dict?.title || 'Find your '}{' '}
-          <span className="relative inline-block">
-            <span className="relative z-10 font-medium">{dict?.highlight || 'sanctuary'}</span>
-            <span className="absolute bottom-2 left-0 w-full h-3 bg-argentina-blue/20 -rotate-1 z-0"></span>
-          </span>
-          .
-        </h1>
+
 
         {/* Search Bar */}
         <div className="relative group max-w-2xl mx-auto">
