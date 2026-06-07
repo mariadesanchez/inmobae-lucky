@@ -18,7 +18,7 @@ interface PropertyFormProps {
   
 }
 
-export default function PropertyForm({ initialData, locale }: PropertyFormProps) {
+export default function PropertyForm({ initialData }: PropertyFormProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   

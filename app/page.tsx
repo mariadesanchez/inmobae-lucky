@@ -6,7 +6,6 @@ import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 
 import { getDictionary } from '@/lib/dictionaries';
-import { Locale } from '@/i18n-config';
 
 const PAGE_SIZE = 8;
 
@@ -25,7 +24,7 @@ interface HomePageProps {
 
 export default async function Home({ params, searchParams }: HomePageProps) {
   
-  const dict = await getDictionary(locale as Locale);
+  const dict = await getDictionary();
   const { page, location, minPrice, maxPrice, type, beds, baths } = await searchParams;
   const currentPage = Math.max(1, parseInt(page ?? '1', 10));
   const from = (currentPage - 1) * PAGE_SIZE;
@@ -83,7 +82,7 @@ export default async function Home({ params, searchParams }: HomePageProps) {
   const { data: propertiesData, count } = await query.range(from, to);
 
   const mappedProperties = (propertiesData ?? []).map(row => {
-    const prop = mapDbRowToProperty(row, locale);
+    const prop = mapDbRowToProperty(row);
     prop.isFavorite = favoriteIds.has(String(prop.id));
     return prop;
   });
@@ -93,10 +92,10 @@ export default async function Home({ params, searchParams }: HomePageProps) {
 
   return (
     <>
-      <Navbar dict={dict.navbar} locale={locale as Locale} />
+      <Navbar dict={dict.navbar} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <Hero dict={dict.hero} />
-        {!hasActiveFilters && <FeaturedCollection dict={{ ...dict.featured, property: dict.property }} locale={locale} />}
+        {!hasActiveFilters && <FeaturedCollection dict={{ ...dict.featured, property: dict.property }} />}
         <NewInMarket
           properties={mappedProperties}
           totalCount={count ?? 0}

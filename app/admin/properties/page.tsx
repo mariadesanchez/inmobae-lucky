@@ -164,7 +164,7 @@ export default async function AdminPropertiesPage({
 
                   {/* Actions */}
                   <div className="col-span-12 md:col-span-2 flex justify-end gap-2">
-                    <EditPropertyButton id={prop.id} isActive={prop.is_active !== false} locale={locale} />
+                    <EditPropertyButton id={prop.id} isActive={prop.is_active !== false} />
                     <TogglePropertyButton id={prop.id} isActive={prop.is_active !== false} />
                   </div>
           </div>

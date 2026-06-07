@@ -45,7 +45,7 @@ export default async function EditPropertyPage({
         </div>
       </header>
       
-      <PropertyForm locale={resolvedParams.locale} initialData={property} />
+      <PropertyForm initialData={property} />
     </main>
   );
 }

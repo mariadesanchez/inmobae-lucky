@@ -17,7 +17,7 @@ interface AdminNavbarProps {
   };
 }
 
-export default function AdminNavbar({ locale, user }: AdminNavbarProps) {
+export default function AdminNavbar({ user }: AdminNavbarProps) {
   const pathname = usePathname();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

@@ -1,4 +1,3 @@
-import { Locale } from '@/i18n-config';
 import { getDictionary } from '@/lib/dictionaries';
 import AdminNavbar from '@/components/admin/AdminNavbar';
 import { createClient } from '@/lib/supabase/server';
@@ -11,7 +10,7 @@ interface AdminLayoutProps {
 
 export default async function AdminLayout({ children, params }: AdminLayoutProps) {
   
-  const dict = await getDictionary(locale as Locale);
+  const dict = await getDictionary();
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -21,7 +20,7 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
 
   return (
     <div className="bg-argentina-light dark:bg-background-dark text-argentina-navy dark:text-gray-100 font-display min-h-screen flex flex-col antialiased">
-      <AdminNavbar locale={locale} user={user} />
+      <AdminNavbar user={user} />
       
       {/* Main Content */}
       {children}

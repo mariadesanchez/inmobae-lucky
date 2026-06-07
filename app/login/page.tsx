@@ -1,6 +1,5 @@
 import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
 import { getDictionary } from '@/lib/dictionaries';
-import { Locale } from '@/i18n-config';
 
 interface LoginPageProps {
   params: Promise<{  }>;
@@ -8,7 +7,7 @@ interface LoginPageProps {
 
 export default async function LoginPage({ params }: LoginPageProps) {
   
-  const dict = await getDictionary(locale as Locale);
+  const dict = await getDictionary();
 
   return (
     <div className="font-display bg-argentina-light dark:bg-background-dark min-h-screen flex items-center justify-center p-4 antialiased text-argentina-navy dark:text-gray-100 relative overflow-hidden">

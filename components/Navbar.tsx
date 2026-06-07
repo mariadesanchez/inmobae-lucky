@@ -1,13 +1,12 @@
-import { Locale } from '@/i18n-config';
 import { createClient } from '@/lib/supabase/server';
 import NavbarClient from './NavbarClient';
 
 interface NavbarProps {
   dict?: any;
-  locale?: Locale;
+  
 }
 
-const Navbar = async ({ dict, locale = 'en' }: NavbarProps) => {
+const Navbar = async ({ dict }: NavbarProps) => {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -36,7 +35,7 @@ const Navbar = async ({ dict, locale = 'en' }: NavbarProps) => {
     }
   }
 
-  return <NavbarClient dict={dict} locale={locale} user={user} isAdmin={isAdmin} />;
+  return <NavbarClient dict={dict} user={user} isAdmin={isAdmin} />;
 };
 
 export default Navbar;

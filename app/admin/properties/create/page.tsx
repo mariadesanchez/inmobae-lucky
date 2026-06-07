@@ -27,7 +27,7 @@ export default async function CreatePropertyPage({
         </div>
       </header>
       
-      <PropertyForm locale={resolvedParams.locale} />
+      <PropertyForm />
     </main>
   );
 }

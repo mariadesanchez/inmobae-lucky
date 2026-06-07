@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function EditPropertyButton({ id, isActive, locale }: { id: number; isActive: boolean;  }) {
+export default function EditPropertyButton({ id, isActive }: { id: number; isActive: boolean;  }) {
   const [showModal, setShowModal] = useState(false);
 
   if (isActive) {

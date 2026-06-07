@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 import { getDictionary } from '@/lib/dictionaries';
-import { Locale } from '@/i18n-config';
 import Navbar from '@/components/Navbar';
 import PropertyCard from '@/components/ui/PropertyCard';
 
@@ -13,7 +12,7 @@ export default async function FavoritosPage({
   params: Promise<{  }>
 }) {
   
-  const dict = await getDictionary(locale as Locale);
+  const dict = await getDictionary();
   
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -36,14 +35,14 @@ export default async function FavoritosPage({
     .map(fav => {
       // @ts-ignore - The join returns properties as an object but TypeScript might complain
       const propDbRow = fav.properties;
-      const mappedProp = mapDbRowToProperty(propDbRow, locale);
+      const mappedProp = mapDbRowToProperty(propDbRow);
       mappedProp.isFavorite = true; // By definition, these are favorites
       return mappedProp;
     });
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <Navbar dict={dict.navbar} locale={locale as Locale} />
+      <Navbar dict={dict.navbar} />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-32">
         <div className="mb-8 border-b border-gray-200 pb-5">

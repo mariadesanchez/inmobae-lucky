@@ -5,9 +5,8 @@ import AutoCarousel from './AutoCarousel';
 import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 
-import { Locale } from '@/i18n-config';
 
-const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?: string }) => {
+const FeaturedCollection = async ({ dict }: { dict?: any }) => {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -30,7 +29,7 @@ const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?
     .limit(15);
 
   const collections: Collection[] = (properties || []).map((p) => {
-    const prop = mapDbRowToProperty(p, locale);
+    const prop = mapDbRowToProperty(p);
     return {
       id: prop.id,
       title: prop.title,

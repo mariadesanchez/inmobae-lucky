@@ -1,18 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { Locale } from '@/i18n-config';
 import UserMenu from './UserMenu';
 import { useState } from 'react';
 
 interface NavbarClientProps {
   dict?: any;
-  locale: Locale;
+  
   user: any;
   isAdmin: boolean;
 }
 
-export default function NavbarClient({ dict, locale, user, isAdmin }: NavbarClientProps) {
+export default function NavbarClient({ dict, user, isAdmin }: NavbarClientProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
