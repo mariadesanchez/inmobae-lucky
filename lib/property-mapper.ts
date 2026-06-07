@@ -88,6 +88,7 @@ export const mapDbRowToProperty = (row: any, locale: string = 'en'): Property =>
     type: row.status === 'rent' ? 'rent' : 'sale',
     is_new: row.category === 'new',
     created_at: '',
+    date_entry: row.date_entry || '',
     is_featured: !!row.is_featured,
     slug,
     images

@@ -9,6 +9,7 @@ export interface Property {
   sqft: number;
   type: 'sale' | 'rent';
   isNew?: boolean;
+  date_entry?: string;
 }
 
 export interface Collection {
@@ -22,6 +23,7 @@ export interface Collection {
   sqft: number;
   tag: string;
   slug?: string;
+  date_entry?: string;
 }
 
 

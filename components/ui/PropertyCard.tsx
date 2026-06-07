@@ -11,6 +11,15 @@ interface PropertyCardProps {
 }
 
 const PropertyCard = ({ property, dict }: PropertyCardProps) => {
+  const isNewThisMonth = () => {
+    if (!property.date_entry) return false;
+    const entryDate = new Date(property.date_entry);
+    const now = new Date();
+    return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
+  };
+
+  const isNew = isNewThisMonth();
+
   return (
     <Link href={`/propiedades/${property.slug}`} className="block h-full group">
       <article className="bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 cursor-pointer h-full flex flex-col">
@@ -36,6 +45,13 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
               favorite_border
             </span>
           </button>
+
+          {/* New Badge */}
+          {isNew && (
+            <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow-md z-10 uppercase tracking-wider">
+              {dict?.property?.new || 'Nueva'}
+            </div>
+          )}
 
           {/* Type Tag */}
           <div

@@ -12,6 +12,7 @@ export interface Property {
   type: PropertyType;
   is_new: boolean;
   created_at: string;
+  date_entry?: string;
   is_featured?: boolean;
   slug: string;
   images: string[];

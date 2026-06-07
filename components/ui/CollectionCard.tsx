@@ -11,6 +11,15 @@ interface CollectionCardProps {
 }
 
 const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
+  const isNewThisMonth = () => {
+    if (!collection.date_entry) return false;
+    const entryDate = new Date(collection.date_entry);
+    const now = new Date();
+    return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
+  };
+
+  const isNew = isNewThisMonth();
+
   return (
     <Link href={`/propiedades/${collection.slug || ''}`} className="block group relative rounded-xl overflow-hidden shadow-soft bg-white cursor-pointer">
       {/* Image Container */}
@@ -24,9 +33,16 @@ const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
         />
 
         {/* Tag */}
-        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-argentina-navy z-10">
+        <div className="absolute top-4 right-16 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-argentina-navy z-10">
           {collection.tag}
         </div>
+
+        {/* New Badge */}
+        {isNew && (
+          <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10 uppercase tracking-wider">
+            {dict?.property?.new || 'Nueva'}
+          </div>
+        )}
 
         {/* Favorite Button */}
         <button 
