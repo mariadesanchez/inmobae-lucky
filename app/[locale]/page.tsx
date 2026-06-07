@@ -32,6 +32,18 @@ export default async function Home({ params, searchParams }: HomePageProps) {
   const to = from + PAGE_SIZE - 1;
 
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let favoriteIds = new Set<string>();
+  if (user) {
+    const { data: favs } = await supabase
+      .from('user_favorites')
+      .select('property_id')
+      .eq('user_id', user.id);
+    if (favs) {
+      favs.forEach(f => favoriteIds.add(String(f.property_id)));
+    }
+  }
 
   // Build query with filters — only show active properties publicly
   let query = supabase
@@ -70,7 +82,11 @@ export default async function Home({ params, searchParams }: HomePageProps) {
 
   const { data: propertiesData, count } = await query.range(from, to);
 
-  const mappedProperties = (propertiesData ?? []).map(row => mapDbRowToProperty(row, locale));
+  const mappedProperties = (propertiesData ?? []).map(row => {
+    const prop = mapDbRowToProperty(row, locale);
+    prop.isFavorite = favoriteIds.has(String(prop.id));
+    return prop;
+  });
 
   // Check if any filter is active (for UI feedback)
   const hasActiveFilters = !!(location || minPrice || maxPrice || (type && type !== 'Any Type') || beds || baths);

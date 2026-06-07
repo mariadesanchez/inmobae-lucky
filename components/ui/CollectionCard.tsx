@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Collection } from '@/data/mockData';
+import FavoriteButton from './FavoriteButton';
 
 
 interface CollectionCardProps {
@@ -40,17 +41,7 @@ const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
         )}
 
         {/* Favorite Button */}
-        <button 
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-argentina-navy hover:bg-argentina-blue hover:text-white transition-all z-10"
-        >
-          <span className="material-icons text-xl font-material-icons">
-            favorite_border
-          </span>
-        </button>
+        <FavoriteButton propertyId={collection.id} initialIsFavorite={collection.isFavorite} className="top-4 right-4" />
 
         {/* Gradient Overlay */}
         <div className="absolute bottom-0 inset-x-0 h-1/2 bg-linear-to-t from-black/60 to-transparent opacity-60"></div>

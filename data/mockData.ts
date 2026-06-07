@@ -10,6 +10,7 @@ export interface Property {
   type: 'sale' | 'rent';
   isNew?: boolean;
   date_entry?: string;
+  isFavorite?: boolean;
 }
 
 export interface Collection {
@@ -24,6 +25,7 @@ export interface Collection {
   tag: string;
   slug?: string;
   date_entry?: string;
+  isFavorite?: boolean;
 }
 
 

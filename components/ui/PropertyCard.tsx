@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Property } from '@/types/property';
+import FavoriteButton from './FavoriteButton';
 
 
 interface PropertyCardProps {
@@ -34,17 +35,7 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
           />
 
           {/* Favorite Button */}
-          <button 
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-argentina-blue hover:text-white transition-colors text-argentina-navy z-10"
-          >
-            <span className="material-icons text-lg font-material-icons">
-              favorite_border
-            </span>
-          </button>
+          <FavoriteButton propertyId={property.id} initialIsFavorite={property.isFavorite} />
 
           {/* New Badge */}
           {isNew && (

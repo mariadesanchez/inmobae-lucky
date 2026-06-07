@@ -14,6 +14,7 @@ export interface Property {
   created_at: string;
   date_entry?: string;
   is_featured?: boolean;
+  isFavorite?: boolean;
   slug: string;
   images: string[];
 }

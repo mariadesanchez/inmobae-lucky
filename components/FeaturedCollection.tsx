@@ -9,6 +9,18 @@ import { Locale } from '@/i18n-config';
 
 const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?: string }) => {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let favoriteIds = new Set<string>();
+  if (user) {
+    const { data: favs } = await supabase
+      .from('user_favorites')
+      .select('property_id')
+      .eq('user_id', user.id);
+    if (favs) {
+      favs.forEach(f => favoriteIds.add(String(f.property_id)));
+    }
+  }
 
   const { data: properties } = await supabase
     .from('properties')
@@ -32,6 +44,7 @@ const FeaturedCollection = async ({ dict, locale = 'en' }: { dict?: any; locale?
       tag: p.category === 'new' ? 'New Arrival' : 'Exclusive',
       slug: prop.slug,
       date_entry: prop.date_entry,
+      isFavorite: favoriteIds.has(String(prop.id)),
     };
   });
 
