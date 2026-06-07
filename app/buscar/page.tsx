@@ -56,11 +56,8 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
     query = query.or(
       [
         `title.ilike.%${term}%`,
-        `title_es.ilike.%${term}%`,
-        `title_fr.ilike.%${term}%`,
         `location.ilike.%${term}%`,
-        `location_es.ilike.%${term}%`,
-        `location_fr.ilike.%${term}%`,
+        `description.ilike.%${term}%`,
       ].join(',')
     );
   }

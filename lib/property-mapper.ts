@@ -24,7 +24,7 @@ export const parsePrice = (priceVal: any): number => {
 
 export const mapDbRowToProperty = (row: any): Property => {
   const id = String(row.id || '');
-  const title = row.title_es || row.title || '';
+  const title = row.title || '';
   const generatedSlug = `${slugify(title)}-${id}`;
   const slug = row.slug || generatedSlug;
 
@@ -79,6 +79,7 @@ export const mapDbRowToProperty = (row: any): Property => {
   return {
     id,
     title,
+    description: row.description || '',
     location: row.location || '',
     price: parsePrice(row.price),
     image: images[0] || row.image || '',

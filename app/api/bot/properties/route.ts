@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   const supabase = getBotSupabase();
   let query = supabase
     .from('properties')
-    .select('id, title, title_es, location, price, status, category, beds, baths, area, is_active, images')
+    .select('id, title, description, location, price, status, category, beds, baths, area, is_active, images')
     .order('id', { ascending: false })
     .limit(limit);
 
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
   if (search) {
     query = query.or(
-      `title.ilike.%${search}%,title_es.ilike.%${search}%,location.ilike.%${search}%,location_es.ilike.%${search}%`
+      `title.ilike.%${search}%,location.ilike.%${search}%,description.ilike.%${search}%`
     );
   }
 
@@ -58,12 +58,9 @@ export async function POST(request: NextRequest) {
   const payload = {
     id: nextId,
     title: body.title || '',
-    title_es: body.title_es || body.title || '',
-    title_fr: body.title_fr || body.title || '',
+    description: body.description || '',
     price: parseFloat(body.price) || 0,
     location: body.location || '',
-    location_es: body.location_es || body.location || '',
-    location_fr: body.location_fr || body.location || '',
     latitude: body.latitude ? parseFloat(body.latitude) : null,
     longitude: body.longitude ? parseFloat(body.longitude) : null,
     category: ['new', 'market', 'featured'].includes(body.category) ? body.category : 'market',
@@ -99,10 +96,9 @@ export async function PATCH(request: NextRequest) {
   // Build update payload — only include fields that were sent
   const payload: Record<string, any> = {};
   if (updates.title !== undefined) payload.title = updates.title;
-  if (updates.title_es !== undefined) payload.title_es = updates.title_es;
+  if (updates.description !== undefined) payload.description = updates.description;
   if (updates.price !== undefined) payload.price = parseFloat(updates.price);
   if (updates.location !== undefined) payload.location = updates.location;
-  if (updates.location_es !== undefined) payload.location_es = updates.location_es;
   if (updates.beds !== undefined) payload.beds = parseInt(updates.beds);
   if (updates.baths !== undefined) payload.baths = parseInt(updates.baths);
   if (updates.area !== undefined) payload.area = parseInt(updates.area);

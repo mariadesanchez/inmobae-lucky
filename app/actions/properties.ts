@@ -52,12 +52,9 @@ export async function createProperty(data: any) {
   // Filter payload to only fields that exist in the DB currently
   const payload = {
     title: data.title || '',
-    title_es: data.title_es || '',
-    title_fr: data.title_fr || '',
+    description: data.description || '',
     price: parseFloat(data.price) || 0,
     location: data.location || '',
-    location_es: data.location_es || '',
-    location_fr: data.location_fr || '',
     latitude: data.latitude ? parseFloat(data.latitude) : null,
     longitude: data.longitude ? parseFloat(data.longitude) : null,
     category: ['new', 'market', 'featured'].includes(data.category) ? data.category : 'market',
@@ -132,12 +129,9 @@ export async function updateProperty(id: number, data: any) {
 
   const payload = {
     title: data.title,
-    title_es: data.title_es,
-    title_fr: data.title_fr,
+    description: data.description,
     price: parseFloat(data.price) || 0,
     location: data.location,
-    location_es: data.location_es,
-    location_fr: data.location_fr,
     latitude: data.latitude ? parseFloat(data.latitude) : null,
     longitude: data.longitude ? parseFloat(data.longitude) : null,
     category: ['new', 'market', 'featured'].includes(data.category) ? data.category : 'market',

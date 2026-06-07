@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   let dbQuery = supabase
     .from('properties')
-    .select('id, title, title_es, location, location_es, price, status, category, beds, baths, area, images, latitude, longitude')
+    .select('id, title, description, location, price, status, category, beds, baths, area, images, latitude, longitude')
     .eq('is_active', true)
     .order('id', { ascending: false })
     .limit(limit);
@@ -37,9 +37,8 @@ export async function POST(request: NextRequest) {
     dbQuery = dbQuery.or(
       [
         `title.ilike.%${term}%`,
-        `title_es.ilike.%${term}%`,
         `location.ilike.%${term}%`,
-        `location_es.ilike.%${term}%`,
+        `description.ilike.%${term}%`,
       ].join(',')
     );
   }
@@ -50,9 +49,8 @@ export async function POST(request: NextRequest) {
     dbQuery = dbQuery.or(
       [
         `title.ilike.%${term}%`,
-        `title_es.ilike.%${term}%`,
         `location.ilike.%${term}%`,
-        `location_es.ilike.%${term}%`,
+        `description.ilike.%${term}%`,
       ].join(',')
     );
   }
@@ -71,15 +69,15 @@ export async function POST(request: NextRequest) {
   // Format for bot response
   const results = (data || []).map((p: any) => ({
     id: p.id,
-    title: p.title_es || p.title,
-    location: p.location_es || p.location,
+    title: p.title,
+    location: p.location,
     price: p.price,
     status: p.status === 'rent' ? 'Alquiler' : 'Venta',
     beds: p.beds,
     baths: p.baths,
     area: p.area,
     image: p.images?.[0] || null,
-    url: `/es/propiedades/${p.id}`,
+    url: `/propiedades/${p.id}`,
   }));
 
   return NextResponse.json({

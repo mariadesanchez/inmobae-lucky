@@ -22,24 +22,17 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  const [activeLang, setActiveLang] = useState<Language>('en');
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<string[]>(initialData?.images || []);
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const [formData, setFormData] = useState({
-    title_en: initialData?.title || '',
-    title_es: initialData?.title_es || '',
-    title_fr: initialData?.title_fr || '',
-    description_en: '',
-    description_es: '',
-    description_fr: '',
+    title: initialData?.title || '',
+    description: initialData?.description || '',
     price: initialData?.price || '',
     status: initialData?.status || 'for-sale',
     category: initialData?.category || 'apartment',
-    location_en: initialData?.location || '',
-    location_es: initialData?.location_es || '',
-    location_fr: initialData?.location_fr || '',
+    location: initialData?.location || '',
     latitude: initialData?.latitude || '',
     longitude: initialData?.longitude || '',
     area: initialData?.area || '',
@@ -115,13 +108,10 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
     
     try {
       const payload = {
-        title: formData.title_en,
-        title_es: formData.title_es,
-        title_fr: formData.title_fr,
+        title: formData.title,
+        description: formData.description,
         price: formData.price,
-        location: formData.location_en,
-        location_es: formData.location_es,
-        location_fr: formData.location_fr,
+        location: formData.location,
         latitude: formData.latitude,
         longitude: formData.longitude,
         category: formData.category,
@@ -146,10 +136,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
     }
   };
 
-  const currentTitleKey = `title_${activeLang}` as keyof typeof formData;
-  const currentDescKey = `description_${activeLang}` as keyof typeof formData;
-  const currentLocationKey = `location_${activeLang}` as keyof typeof formData;
-
+      {/* Main Form Area */}
   return (
     <form onSubmit={handleSave} className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
       {/* Header Actions for Mobile */}
@@ -170,45 +157,26 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         </button>
       </div>
 
-      {/* Main Form Area */}
       <div className="xl:col-span-8 space-y-8 pb-20 xl:pb-0">
         
-        {/* Language Tabs */}
-        <div className="flex bg-white rounded-xl shadow-sm border border-gray-100 p-1 w-max">
-          {(['en', 'es', 'fr'] as Language[]).map(lang => (
-            <button
-              key={lang}
-              type="button"
-              onClick={() => setActiveLang(lang)}
-              className={`px-6 py-2 rounded-lg text-sm font-bold uppercase tracking-wider transition-colors ${
-                activeLang === lang 
-                  ? 'bg-argentina-blue text-white shadow-sm' 
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-argentina-navy'
-              }`}
-            >
-              {lang}
-            </button>
-          ))}
-        </div>
-
         {/* Basic Information */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-8 py-6 border-b border-hint-green/30 flex items-center gap-3 bg-gradient-to-r from-hint-green/10 to-transparent">
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">info</span>
             </div>
-            <h2 className="text-xl font-bold text-argentina-navy">Basic Information ({activeLang.toUpperCase()})</h2>
+            <h2 className="text-xl font-bold text-argentina-navy">Basic Information</h2>
           </div>
           <div className="p-8 space-y-6">
             <div className="group">
-              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor={currentTitleKey}>
+              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="title">
                 Property Title <span className="text-red-500">*</span>
               </label>
               <input 
-                id={currentTitleKey}
+                id="title"
                 type="text" 
                 required
-                value={formData[currentTitleKey] as string}
+                value={formData.title}
                 onChange={handleInputChange}
                 className="w-full text-base px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all font-sf-pro outline-none" 
                 placeholder="e.g. Modern Penthouse with Ocean View" 
@@ -269,7 +237,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">description</span>
             </div>
-            <h2 className="text-xl font-bold text-argentina-navy">Description ({activeLang.toUpperCase()})</h2>
+            <h2 className="text-xl font-bold text-argentina-navy">Description</h2>
           </div>
           <div className="p-8">
             <div className="mb-3 flex gap-2 border-b border-gray-100 pb-2">
@@ -278,8 +246,8 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
               <button type="button" className="p-1.5 text-gray-400 hover:text-argentina-navy hover:bg-gray-50 rounded transition-colors"><span className="material-icons text-lg">format_list_bulleted</span></button>
             </div>
             <textarea 
-              id={currentDescKey}
-              value={formData[currentDescKey] as string}
+              id="description"
+              value={formData.description}
               onChange={handleInputChange}
               className="w-full px-4 py-3 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro leading-relaxed resize-y min-h-[200px] outline-none" 
               placeholder="Describe the property features, neighborhood, and unique selling points..."
@@ -380,15 +348,15 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">place</span>
             </div>
-            <h2 className="text-lg font-bold text-argentina-navy">Location ({activeLang.toUpperCase()})</h2>
+            <h2 className="text-lg font-bold text-argentina-navy">Location</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor={currentLocationKey}>Address</label>
+              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="location">Address</label>
               <input 
-                id={currentLocationKey}
+                id="location"
                 type="text" 
-                value={formData[currentLocationKey] as string}
+                value={formData.location}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-sm font-sf-pro outline-none" 
                 placeholder="Street Address, City, Zip" 
