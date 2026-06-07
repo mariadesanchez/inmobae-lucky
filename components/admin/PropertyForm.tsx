@@ -505,13 +505,13 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div>
               <h3 className="font-bold mb-3 font-sf-pro uppercase tracking-wider text-xs text-gray-500">Características y Comodidades</h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <h4 className="font-semibold text-sm text-argentina-navy mb-2">Propiedad</h4>
                   <div className="space-y-2">
                     {['Amoblado', 'Permite Mascotas', 'Apto profesional'].map(f => (
-                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
-                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                      <label key={f} className="flex items-start gap-2.5 cursor-pointer group">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 mt-0.5 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue flex-shrink-0" />
                         <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
                       </label>
                     ))}
@@ -522,8 +522,8 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                   <h4 className="font-semibold text-sm text-argentina-navy mb-2">Ambientes</h4>
                   <div className="space-y-2">
                     {['Cocina', 'Balcón', 'Living', 'Terraza', 'Jardín', 'Patio', 'Toilette', 'Dormitorio en suite', 'Oficina'].map(f => (
-                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
-                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                      <label key={f} className="flex items-start gap-2.5 cursor-pointer group">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 mt-0.5 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue flex-shrink-0" />
                         <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
                       </label>
                     ))}
@@ -534,8 +534,8 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                   <h4 className="font-semibold text-sm text-argentina-navy mb-2">Servicios</h4>
                   <div className="space-y-2">
                     {['Agua Corriente', 'Luz', 'Gas natural', 'Wifi / Internet', 'Calefaccion'].map(f => (
-                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
-                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                      <label key={f} className="flex items-start gap-2.5 cursor-pointer group">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 mt-0.5 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue flex-shrink-0" />
                         <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
                       </label>
                     ))}
@@ -546,8 +546,8 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                   <h4 className="font-semibold text-sm text-argentina-navy mb-2">Comodidades</h4>
                   <div className="space-y-2">
                     {['Pileta', 'Parrilla', 'Seguridad', 'Ascensor', 'Aire acondicionado', 'SUM', 'Lavadero'].map(f => (
-                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
-                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                      <label key={f} className="flex items-start gap-2.5 cursor-pointer group">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 mt-0.5 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue flex-shrink-0" />
                         <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
                       </label>
                     ))}
