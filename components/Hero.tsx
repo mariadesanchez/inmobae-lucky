@@ -119,6 +119,14 @@ const HeroInner = ({ dict }: { dict?: any }) => {
                 <span className="material-icons font-bold text-xl">search</span>
               </button>
             </div>
+            {/* Filter Button */}
+            <button
+              onClick={() => setFiltersOpen(true)}
+              className="h-12 px-4 border border-gray-300 rounded bg-white text-gray-700 font-medium hover:border-argentina-blue hover:text-argentina-blue transition-all flex items-center gap-2 flex-shrink-0"
+            >
+              <span className="material-icons text-[20px]">tune</span>
+              <span className="hidden sm:inline">Más Filtros</span>
+            </button>
           </div>
 
         </div>
