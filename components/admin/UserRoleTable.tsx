@@ -20,7 +20,7 @@ interface UserRoleTableProps {
 export default function UserRoleTable({ users, currentUserId }: UserRoleTableProps) {
   const [isPending, startTransition] = useTransition();
   const [optimisticUsers, setOptimisticUsers] = useState(users);
-  const [errorId, setErrorId] = useState<string | null>(null);
+  const [errorModal, setErrorModal] = useState<{ isOpen: boolean; message: string } | null>(null);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     userId: string;
@@ -47,20 +47,17 @@ export default function UserRoleTable({ users, currentUserId }: UserRoleTablePro
     setOptimisticUsers(current => 
       current.map(u => u.id === userId ? { ...u, role: newRole } : u)
     );
-    setErrorId(null);
 
     startTransition(async () => {
       try {
         const result = await updateUserRole(userId, newRole);
         if (result && result.error) {
-          alert(result.error);
-          setErrorId(userId);
+          setErrorModal({ isOpen: true, message: result.error });
           setOptimisticUsers(users); // Revert on error
         }
       } catch (e: any) {
         console.error(e);
-        alert(e.message || 'An unexpected error occurred');
-        setErrorId(userId);
+        setErrorModal({ isOpen: true, message: e.message || 'An unexpected error occurred' });
         // Revert on error
         setOptimisticUsers(users);
       }
@@ -125,9 +122,6 @@ export default function UserRoleTable({ users, currentUserId }: UserRoleTablePro
 
           {/* Actions */}
           <div className="col-span-12 md:col-span-2 w-full flex justify-end relative items-center gap-2">
-            {errorId === user.id && (
-              <span className="text-red-500 text-xs material-icons" title="Update failed">error</span>
-            )}
             <select
               value={user.role}
               onChange={(e) => handleDropdownChange(user, e.target.value as 'admin' | 'user')}
@@ -178,6 +172,29 @@ export default function UserRoleTable({ users, currentUserId }: UserRoleTablePro
                 className="px-5 py-2.5 rounded-lg bg-argentina-blue hover:bg-argentina-blue/90 text-white font-medium shadow-md transition-colors flex-1 flex items-center justify-center gap-2 font-sf-pro text-sm"
               >
                 Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {errorModal?.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-argentina-navy/40 backdrop-blur-sm transition-opacity">
+          <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 transform transition-all text-center border border-gray-100">
+            <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="material-icons text-3xl">error_outline</span>
+            </div>
+            <h3 className="text-xl font-bold text-argentina-navy mb-2 font-sf-pro">Acción Denegada</h3>
+            <p className="text-gray-500 text-sm mb-6 font-sf-pro">
+              {errorModal.message}
+            </p>
+            <div className="flex justify-center">
+              <button 
+                onClick={() => setErrorModal(null)}
+                className="px-5 py-2.5 rounded-lg bg-argentina-blue hover:bg-argentina-blue/90 text-white font-medium shadow-md transition-colors w-full font-sf-pro text-sm"
+              >
+                Entendido
               </button>
             </div>
           </div>
