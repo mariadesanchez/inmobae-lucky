@@ -68,25 +68,11 @@ export default function AdminNavbar({ user }: AdminNavbarProps) {
               <span className="material-icons text-[18px]">people</span>
               Users
             </Link>
-            <Link 
-              href={``}
-              className="text-argentina-navy/60 dark:text-gray-400 hover:text-argentina-blue hover:bg-argentina-navy/5 px-4 py-2 text-sm font-medium rounded-t-lg transition-colors flex items-center gap-1"
-            >
-              Main Site
-              <span className="material-icons text-[14px]">open_in_new</span>
-            </Link>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="hidden sm:block text-argentina-navy/60 dark:text-gray-400 hover:text-argentina-blue transition-colors">
-            <span className="material-symbols-outlined text-xl">search</span>
-          </button>
-          <button className="hidden sm:block text-argentina-navy/60 dark:text-gray-400 hover:text-argentina-blue transition-colors relative">
-            <span className="material-symbols-outlined text-xl">notifications</span>
-            <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#152e2a]"></span>
-          </button>
-          
+
           <div className="flex items-center gap-3 pl-4 ml-2 border-l border-argentina-navy/10 dark:border-white/10" ref={dropdownRef}>
             <div className="flex flex-col items-end hidden sm:flex">
               <span className="text-sm font-semibold text-argentina-navy dark:text-white">{name}</span>
