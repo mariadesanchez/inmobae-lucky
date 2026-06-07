@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, Suspense } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import FiltersModal from './FiltersModal';
 
 const CATEGORY_FILTERS = [
-  { id: 'All', key: 'any', label: 'Todas' },
+  { id: 'All', key: 'any', label: 'Tipo de propiedad' },
   { id: 'House', key: 'house', label: 'Casas' },
   { id: 'Apartment', key: 'apartment', label: 'Departamentos' },
   { id: 'Villa', key: 'villa', label: 'Villas' },
@@ -14,21 +14,20 @@ const CATEGORY_FILTERS = [
 
 const HeroInner = ({ dict }: { dict?: any }) => {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   
   const [isFiltersOpen, setFiltersOpen] = useState(false);
   const [searchText, setSearchText] = useState(searchParams.get('location') ?? '');
   const [activeCategory, setActiveCategory] = useState(searchParams.get('type') ?? 'All');
-  const [activeOperation, setActiveOperation] = useState('Venta');
+  const [activeOperation, setActiveOperation] = useState('Comprar');
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (searchText.trim()) params.set('location', searchText.trim());
     if (activeCategory !== 'All') params.set('type', activeCategory);
-    // You can extend the API to filter by operation later
+    params.set('operation', activeOperation);
     params.set('page', '1');
-    router.push(`${pathname}?${params.toString()}#propiedades`);
+    router.push(`/buscar?${params.toString()}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -42,62 +41,82 @@ const HeroInner = ({ dict }: { dict?: any }) => {
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2000')" }}
       />
-      <div className="absolute inset-0 z-0 bg-black/40" />
+      <div className="absolute inset-0 z-0 bg-black/30" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 flex flex-col items-center gap-4 mt-16">
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-4 flex flex-col items-center justify-center">
         
-        {/* Search Bar Container */}
-        <div className="w-full max-w-5xl bg-white rounded-xl sm:rounded-sm shadow-2xl flex flex-col sm:flex-row overflow-hidden border border-white/20">
+        {/* Floating Box Container */}
+        <div className="w-full bg-white rounded-lg shadow-2xl p-4 sm:p-6 sm:pb-8 flex flex-col gap-4 sm:gap-6 mt-16">
           
-          {/* Operation Type */}
-          <div className="flex-1 border-b sm:border-b-0 sm:border-r border-gray-200">
-            <select 
-              value={activeOperation}
-              onChange={(e) => setActiveOperation(e.target.value)}
-              className="w-full h-full min-h-[60px] px-6 bg-transparent text-gray-700 font-medium outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+')] bg-no-repeat bg-[position:calc(100%-1rem)_center] bg-[length:1em]"
-            >
-              <option value="Venta">Venta</option>
-              <option value="Alquiler">Alquiler</option>
-              <option value="Comercial">Comercial</option>
-            </select>
-          </div>
-
-          {/* Property Type */}
-          <div className="flex-1 border-b sm:border-b-0 sm:border-r border-gray-200">
-            <select 
-              value={activeCategory}
-              onChange={(e) => setActiveCategory(e.target.value)}
-              className="w-full h-full min-h-[60px] px-6 bg-transparent text-gray-700 font-medium outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+')] bg-no-repeat bg-[position:calc(100%-1rem)_center] bg-[length:1em]"
-            >
-              {CATEGORY_FILTERS.map(cat => (
-                <option key={cat.id} value={cat.id}>{cat.label}</option>
+          {/* Top Row: Tabs and Button */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-200 pb-2 gap-4">
+            {/* Tabs */}
+            <div className="flex items-center gap-6 text-sm font-bold text-gray-400 overflow-x-auto hide-scroll">
+              {['COMPRAR', 'ALQUILAR', 'VENDER'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveOperation(tab === 'COMPRAR' ? 'Venta' : tab === 'ALQUILAR' ? 'Alquiler' : 'Comercial')}
+                  className={`pb-2 relative whitespace-nowrap transition-colors ${
+                    (activeOperation === 'Venta' && tab === 'COMPRAR') ||
+                    (activeOperation === 'Alquiler' && tab === 'ALQUILAR') ||
+                    (activeOperation === 'Comercial' && tab === 'VENDER')
+                      ? 'text-[#F97316]' 
+                      : 'hover:text-gray-700'
+                  }`}
+                >
+                  {tab}
+                  {((activeOperation === 'Venta' && tab === 'COMPRAR') ||
+                    (activeOperation === 'Alquiler' && tab === 'ALQUILAR') ||
+                    (activeOperation === 'Comercial' && tab === 'VENDER')) && (
+                    <span className="absolute bottom-[-9px] left-0 right-0 h-[2px] bg-[#F97316]" />
+                  )}
+                </button>
               ))}
-            </select>
+            </div>
+
+            {/* Emprendimientos Button */}
+            <button className="px-5 py-2 bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold rounded shadow-sm transition-colors uppercase whitespace-nowrap self-start sm:self-auto">
+              Emprendimientos
+            </button>
           </div>
 
-          {/* Location Input */}
-          <div className="flex-[2] relative">
-            <input
-              type="text"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Ingresa Ubicación, Asesor, Oficina, ID"
-              className="w-full h-full min-h-[60px] pl-6 pr-12 bg-transparent text-gray-800 placeholder-gray-400 font-medium outline-none"
-            />
+          {/* Bottom Row: Search Inputs */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Property Type Select */}
+            <div className="sm:w-1/3 relative">
+              <select 
+                value={activeCategory}
+                onChange={(e) => setActiveCategory(e.target.value)}
+                className="w-full h-12 px-4 border border-gray-300 rounded text-gray-700 font-medium outline-none focus:border-[#F97316] focus:ring-1 focus:ring-[#F97316] transition-all cursor-pointer appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+')] bg-no-repeat bg-[position:calc(100%-1rem)_center] bg-[length:1em]"
+              >
+                {CATEGORY_FILTERS.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Location Input and Search Button */}
+            <div className="flex-1 flex border border-gray-300 rounded overflow-hidden focus-within:border-[#F97316] focus-within:ring-1 focus-within:ring-[#F97316] transition-all bg-white h-12">
+              <input
+                type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Ingresá localidades o barrios"
+                className="flex-1 px-4 h-full bg-transparent text-gray-800 placeholder-gray-400 font-medium outline-none"
+              />
+              <button
+                onClick={handleSearch}
+                className="w-12 h-full bg-[#F97316] hover:bg-[#EA580C] text-white transition-colors flex items-center justify-center flex-shrink-0"
+                aria-label="Buscar"
+              >
+                <span className="material-icons font-bold text-xl">search</span>
+              </button>
+            </div>
           </div>
 
-          {/* Search Button */}
-          <button
-            onClick={handleSearch}
-            className="min-h-[60px] w-full sm:w-[80px] bg-[#C8B17A] hover:bg-[#b09b67] text-black transition-colors flex items-center justify-center"
-            aria-label="Buscar"
-          >
-            <span className="material-icons font-bold text-2xl">search</span>
-          </button>
         </div>
-
       </div>
 
       {/* Filters Modal */}
