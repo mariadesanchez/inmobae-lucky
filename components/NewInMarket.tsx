@@ -23,29 +23,6 @@ const NewInMarket = ({
 
   return (
     <section>
-      <div className="flex items-end justify-between mb-8">
-        <div>
-          <h2 className="text-2xl font-light text-argentina-navy">
-            {hasActiveFilters ? (dict?.searchResults || 'Search Results') : (dict?.newInMarket || 'New in Market')}
-          </h2>
-          <p className="text-argentina-navy-muted mt-1 text-sm">
-            {hasActiveFilters
-              ? (dict?.found ? dict.found.replace('{count}', totalCount.toString()) : `${totalCount} properties found`)
-              : (dict?.fresh || 'Fresh opportunities added this week.')}
-          </p>
-        </div>
-        <div className="hidden md:flex bg-white p-1 rounded-lg">
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium bg-argentina-navy text-white shadow-sm">
-            All
-          </button>
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-argentina-navy-muted hover:text-argentina-navy">
-            Buy
-          </button>
-          <button className="px-4 py-1.5 rounded-md text-sm font-medium text-argentina-navy-muted hover:text-argentina-navy">
-            Rent
-          </button>
-        </div>
-      </div>
 
       {properties.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
