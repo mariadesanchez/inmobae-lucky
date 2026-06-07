@@ -19,13 +19,21 @@ interface HomePageProps {
     status?: string;
     beds?: string;
     baths?: string;
+    parking?: string;
+    minArea?: string;
+    maxArea?: string;
+    age?: string;
+    disposition?: string;
+    featuredStatus?: string;
+    datePublished?: string;
+    amenities?: string;
   }>;
 }
 
 export default async function BuscarPage({ params, searchParams }: HomePageProps) {
   
   const dict = await getDictionary();
-  const { page, location, minPrice, maxPrice, type, status, beds, baths } = await searchParams;
+  const { page, location, minPrice, maxPrice, type, status, beds, baths, parking, minArea, maxArea, age, disposition, featuredStatus, datePublished, amenities } = await searchParams;
   const currentPage = Math.max(1, parseInt(page ?? '1', 10));
   const from = (currentPage - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
@@ -77,9 +85,41 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
     query = query.eq('status', status);
   }
 
-  // Beds & Baths — minimum count
+  // Beds & Baths & Parking — minimum count
   if (beds && Number(beds) > 0) query = query.gte('beds', Number(beds));
   if (baths && Number(baths) > 0) query = query.gte('baths', Number(baths));
+  if (parking && Number(parking) > 0) query = query.gte('parking', Number(parking));
+
+  // Area
+  if (minArea && Number(minArea) > 0) query = query.gte('area', Number(minArea));
+  if (maxArea && Number(maxArea) < 10000) query = query.lte('area', Number(maxArea));
+
+  // Exact Matches
+  if (age && age !== 'Cualquiera') query = query.eq('age', age);
+  if (disposition && disposition !== 'Cualquiera') query = query.eq('disposition', disposition);
+
+  // Featured Status
+  if (featuredStatus === 'Destacadas') query = query.eq('is_featured', true);
+  if (featuredStatus === 'Comunes') query = query.eq('is_featured', false);
+
+  // Date Published
+  if (datePublished && datePublished !== 'Cualquiera') {
+    const date = new Date();
+    if (datePublished === 'Hoy') date.setDate(date.getDate() - 1);
+    if (datePublished === 'Última semana') date.setDate(date.getDate() - 7);
+    if (datePublished === 'Últimos 15 días') date.setDate(date.getDate() - 15);
+    if (datePublished === 'Últimos 30 días') date.setDate(date.getDate() - 30);
+    if (datePublished === 'Últimos 45 días') date.setDate(date.getDate() - 45);
+    query = query.gte('created_at', date.toISOString());
+  }
+
+  // Amenities
+  if (amenities) {
+    const amenitiesArray = amenities.split(',').filter(Boolean);
+    if (amenitiesArray.length > 0) {
+      query = query.contains('features', amenitiesArray);
+    }
+  }
 
   const { data: propertiesData, count } = await query.range(from, to);
 
@@ -90,7 +130,7 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
   });
 
   // Check if any filter is active (for UI feedback)
-  const hasActiveFilters = !!(location || minPrice || maxPrice || (type && type !== 'Any Type') || beds || baths);
+  const hasActiveFilters = !!(location || minPrice || maxPrice || (type && type !== 'Todos' && type !== 'Any Type') || beds || baths || parking || minArea || (maxArea && Number(maxArea) < 10000) || (age && age !== 'Cualquiera') || (disposition && disposition !== 'Cualquiera') || (featuredStatus && featuredStatus !== 'Todas') || (datePublished && datePublished !== 'Cualquiera') || amenities);
 
   return (
     <>

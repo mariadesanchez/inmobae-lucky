@@ -89,11 +89,15 @@ export const mapDbRowToProperty = (row: any): Property => {
     type: row.type || 'Departamento',
     status: row.status === 'alquilar' ? 'alquilar' : 'comprar',
     is_new: false,
-    created_at: '',
+    created_at: row.created_at || '',
     date_entry: row.date_entry || '',
     is_featured: !!row.is_featured,
     slug,
-    images
+    images,
+    features: Array.isArray(row.features) ? row.features : [],
+    parking: typeof row.parking === 'number' ? row.parking : parseInt(row.parking) || 0,
+    age: row.age || 'A estrenar',
+    disposition: row.disposition || 'Frente'
   };
 };
 

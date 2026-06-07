@@ -39,30 +39,24 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
     year: '',
     beds: initialData?.beds || 3,
     baths: initialData?.baths || 2,
-    parking: 1,
-    amenities: {
-      pool: false,
-      garden: true,
-      ac: false,
-      smart: false
-    }
+    parking: initialData?.parking || 0,
+    age: initialData?.age || 'A estrenar',
+    disposition: initialData?.disposition || 'Frente',
+    features: initialData?.features || [] as string[]
   });
+
+  const handleFeatureToggle = (feature: string) => {
+    setFormData(prev => ({
+      ...prev,
+      features: prev.features.includes(feature)
+        ? prev.features.filter((f: string) => f !== feature)
+        : [...prev.features, feature]
+    }));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { id, value, type } = e.target;
-    
-    // Handle checkboxes
-    if (type === 'checkbox') {
-      const checked = (e.target as HTMLInputElement).checked;
-      setFormData(prev => ({
-        ...prev,
-        amenities: {
-          ...prev.amenities,
-          [id.replace('amenity-', '')]: checked
-        }
-      }));
-      return;
-    }
+    if (type === 'checkbox') return;
 
     setFormData(prev => ({ ...prev, [id]: value }));
   };
@@ -118,7 +112,11 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         status: formData.status,
         beds: formData.beds,
         baths: formData.baths,
+        parking: formData.parking,
         area: formData.area,
+        age: formData.age,
+        disposition: formData.disposition,
+        features: formData.features,
         images: images,
       };
 
@@ -234,6 +232,36 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                   <option value="Fondo de Comercio">Fondo de Comercio</option>
                   <option value="Chacra">Chacra</option>
                   <option value="Hotel">Hotel</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="age">Antigüedad</label>
+                <select 
+                  id="age"
+                  value={formData.age}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro cursor-pointer outline-none"
+                >
+                  <option value="En construcción">En construcción</option>
+                  <option value="A estrenar">A estrenar</option>
+                  <option value="Hasta 5 años">Hasta 5 años</option>
+                  <option value="Hasta 10 años">Hasta 10 años</option>
+                  <option value="Hasta 20 años">Hasta 20 años</option>
+                  <option value="Más de 30 años">Más de 30 años</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="disposition">Disposición</label>
+                <select 
+                  id="disposition"
+                  value={formData.disposition}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro cursor-pointer outline-none"
+                >
+                  <option value="Frente">Frente</option>
+                  <option value="Contrafrente">Contrafrente</option>
+                  <option value="Lateral">Lateral</option>
+                  <option value="Interior">Interior</option>
                 </select>
               </div>
             </div>
@@ -475,24 +503,56 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <hr className="border-gray-100" />
             
             <div>
-              <h3 className="font-bold mb-3 font-sf-pro uppercase tracking-wider text-xs text-gray-500">Amenities</h3>
-              <div className="space-y-2">
-                <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-pool" type="checkbox" checked={formData.amenities.pool} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Swimming Pool</span>
-                </label>
-                <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-garden" type="checkbox" checked={formData.amenities.garden} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Garden</span>
-                </label>
-                <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-ac" type="checkbox" checked={formData.amenities.ac} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Air Conditioning</span>
-                </label>
-                <label className="flex items-center gap-2.5 cursor-pointer group w-max">
-                  <input id="amenity-smart" type="checkbox" checked={formData.amenities.smart} onChange={handleInputChange} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
-                  <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">Smart Home</span>
-                </label>
+              <h3 className="font-bold mb-3 font-sf-pro uppercase tracking-wider text-xs text-gray-500">Características y Comodidades</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div>
+                  <h4 className="font-semibold text-sm text-argentina-navy mb-2">Propiedad</h4>
+                  <div className="space-y-2">
+                    {['Amoblado', 'Permite Mascotas', 'Apto profesional'].map(f => (
+                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                        <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-sm text-argentina-navy mb-2">Ambientes</h4>
+                  <div className="space-y-2">
+                    {['Cocina', 'Balcón', 'Living', 'Terraza', 'Jardín', 'Patio', 'Toilette', 'Dormitorio en suite', 'Oficina'].map(f => (
+                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                        <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-sm text-argentina-navy mb-2">Servicios</h4>
+                  <div className="space-y-2">
+                    {['Agua Corriente', 'Luz', 'Gas natural', 'Wifi / Internet', 'Calefaccion'].map(f => (
+                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                        <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-sm text-argentina-navy mb-2">Comodidades</h4>
+                  <div className="space-y-2">
+                    {['Pileta', 'Parrilla', 'Seguridad', 'Ascensor', 'Aire acondicionado', 'SUM', 'Lavadero'].map(f => (
+                      <label key={f} className="flex items-center gap-2.5 cursor-pointer group w-max">
+                        <input type="checkbox" checked={formData.features.includes(f)} onChange={() => handleFeatureToggle(f)} className="w-4 h-4 text-argentina-blue border-gray-300 rounded focus:ring-argentina-blue" />
+                        <span className="text-sm text-gray-700 font-sf-pro group-hover:text-argentina-navy transition-colors">{f}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -67,7 +67,11 @@ export async function POST(request: NextRequest) {
     status: body.status === 'alquilar' ? 'alquilar' : 'comprar',
     beds: parseInt(body.beds) || 0,
     baths: parseInt(body.baths) || 0,
+    parking: parseInt(body.parking) || 0,
     area: parseInt(body.area) || 0,
+    age: body.age,
+    disposition: body.disposition,
+    features: Array.isArray(body.features) ? body.features : [],
     images: body.images || [],
     is_featured: body.is_featured || false,
     is_active: true,
@@ -101,9 +105,13 @@ export async function PATCH(request: NextRequest) {
   if (updates.location !== undefined) payload.location = updates.location;
   if (updates.beds !== undefined) payload.beds = parseInt(updates.beds);
   if (updates.baths !== undefined) payload.baths = parseInt(updates.baths);
+  if (updates.parking !== undefined) payload.parking = parseInt(updates.parking);
   if (updates.area !== undefined) payload.area = parseInt(updates.area);
   if (updates.status !== undefined) payload.status = updates.status;
   if (updates.type !== undefined) payload.type = updates.type;
+  if (updates.age !== undefined) payload.age = updates.age;
+  if (updates.disposition !== undefined) payload.disposition = updates.disposition;
+  if (updates.features !== undefined) payload.features = Array.isArray(updates.features) ? updates.features : [];
   if (updates.is_active !== undefined) payload.is_active = updates.is_active;
   if (updates.is_featured !== undefined) payload.is_featured = updates.is_featured;
   if (updates.latitude !== undefined) payload.latitude = updates.latitude ? parseFloat(updates.latitude) : null;

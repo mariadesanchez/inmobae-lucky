@@ -19,5 +19,9 @@ export interface Property {
   isFavorite?: boolean;
   slug: string;
   images: string[];
+  features?: string[];
+  parking?: number;
+  age?: string;
+  disposition?: string;
 }
 

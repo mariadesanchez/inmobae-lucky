@@ -61,7 +61,11 @@ export async function createProperty(data: any) {
     status: data.status === 'alquilar' ? 'alquilar' : 'comprar',
     beds: parseInt(data.beds) || 0,
     baths: parseInt(data.baths) || 0,
+    parking: parseInt(data.parking) || 0,
     area: parseInt(data.area) || 0,
+    age: data.age,
+    disposition: data.disposition,
+    features: Array.isArray(data.features) ? data.features : [],
     images: data.images || [],
     is_featured: data.is_featured || false,
   };
@@ -138,7 +142,11 @@ export async function updateProperty(id: number, data: any) {
     status: data.status === 'alquilar' ? 'alquilar' : 'comprar',
     beds: parseInt(data.beds) || 0,
     baths: parseInt(data.baths) || 0,
+    parking: parseInt(data.parking) || 0,
     area: parseInt(data.area) || 0,
+    age: data.age,
+    disposition: data.disposition,
+    features: Array.isArray(data.features) ? data.features : [],
     images: data.images,
   };
 
