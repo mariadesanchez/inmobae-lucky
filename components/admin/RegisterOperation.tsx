@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { registerOperation, undoOperation } from '@/app/actions/transactions';
+import { registerOperation, undoOperation, checkTransactionStatus } from '@/app/actions/transactions';
 import { useRouter } from 'next/navigation';
 
 interface RegisterOperationProps {
@@ -18,6 +18,7 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [errorModal, setErrorModal] = useState<{isOpen: boolean, message: string} | null>(null);
+  const [hasTransaction, setHasTransaction] = useState<boolean | null>(null);
   
   const [formData, setFormData] = useState({
     operation_type: status === 'alquilar' ? 'alquiler' : 'venta',
@@ -44,6 +45,14 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
     }
   }, [currentPrice]);
 
+  useEffect(() => {
+    async function checkStatus() {
+      const exists = await checkTransactionStatus(propertyId);
+      setHasTransaction(exists);
+    }
+    checkStatus();
+  }, [propertyId]);
+
   const handleSubmit = async (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     setLoading(true);
@@ -64,6 +73,7 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
         return;
       }
 
+      setHasTransaction(true);
       setSuccess(true);
       setTimeout(() => {
         router.push('/admin/properties');
@@ -88,6 +98,7 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
         return;
       }
 
+      setHasTransaction(false);
       setSuccess(true);
       setTimeout(() => {
         router.push('/admin/properties');
@@ -109,7 +120,45 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
       </div>
       
       <div className="p-6">
-        {success ? (
+        {hasTransaction === null ? (
+          <div className="flex justify-center p-8">
+            <div className="w-8 h-8 border-4 border-argentina-blue/20 border-t-argentina-blue rounded-full animate-spin"></div>
+          </div>
+        ) : hasTransaction ? (
+          <div className="space-y-4">
+            <div className="bg-red-50/50 border border-red-100 rounded-lg p-4 mb-4">
+              <div className="flex items-start gap-3">
+                <span className="material-icons text-red-500 mt-0.5">lock</span>
+                <div>
+                  <h4 className="text-red-800 font-medium text-sm">Operación ya registrada</h4>
+                  <p className="text-red-600 text-xs mt-1">
+                    Esta propiedad ya cuenta con una transacción registrada en el historial. 
+                    Si deseas volver a publicarla o registrar una nueva operación, primero debes deshacer la transacción actual.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              type="button"
+              onClick={handleUndo}
+              disabled={undoLoading}
+              className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 text-sm shadow-sm"
+            >
+              {undoLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                  Procesando...
+                </>
+              ) : (
+                <>
+                  <span className="material-icons text-[18px]">undo</span>
+                  Deshacer {formData.operation_type === 'venta' ? 'Venta' : 'Alquiler'}
+                </>
+              )}
+            </button>
+          </div>
+        ) : success ? (
           <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg flex items-center gap-3">
             <span className="material-icons">check_circle</span>
             <p className="font-medium text-sm">Operación registrada exitosamente. Redirigiendo...</p>
@@ -164,25 +213,25 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
               />
             </div>
 
-            <p className="text-xs text-gray-500 font-sf-pro bg-gray-50 p-3 rounded border border-gray-100">
-              <span className="font-semibold text-argentina-navy">Atención:</span> Al registrar la operación, esta propiedad cambiará su estado a "Inactiva" para que deje de mostrarse en el listado público.
-            </p>
+            <div className="bg-amber-50/50 border border-amber-100 rounded-lg p-4 mt-2">
+              <div className="flex items-start gap-3">
+                <span className="material-icons text-amber-500 mt-0.5 text-xl">info</span>
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  <strong className="font-medium text-amber-900">Atención:</strong> Al registrar la operación, esta propiedad cambiará su estado a "Inactiva" para que deje de mostrarse en el listado público.
+                </p>
+              </div>
+            </div>
 
             <button 
               type="button"
               onClick={handleSubmit}
-              disabled={loading || isActive === false}
+              disabled={loading}
               className="w-full bg-argentina-navy hover:bg-argentina-navy/90 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 text-sm"
             >
               {loading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                   Procesando...
-                </>
-              ) : isActive === false ? (
-                <>
-                  <span className="material-icons text-[18px]">lock</span>
-                  Operación ya registrada (Inactiva)
                 </>
               ) : (
                 <>
@@ -191,27 +240,6 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
                 </>
               )}
             </button>
-
-            {isActive === false && (
-              <button 
-                type="button"
-                onClick={handleUndo}
-                disabled={undoLoading}
-                className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 text-sm mt-3"
-              >
-                {undoLoading ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                    Procesando...
-                  </>
-                ) : (
-                  <>
-                    <span className="material-icons text-[18px]">undo</span>
-                    Deshacer {formData.operation_type === 'venta' ? 'Venta' : 'Alquiler'}
-                  </>
-                )}
-              </button>
-            )}
           </div>
         )}
       </div>

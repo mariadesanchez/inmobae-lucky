@@ -85,6 +85,17 @@ export async function undoOperation(propertyId: string) {
   return { success: true };
 }
 
+export async function checkTransactionStatus(propertyId: string): Promise<boolean> {
+  const adminSupabase = getAdminSupabase();
+  const { data } = await adminSupabase
+    .from('property_transactions')
+    .select('id')
+    .eq('property_id', propertyId)
+    .limit(1);
+    
+  return !!(data && data.length > 0);
+}
+
 export async function getBrokerStats(): Promise<BrokerStats> {
   const supabase = await createClient();
 
