@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { BrokerStats } from '@/types/transaction';
+import { mapDbRowToProperty } from '@/lib/property-mapper';
 
 function getAdminSupabase() {
   return createSupabaseClient(
@@ -207,6 +208,6 @@ export async function getClosedProperties() {
     throw new Error('No se pudieron obtener las propiedades cerradas');
   }
 
-  // Map the joined data so we just return the 'property' objects
-  return data ? data.map(item => item.property) : [];
+  // Map the joined data using mapDbRowToProperty so images and other fields are properly set
+  return data ? data.map(item => mapDbRowToProperty(item.property)) : [];
 }
