@@ -108,12 +108,6 @@ export default async function AdminUsersPage({
           </div>
         </div>
 
-        <div className="mt-8 flex gap-6 border-b border-argentina-navy/10 overflow-x-auto">
-          <button className="pb-3 text-sm font-semibold text-argentina-blue border-b-2 border-argentina-blue whitespace-nowrap">All Users</button>
-          <button className="pb-3 text-sm font-medium text-argentina-navy/60 hover:text-argentina-navy transition-colors whitespace-nowrap">Agents</button>
-          <button className="pb-3 text-sm font-medium text-argentina-navy/60 hover:text-argentina-navy transition-colors whitespace-nowrap">Brokers</button>
-          <button className="pb-3 text-sm font-medium text-argentina-navy/60 hover:text-argentina-navy transition-colors whitespace-nowrap">Admins</button>
-        </div>
       </header>
 
       <main className="flex-grow pb-12 w-full space-y-4">

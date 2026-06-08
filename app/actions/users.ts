@@ -76,3 +76,61 @@ export async function createUserAction(formData: FormData) {
   revalidatePath('/admin/users');
   return { success: true };
 }
+
+export async function deleteUserAction(userId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'No autenticado' };
+
+  const adminSupabase = getAdminSupabase();
+
+  const { data: roleData } = await adminSupabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', user.id)
+    .single();
+
+  if (!roleData || roleData.role !== 'admin') {
+    return { error: 'No tienes permisos para eliminar usuarios.' };
+  }
+
+  // Prevent self-deletion just in case
+  if (user.id === userId) {
+    return { error: 'No puedes eliminar tu propia cuenta desde aquí.' };
+  }
+
+  // Check if target user is an admin. If they are, check if they are the LAST admin.
+  const { data: targetUserRole } = await adminSupabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', userId)
+    .single();
+
+  if (targetUserRole?.role === 'admin') {
+    const { count, error: countError } = await adminSupabase
+      .from('user_roles')
+      .select('*', { count: 'exact', head: true })
+      .eq('role', 'admin');
+    
+    if (countError) {
+      console.error('Error counting admins:', countError);
+      return { error: 'No se pudo verificar la cantidad de administradores.' };
+    }
+    
+    if (count !== null && count <= 1) {
+      return { error: 'No se puede eliminar al último administrador. El sistema requiere al menos un admin.' };
+    }
+  }
+
+  // Delete from user_roles first to be safe, then delete from auth
+  await adminSupabase.from('user_roles').delete().eq('user_id', userId);
+  
+  const { error } = await adminSupabase.auth.admin.deleteUser(userId);
+  if (error) {
+    console.error('Error deleting user:', error);
+    return { error: 'Ocurrió un error al intentar eliminar el usuario.' };
+  }
+
+  revalidatePath('/admin/users');
+  return { success: true };
+}
