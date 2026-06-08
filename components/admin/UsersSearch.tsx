@@ -9,36 +9,38 @@ export default function UsersSearch() {
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
 
-  // Debounced search
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (searchTerm) {
-        params.set('search', searchTerm);
-        params.set('page', '1'); // reset page on search
-      } else {
-        params.delete('search');
-      }
-      
-      // Update the URL without a full page reload, but triggers server components re-render
-      router.push(`${pathname}?${params.toString()}`);
-    }, 500);
+  const handleSearch = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (searchTerm) {
+      params.set('search', searchTerm);
+      params.set('page', '1');
+    } else {
+      params.delete('search');
+    }
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, pathname, router, searchParams]);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') handleSearch();
+  };
 
   return (
-    <div className="relative group w-full md:w-80">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <span className="material-icons text-argentina-navy/40 group-focus-within:text-argentina-blue text-xl">search</span>
-      </div>
+    <div className="relative group w-full md:w-80 flex h-10 shadow-soft rounded-lg overflow-hidden">
       <input 
         type="text" 
-        className="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg bg-white dark:bg-gray-800 text-argentina-navy dark:text-white shadow-soft placeholder-argentina-navy/30 focus:ring-2 focus:ring-argentina-blue focus:bg-white transition-all text-sm" 
+        className="block w-full pl-4 pr-3 py-2 border-none bg-white dark:bg-gray-800 text-argentina-navy dark:text-white placeholder-argentina-navy/30 focus:outline-none transition-all text-sm h-full" 
         placeholder="Buscar por email..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
+      <button 
+        onClick={handleSearch}
+        className="h-full px-4 bg-argentina-blue hover:bg-argentina-blue/90 text-white transition-colors flex items-center justify-center cursor-pointer"
+        title="Buscar"
+      >
+        <span className="material-icons text-xl">search</span>
+      </button>
     </div>
   );
 }

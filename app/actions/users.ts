@@ -59,13 +59,13 @@ export async function createUserAction(formData: FormData) {
     return { error: 'Error desconocido al crear el usuario.' };
   }
 
-  // 2. Insert into user_roles
+  // 2. Insert into user_roles (use upsert to avoid conflicts with triggers)
   const { error: roleInsertError } = await adminSupabase
     .from('user_roles')
-    .insert({
+    .upsert({
       user_id: newUserData.user.id,
       role: role
-    });
+    }, { onConflict: 'user_id' });
 
   if (roleInsertError) {
     console.error('Error inserting role:', roleInsertError);
