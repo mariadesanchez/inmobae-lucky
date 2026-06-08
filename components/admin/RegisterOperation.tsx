@@ -61,6 +61,7 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
       }, 2000);
     } catch (err: any) {
       setError(err.message);
+      alert(err.message);
     } finally {
       setLoading(false);
     }

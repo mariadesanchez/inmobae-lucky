@@ -19,10 +19,21 @@ export async function registerOperation(payload: {
   operation_date: string;
   notes?: string;
 }) {
-  const supabase = await createClient();
+  const adminSupabase = getAdminSupabase();
+
+  // Check if already closed
+  const { data: existingTransaction } = await adminSupabase
+    .from('property_transactions')
+    .select('id')
+    .eq('property_id', payload.property_id)
+    .maybeSingle();
+
+  if (existingTransaction) {
+    throw new Error('Esta propiedad ya fue cerrada previamente.');
+  }
 
   // Insert transaction
-  const { error: transactionError } = await supabase
+  const { error: transactionError } = await adminSupabase
     .from('property_transactions')
     .insert([payload]);
 
@@ -31,7 +42,6 @@ export async function registerOperation(payload: {
   }
 
   // Deactivate property since it was sold/rented
-  const adminSupabase = getAdminSupabase();
   const { error: updateError } = await adminSupabase
     .from('properties')
     .update({ is_active: false })
