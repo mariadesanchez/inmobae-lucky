@@ -30,7 +30,15 @@ export default async function AdminPropertiesPage({
     .order('id', { ascending: false })
     .range(from, to);
 
+  const { count: inactiveCountData } = await supabase
+    .from('properties')
+    .select('*', { count: 'exact', head: true })
+    .eq('is_active', false);
+
   const totalItems = count || 0;
+  const inactiveCount = inactiveCountData || 0;
+  const activeCount = totalItems - inactiveCount;
+
   const totalPages = Math.ceil(totalItems / pageSize);
   const isFirstPage = page <= 1;
   const isLastPage = page >= totalPages;
@@ -71,7 +79,7 @@ export default async function AdminPropertiesPage({
         <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-argentina-blue/10 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-argentina-navy-muted dark:text-gray-400">Activas</p>
-            <p className="text-2xl font-bold text-argentina-navy dark:text-white mt-1">{properties?.filter(p => p.is_active !== false).length || 0}</p>
+            <p className="text-2xl font-bold text-argentina-navy dark:text-white mt-1">{activeCount}</p>
           </div>
           <div className="h-10 w-10 rounded-full bg-argentina-sun flex items-center justify-center text-argentina-blue">
             <span className="material-icons">check_circle</span>
@@ -80,7 +88,7 @@ export default async function AdminPropertiesPage({
         <div className="bg-white dark:bg-[#152e2a] p-5 rounded-xl border border-argentina-blue/10 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-argentina-navy-muted dark:text-gray-400">Desactivadas</p>
-            <p className="text-2xl font-bold text-argentina-navy dark:text-white mt-1">{properties?.filter(p => p.is_active === false).length || 0}</p>
+            <p className="text-2xl font-bold text-argentina-navy dark:text-white mt-1">{inactiveCount}</p>
           </div>
           <div className="h-10 w-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-500">
             <span className="material-icons">visibility_off</span>
