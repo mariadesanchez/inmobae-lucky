@@ -7,9 +7,10 @@ import { useRouter } from 'next/navigation';
 interface RegisterOperationProps {
   propertyId: string;
   status?: string;
+  currentPrice?: string | number;
 }
 
-export default function RegisterOperation({ propertyId, status }: RegisterOperationProps) {
+export default function RegisterOperation({ propertyId, status, currentPrice }: RegisterOperationProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -17,7 +18,7 @@ export default function RegisterOperation({ propertyId, status }: RegisterOperat
   
   const [formData, setFormData] = useState({
     operation_type: status === 'alquilar' ? 'alquiler' : 'venta',
-    price: '',
+    price: currentPrice ? String(currentPrice) : '',
     operation_date: new Date().toISOString().split('T')[0],
     notes: ''
   });
@@ -29,6 +30,16 @@ export default function RegisterOperation({ propertyId, status }: RegisterOperat
       operation_type: status === 'alquilar' ? 'alquiler' : 'venta'
     }));
   }, [status]);
+
+  // Sync price if currentPrice changes
+  useEffect(() => {
+    if (currentPrice !== undefined) {
+      setFormData(prev => ({
+        ...prev,
+        price: String(currentPrice)
+      }));
+    }
+  }, [currentPrice]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

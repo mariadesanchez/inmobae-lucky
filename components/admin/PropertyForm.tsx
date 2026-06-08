@@ -574,7 +574,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         
         {initialData?.id && (
           <div className="mt-8">
-            <RegisterOperation propertyId={initialData.id} status={formData.status} />
+            <RegisterOperation propertyId={initialData.id} status={formData.status} currentPrice={formData.price} />
           </div>
         )}
       </div>
