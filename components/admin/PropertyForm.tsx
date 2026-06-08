@@ -144,14 +144,14 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
           onClick={() => router.back()}
           className="flex-1 py-3 rounded-lg border border-gray-300 bg-white text-argentina-navy font-medium font-sf-pro"
         >
-          Cancel
+          Cancelar
         </button>
         <button 
           type="submit" 
           disabled={isLoading || uploadingImage}
           className="flex-1 py-3 rounded-lg bg-argentina-blue text-white font-medium font-sf-pro flex justify-center items-center gap-2 disabled:opacity-70"
         >
-          {isLoading ? 'Saving...' : 'Save'}
+          {isLoading ? 'Guardando...' : 'Guardar'}
         </button>
       </div>
 
@@ -163,12 +163,12 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">info</span>
             </div>
-            <h2 className="text-xl font-bold text-argentina-navy">Basic Information</h2>
+            <h2 className="text-xl font-bold text-argentina-navy">Información Básica</h2>
           </div>
           <div className="p-8 space-y-6">
             <div className="group">
               <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="title">
-                Property Title <span className="text-red-500">*</span>
+                Título de la Propiedad <span className="text-red-500">*</span>
               </label>
               <input 
                 id="title"
@@ -177,13 +177,13 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                 value={formData.title}
                 onChange={handleInputChange}
                 className="w-full text-base px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all font-sf-pro outline-none" 
-                placeholder="e.g. Modern Penthouse with Ocean View" 
+                placeholder="ej. Penthouse moderno con vista al mar" 
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="price">
-                  Price <span className="text-red-500">*</span>
+                  Precio <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-sf-pro text-sm">$</span>
@@ -199,7 +199,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="status">Status</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="status">Estado</label>
                 <select 
                   id="status"
                   value={formData.status}
@@ -211,7 +211,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="type">Property Type</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="type">Tipo de Propiedad</label>
                 <select 
                   id="type"
                   value={formData.type}
@@ -274,7 +274,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">description</span>
             </div>
-            <h2 className="text-xl font-bold text-argentina-navy">Description</h2>
+            <h2 className="text-xl font-bold text-argentina-navy">Descripción</h2>
           </div>
           <div className="p-8">
             <div className="mb-3 flex gap-2 border-b border-gray-100 pb-2">
@@ -290,7 +290,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
               placeholder="Describe the property features, neighborhood, and unique selling points..."
             />
             <div className="mt-2 text-right text-xs text-gray-400 font-sf-pro">
-              <span className="text-argentina-blue font-medium text-xs">Note: Description fields must be manually added to DB schema to persist.</span>
+              <span className="text-argentina-blue font-medium text-xs">Nota: Agrega las descripciones que consideres pertinentes.</span>
             </div>
           </div>
         </div>
@@ -302,7 +302,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
               <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
                 <span className="material-icons text-lg">image</span>
               </div>
-              <h2 className="text-xl font-bold text-argentina-navy">Gallery</h2>
+              <h2 className="text-xl font-bold text-argentina-navy">Galería</h2>
             </div>
             <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded font-sf-pro">JPG, PNG, WEBP</span>
           </div>
@@ -325,9 +325,9 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                 </div>
                 <div className="space-y-1">
                   <p className="text-base font-medium text-argentina-navy font-sf-pro">
-                    {uploadingImage ? 'Uploading...' : 'Click or drag images here'}
+                    {uploadingImage ? 'Subiendo...' : 'Haz clic o arrastra imágenes aquí'}
                   </p>
-                  <p className="text-xs text-gray-400 font-sf-pro">Max file size 5MB per image</p>
+                  <p className="text-xs text-gray-400 font-sf-pro">Tamaño máximo 5MB por imagen</p>
                 </div>
               </div>
             </div>
@@ -347,7 +347,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                       </button>
                     </div>
                     {i === 0 && (
-                      <span className="absolute top-2 left-2 bg-argentina-blue text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm font-sf-pro uppercase tracking-wider">Main</span>
+                      <span className="absolute top-2 left-2 bg-argentina-blue text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm font-sf-pro uppercase tracking-wider">Principal</span>
                     )}
                   </div>
                 ))}
@@ -367,7 +367,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             onClick={() => router.back()}
             className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-argentina-navy hover:bg-gray-50 transition-colors font-medium font-sf-pro text-sm"
           >
-            Cancel
+            Cancelar
           </button>
           <button 
             type="submit"
@@ -375,7 +375,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             className="px-5 py-2.5 rounded-lg bg-argentina-blue hover:bg-argentina-blue/90 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 font-sf-pro text-sm disabled:opacity-70"
           >
             <span className="material-icons text-sm">save</span>
-            {isLoading ? 'Saving...' : 'Save Property'}
+            {isLoading ? 'Guardando...' : 'Guardar Propiedad'}
           </button>
         </div>
 
@@ -385,23 +385,23 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">place</span>
             </div>
-            <h2 className="text-lg font-bold text-argentina-navy">Location</h2>
+            <h2 className="text-lg font-bold text-argentina-navy">Ubicación</h2>
           </div>
           <div className="p-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="location">Address</label>
+              <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="location">Dirección</label>
               <input 
                 id="location"
                 type="text" 
                 value={formData.location}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-sm font-sf-pro outline-none" 
-                placeholder="Street Address, City, Zip" 
+                placeholder="Calle, Ciudad, Código Postal" 
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="latitude">Latitude</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="latitude">Latitud</label>
                 <input 
                   id="latitude"
                   type="text" 
@@ -412,7 +412,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="longitude">Longitude</label>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="longitude">Longitud</label>
                 <input 
                   id="longitude"
                   type="text" 
@@ -435,12 +435,12 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">straighten</span>
             </div>
-            <h2 className="text-lg font-bold text-argentina-navy">Details</h2>
+            <h2 className="text-lg font-bold text-argentina-navy">Detalles</h2>
           </div>
           <div className="p-6 space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="group">
-                <label className="text-xs text-gray-500 font-medium font-sf-pro mb-1 block" htmlFor="area">Area (m²)</label>
+                <label className="text-xs text-gray-500 font-medium font-sf-pro mb-1 block" htmlFor="area">Área (m²)</label>
                 <input 
                   id="area"
                   type="number" 
@@ -451,7 +451,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                 />
               </div>
               <div className="group">
-                <label className="text-xs text-gray-500 font-medium font-sf-pro mb-1 block" htmlFor="year">Year Built</label>
+                <label className="text-xs text-gray-500 font-medium font-sf-pro mb-1 block" htmlFor="year">Año de Construcción</label>
                 <input 
                   id="year"
                   type="number" 
@@ -468,7 +468,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-argentina-navy font-sf-pro flex items-center gap-2">
-                  <span className="material-icons text-gray-400 text-sm">bed</span> Bedrooms
+                  <span className="material-icons text-gray-400 text-sm">bed</span> Dormitorios
                 </label>
                 <div className="flex items-center border border-gray-200 rounded-md overflow-hidden bg-white shadow-sm">
                   <button type="button" onClick={() => handleNumberChange('beds', -1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-100">-</button>
@@ -479,7 +479,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
               
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-argentina-navy font-sf-pro flex items-center gap-2">
-                  <span className="material-icons text-gray-400 text-sm">shower</span> Bathrooms
+                  <span className="material-icons text-gray-400 text-sm">shower</span> Baños
                 </label>
                 <div className="flex items-center border border-gray-200 rounded-md overflow-hidden bg-white shadow-sm">
                   <button type="button" onClick={() => handleNumberChange('baths', -1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-100">-</button>
@@ -490,7 +490,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
               
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-argentina-navy font-sf-pro flex items-center gap-2">
-                  <span className="material-icons text-gray-400 text-sm">directions_car</span> Parking
+                  <span className="material-icons text-gray-400 text-sm">directions_car</span> Cocheras
                 </label>
                 <div className="flex items-center border border-gray-200 rounded-md overflow-hidden bg-white shadow-sm">
                   <button type="button" onClick={() => handleNumberChange('parking', -1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-100">-</button>
