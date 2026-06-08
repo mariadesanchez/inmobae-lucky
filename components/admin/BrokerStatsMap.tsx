@@ -24,14 +24,16 @@ const BrokerStatsMap = ({ properties, title }: BrokerStatsMapProps) => {
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    // Center map on Argentina (default) or the first property
-    const defaultCenter: [number, number] = properties.length > 0 
-      ? [properties[0].lat, properties[0].lng] 
+    const validProperties = properties.filter(p => p.lat && p.lng && !isNaN(Number(p.lat)) && !isNaN(Number(p.lng)));
+
+    // Center map on Argentina (default) or the first valid property
+    const defaultCenter: [number, number] = validProperties.length > 0 
+      ? [Number(validProperties[0].lat), Number(validProperties[0].lng)] 
       : [-34.6037, -58.3816];
 
     const map = L.map(mapContainerRef.current, {
       center: defaultCenter,
-      zoom: properties.length > 0 ? 11 : 5,
+      zoom: validProperties.length > 0 ? 11 : 5,
       scrollWheelZoom: false,
     });
 
@@ -59,34 +61,34 @@ const BrokerStatsMap = ({ properties, title }: BrokerStatsMapProps) => {
       shadowSize: [41, 41]
     });
 
-    const bounds = L.latLngBounds([]);
+    validProperties.forEach(prop => {
+      const lat = Number(prop.lat);
+      const lng = Number(prop.lng);
+      
+      const marker = L.marker([lat, lng], {
+        icon: prop.isClosed ? greenIcon : blueIcon
+      }).addTo(map);
 
-    properties.forEach(prop => {
-      if (prop.lat && prop.lng) {
-        const marker = L.marker([prop.lat, prop.lng], {
-          icon: prop.isClosed ? greenIcon : blueIcon
-        }).addTo(map);
+      const statusBadge = prop.isClosed 
+        ? `<span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:bold;">${prop.type === 'venta' ? 'Vendida' : 'Alquilada'}</span>`
+        : `<span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:bold;">Activa</span>`;
 
-        bounds.extend([prop.lat, prop.lng]);
-
-        const statusBadge = prop.isClosed 
-          ? `<span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:bold;">${prop.type === 'venta' ? 'Vendida' : 'Alquilada'}</span>`
-          : `<span style="background:#e0e7ff;color:#3730a3;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:bold;">Activa</span>`;
-
-        marker.bindPopup(`
-          <div style="font-family:sans-serif;">
-            <b style="font-size:13px;display:block;margin-bottom:4px;">${prop.title}</b>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-              ${statusBadge}
-              <span style="font-weight:bold;color:#1f2937;">${formatCurrency(prop.price)}</span>
-            </div>
+      marker.bindPopup(`
+        <div style="font-family:sans-serif;">
+          <b style="font-size:13px;display:block;margin-bottom:4px;">${prop.title}</b>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            ${statusBadge}
+            <span style="font-weight:bold;color:#1f2937;">${formatCurrency(prop.price)}</span>
           </div>
-        `);
-      }
+        </div>
+      `);
     });
 
-    if (properties.length > 0 && bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [30, 30] });
+    if (validProperties.length > 0) {
+      const bounds = L.latLngBounds(validProperties.map(p => [Number(p.lat), Number(p.lng)]));
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [30, 30] });
+      }
     }
 
     return () => {
