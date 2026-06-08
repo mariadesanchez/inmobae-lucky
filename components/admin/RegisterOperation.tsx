@@ -105,10 +105,10 @@ export default function RegisterOperation({ propertyId, status, currentPrice }: 
                 <input 
                   type="number" 
                   required
-                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue outline-none text-sm font-sf-pro"
+                  readOnly
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-gray-50 text-argentina-navy-muted focus:ring-0 outline-none text-sm font-sf-pro cursor-not-allowed"
                   value={formData.price}
-                  onChange={(e) => setFormData({...formData, price: e.target.value})}
-                  placeholder="Ej: 150000"
+                  placeholder="Se actualiza desde Información Básica"
                 />
               </div>
             </div>
