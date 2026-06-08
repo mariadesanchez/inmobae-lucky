@@ -59,14 +59,14 @@ export default function AdminNavbar({ user }: AdminNavbarProps) {
               className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors flex items-center gap-2 ${isProperties ? 'text-argentina-blue bg-argentina-sun/30 border-b-2 border-argentina-blue' : 'text-argentina-navy/60 dark:text-gray-400 hover:text-argentina-blue hover:bg-argentina-navy/5'}`}
             >
               <span className="material-icons text-[18px]">holiday_village</span>
-              Properties
+              Propiedades
             </Link>
             <Link 
               href={`/admin/users`}
               className={`px-4 py-2 text-sm font-semibold rounded-t-lg transition-colors flex items-center gap-2 ${isUsers ? 'text-argentina-blue bg-argentina-sun/30 border-b-2 border-argentina-blue' : 'text-argentina-navy/60 dark:text-gray-400 hover:text-argentina-blue hover:bg-argentina-navy/5'}`}
             >
               <span className="material-icons text-[18px]">people</span>
-              Users
+              Usuarios
             </Link>
           </div>
         </div>

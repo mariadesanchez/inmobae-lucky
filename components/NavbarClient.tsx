@@ -26,27 +26,24 @@ export default function NavbarClient({ dict, user, isAdmin }: NavbarClientProps)
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="#" className="text-argentina-blue font-medium text-sm border-b-2 border-argentina-blue px-1 py-1">
-              {dict?.buy || 'Buy'}
+              {dict?.buy || 'Comprar'}
             </Link>
             <Link href="#" className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
-              {dict?.rent || 'Rent'}
-            </Link>
-            <Link href="#" className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
-              {dict?.commercial || 'Commercial'}
+              {dict?.rent || 'Alquilar'}
             </Link>
             <Link href={`/favoritos`} className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
-              {dict?.saved || 'Favorites'}
+              {dict?.saved || 'Favoritos'}
             </Link>
 
             {isAdmin && (
               <div className="flex items-center space-x-4 border-l border-argentina-navy/20 pl-6 ml-2">
                 <Link href={`/admin/properties`} className="flex items-center gap-1.5 text-argentina-blue font-semibold text-sm hover:text-argentina-blue/80 transition-colors bg-argentina-sun/30 px-3 py-1.5 rounded-md">
                   <span className="material-icons text-[16px]">holiday_village</span>
-                  Properties
+                  Propiedades
                 </Link>
                 <Link href={`/admin/users`} className="flex items-center gap-1.5 text-argentina-blue font-semibold text-sm hover:text-argentina-blue/80 transition-colors bg-argentina-sun/30 px-3 py-1.5 rounded-md">
                   <span className="material-icons text-[16px]">people</span>
-                  Users
+                  Usuarios
                 </Link>
               </div>
             )}
@@ -87,16 +84,13 @@ export default function NavbarClient({ dict, user, isAdmin }: NavbarClientProps)
         <div className="md:hidden border-t border-argentina-navy/10 bg-argentina-light shadow-lg">
           <div className="px-4 py-3 space-y-1">
             <Link href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-blue bg-argentina-blue/10">
-              {dict?.buy || 'Buy'}
+              {dict?.buy || 'Comprar'}
             </Link>
             <Link href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
-              {dict?.rent || 'Rent'}
-            </Link>
-            <Link href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
-              {dict?.commercial || 'Commercial'}
+              {dict?.rent || 'Alquilar'}
             </Link>
             <Link href={`/favoritos`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
-              {dict?.saved || 'Favorites'}
+              {dict?.saved || 'Favoritos'}
             </Link>
 
             {isAdmin && (
