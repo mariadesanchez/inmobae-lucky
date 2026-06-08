@@ -146,7 +146,7 @@ export default async function AdminPropertiesPage({
 
             {/* Price */}
             <div className="col-span-6 md:col-span-2">
-              <div className="text-base font-semibold text-argentina-navy dark:text-gray-200">${prop.price?.toLocaleString()}</div>
+              <div className="text-base font-semibold text-argentina-navy dark:text-gray-200">${prop.price?.toLocaleString('es-AR')}</div>
               <div className="text-xs text-argentina-navy-muted dark:text-gray-400">Tipo: {prop.type}</div>
             </div>
 

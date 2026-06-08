@@ -56,7 +56,7 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
         <div className="p-4 flex flex-col grow">
           <div className="flex justify-between items-baseline mb-2">
             <p className="text-2xl font-bold text-argentina-navy font-sf-pro">
-              ${property.price.toLocaleString()}
+              ${property.price.toLocaleString('es-AR')}
               {property.status === 'alquilar' && (
                 <span className="text-sm font-normal text-gray-500 font-sf-pro"> /mes</span>
               )}
