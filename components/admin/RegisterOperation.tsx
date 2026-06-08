@@ -41,8 +41,8 @@ export default function RegisterOperation({ propertyId, status, currentPrice }: 
     }
   }, [currentPrice]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
     setLoading(true);
     setError('');
     
@@ -81,7 +81,7 @@ export default function RegisterOperation({ propertyId, status, currentPrice }: 
             <p className="font-medium text-sm">Operación registrada exitosamente. Redirigiendo...</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-4">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-600 p-3 rounded-lg text-sm mb-4">
                 {error}
@@ -140,7 +140,8 @@ export default function RegisterOperation({ propertyId, status, currentPrice }: 
             </p>
 
             <button 
-              type="submit" 
+              type="button"
+              onClick={handleSubmit}
               disabled={loading}
               className="w-full bg-argentina-navy hover:bg-argentina-navy/90 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-70 text-sm"
             >
@@ -156,7 +157,7 @@ export default function RegisterOperation({ propertyId, status, currentPrice }: 
                 </>
               )}
             </button>
-          </form>
+          </div>
         )}
       </div>
     </div>
