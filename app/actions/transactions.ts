@@ -1,8 +1,16 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { BrokerStats } from '@/types/transaction';
+
+function getAdminSupabase() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 export async function registerOperation(payload: {
   property_id: string;
@@ -23,7 +31,8 @@ export async function registerOperation(payload: {
   }
 
   // Deactivate property since it was sold/rented
-  const { error: updateError } = await supabase
+  const adminSupabase = getAdminSupabase();
+  const { error: updateError } = await adminSupabase
     .from('properties')
     .update({ is_active: false })
     .eq('id', payload.property_id);
