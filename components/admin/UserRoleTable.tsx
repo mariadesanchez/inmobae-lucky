@@ -135,17 +135,11 @@ export default function UserRoleTable({ users, currentUserId }: UserRoleTablePro
           </div>
 
           {/* Performance / Stats */}
-          <div className="col-span-12 md:col-span-3 w-full grid grid-cols-2 gap-4">
+          <div className="col-span-12 md:col-span-3 w-full block">
             <div>
               <div className="text-[10px] uppercase tracking-wider text-argentina-navy/50">Joined</div>
               <div className="text-sm font-semibold text-argentina-navy dark:text-white">
                 {new Date(user.created_at).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}
-              </div>
-            </div>
-            <div>
-              <div className="text-[10px] uppercase tracking-wider text-argentina-navy/50">Access Level</div>
-              <div className="text-sm font-semibold text-argentina-navy dark:text-white">
-                {user.role === 'admin' ? 'Level 5' : 'Level 1'}
               </div>
             </div>
           </div>
