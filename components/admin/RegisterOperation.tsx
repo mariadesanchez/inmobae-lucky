@@ -8,9 +8,10 @@ interface RegisterOperationProps {
   propertyId: string;
   status?: string;
   currentPrice?: string | number;
+  isActive?: boolean;
 }
 
-export default function RegisterOperation({ propertyId, status, currentPrice }: RegisterOperationProps) {
+export default function RegisterOperation({ propertyId, status, currentPrice, isActive }: RegisterOperationProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -142,13 +143,18 @@ export default function RegisterOperation({ propertyId, status, currentPrice }: 
             <button 
               type="button"
               onClick={handleSubmit}
-              disabled={loading}
-              className="w-full bg-argentina-navy hover:bg-argentina-navy/90 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-70 text-sm"
+              disabled={loading || isActive === false}
+              className="w-full bg-argentina-navy hover:bg-argentina-navy/90 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 text-sm"
             >
               {loading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
                   Procesando...
+                </>
+              ) : isActive === false ? (
+                <>
+                  <span className="material-icons text-[18px]">lock</span>
+                  Operación ya registrada (Inactiva)
                 </>
               ) : (
                 <>
