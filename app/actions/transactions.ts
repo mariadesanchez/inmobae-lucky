@@ -22,13 +22,13 @@ export async function registerOperation(payload: {
   const adminSupabase = getAdminSupabase();
 
   // Check if already closed
-  const { data: existingTransaction } = await adminSupabase
+  const { data: existingTransactions } = await adminSupabase
     .from('property_transactions')
     .select('id')
     .eq('property_id', payload.property_id)
-    .maybeSingle();
+    .limit(1);
 
-  if (existingTransaction) {
+  if (existingTransactions && existingTransactions.length > 0) {
     throw new Error('Esta propiedad ya fue cerrada previamente.');
   }
 
