@@ -67,20 +67,11 @@ export default function UserMenu({ user }: UserMenuProps) {
               className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors"
             >
               <span className="material-icons font-material-icons text-[18px]">close</span>
-              Salir
+              Cerrar Sesión
             </button>
           </div>
         )}
       </div>
-
-      {/* Explicit Logout Button next to avatar */}
-      <button
-        onClick={handleSignOut}
-        className="p-2 text-argentina-navy-muted hover:text-red-500 transition-colors rounded-full hover:bg-red-50 flex items-center"
-        title="Salir"
-      >
-        <span className="material-icons font-material-icons">close</span>
-      </button>
     </div>
   );
 }

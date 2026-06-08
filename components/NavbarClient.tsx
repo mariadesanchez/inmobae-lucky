@@ -59,9 +59,10 @@ export default function NavbarClient({ dict, user, isAdmin }: NavbarClientProps)
             ) : (
               <Link
                 href={`/login`}
-                className="px-3 py-1.5 sm:px-4 sm:py-2 bg-argentina-blue hover:bg-argentina-blue/90 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+                className="text-argentina-navy font-semibold hover:text-argentina-blue transition-colors px-3 py-2 flex items-center gap-1.5"
               >
-                {dict?.login || 'Login'}
+                <span className="material-icons text-[18px]">login</span>
+                Ingresar
               </Link>
             )}
 
