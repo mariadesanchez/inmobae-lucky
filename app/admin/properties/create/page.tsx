@@ -11,13 +11,7 @@ export default async function CreatePropertyPage({
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
       <header className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-200 pb-8">
         <div className="space-y-4">
-          <nav aria-label="Breadcrumb" className="flex">
-            <ol className="flex items-center space-x-2 text-sm text-gray-500 font-medium font-sf-pro">
-              <li><a href={`/admin/properties`} className="hover:text-argentina-blue transition-colors">Propiedades</a></li>
-              <li><span className="material-icons text-xs text-gray-400">chevron_right</span></li>
-              <li aria-current="page" className="text-argentina-navy">Agregar Nueva</li>
-            </ol>
-          </nav>
+
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-argentina-navy tracking-tight mb-2">Administrar propiedades</h1>
           </div>
