@@ -57,6 +57,34 @@ export async function registerOperation(payload: {
   return { success: true };
 }
 
+export async function undoOperation(propertyId: string) {
+  const adminSupabase = getAdminSupabase();
+
+  // Delete transaction
+  const { error: deleteError } = await adminSupabase
+    .from('property_transactions')
+    .delete()
+    .eq('property_id', propertyId);
+
+  if (deleteError) {
+    return { success: false, error: `Error al eliminar la transacción: ${deleteError.message}` };
+  }
+
+  // Reactivate property
+  const { error: updateError } = await adminSupabase
+    .from('properties')
+    .update({ is_active: true })
+    .eq('id', propertyId);
+
+  if (updateError) {
+    return { success: false, error: `Error al reactivar la propiedad: ${updateError.message}` };
+  }
+
+  revalidatePath('/admin/properties');
+  revalidatePath(`/admin/properties/${propertyId}/edit`);
+  return { success: true };
+}
+
 export async function getBrokerStats(): Promise<BrokerStats> {
   const supabase = await createClient();
 

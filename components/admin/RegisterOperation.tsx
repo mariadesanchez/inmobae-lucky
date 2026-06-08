@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { registerOperation } from '@/app/actions/transactions';
+import { registerOperation, undoOperation } from '@/app/actions/transactions';
 import { useRouter } from 'next/navigation';
 
 interface RegisterOperationProps {
@@ -14,6 +14,7 @@ interface RegisterOperationProps {
 export default function RegisterOperation({ propertyId, status, currentPrice, isActive }: RegisterOperationProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [undoLoading, setUndoLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [errorModal, setErrorModal] = useState<{isOpen: boolean, message: string} | null>(null);
@@ -71,6 +72,30 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
       setErrorModal({ isOpen: true, message: err.message });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUndo = async () => {
+    setUndoLoading(true);
+    setError('');
+    
+    try {
+      const result = await undoOperation(propertyId);
+      
+      if (result && !result.success) {
+        setErrorModal({ isOpen: true, message: result.error || 'Error desconocido' });
+        setUndoLoading(false);
+        return;
+      }
+
+      setSuccess(true);
+      setTimeout(() => {
+        router.push('/admin/properties');
+      }, 2000);
+    } catch (err: any) {
+      setErrorModal({ isOpen: true, message: err.message });
+    } finally {
+      setUndoLoading(false);
     }
   };
 
@@ -166,6 +191,27 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
                 </>
               )}
             </button>
+
+            {isActive === false && (
+              <button 
+                type="button"
+                onClick={handleUndo}
+                disabled={undoLoading}
+                className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 text-sm mt-3"
+              >
+                {undoLoading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                    Procesando...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-icons text-[18px]">undo</span>
+                    Deshacer {formData.operation_type === 'venta' ? 'Venta' : 'Alquiler'}
+                  </>
+                )}
+              </button>
+            )}
           </div>
         )}
       </div>
