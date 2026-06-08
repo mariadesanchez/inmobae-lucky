@@ -63,22 +63,20 @@ const HeroInner = ({ dict }: { dict?: any }) => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-start border-b border-gray-200 pb-2 gap-4">
             {/* Tabs */}
             <div className="flex items-center gap-6 text-sm font-bold text-gray-400 overflow-x-auto hide-scroll w-full">
-              {['COMPRAR', 'ALQUILAR', 'VENDER'].map(tab => (
+              {['COMPRAR', 'ALQUILAR'].map(tab => (
                 <button
                   key={tab}
-                  onClick={() => setActiveOperation(tab === 'COMPRAR' ? 'comprar' : tab === 'ALQUILAR' ? 'alquilar' : 'vender')}
+                  onClick={() => setActiveOperation(tab === 'COMPRAR' ? 'comprar' : 'alquilar')}
                   className={`pb-2 relative whitespace-nowrap transition-colors ${
                     (tab === 'COMPRAR' && activeOperation === 'comprar') || 
-                    (tab === 'ALQUILAR' && activeOperation === 'alquilar') ||
-                    (tab === 'VENDER' && activeOperation === 'vender')
+                    (tab === 'ALQUILAR' && activeOperation === 'alquilar')
                       ? 'text-argentina-blue' 
                       : 'hover:text-gray-700'
                   }`}
                 >
                   {tab}
                   {((activeOperation === 'comprar' && tab === 'COMPRAR') ||
-                    (activeOperation === 'alquilar' && tab === 'ALQUILAR') ||
-                    (activeOperation === 'vender' && tab === 'VENDER')) && (
+                    (activeOperation === 'alquilar' && tab === 'ALQUILAR')) && (
                     <span className="absolute bottom-[-9px] left-0 right-0 h-[2px] bg-argentina-blue" />
                   )}
                 </button>

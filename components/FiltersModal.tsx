@@ -58,7 +58,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
     amenities: searchParams.get('amenities') ? searchParams.get('amenities')!.split(',') : [],
     minArea: Number(searchParams.get('minArea') ?? 0),
     maxArea: Number(searchParams.get('maxArea') ?? 10000),
-    age: searchParams.get('age') || 'Cualquiera',
+    age: searchParams.get('age') || '',
     disposition: searchParams.get('disposition') || 'Cualquiera',
     featuredStatus: searchParams.get('featuredStatus') || 'Todas',
     datePublished: searchParams.get('datePublished') || 'Cualquiera',
@@ -95,7 +95,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
       amenities: [],
       minArea: 0,
       maxArea: 10000,
-      age: 'Cualquiera',
+      age: '',
       disposition: 'Cualquiera',
       featuredStatus: 'Todas',
       datePublished: 'Cualquiera',
@@ -113,7 +113,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
     if (filters.parking > 0) params.set('parking', String(filters.parking));
     if (filters.minArea > 0) params.set('minArea', String(filters.minArea));
     if (filters.maxArea < 10000) params.set('maxArea', String(filters.maxArea));
-    if (filters.age !== 'Cualquiera') params.set('age', filters.age);
+    if (filters.age !== '') params.set('age', filters.age);
     if (filters.disposition !== 'Cualquiera') params.set('disposition', filters.disposition);
     if (filters.featuredStatus !== 'Todas') params.set('featuredStatus', filters.featuredStatus);
     if (filters.datePublished !== 'Cualquiera') params.set('datePublished', filters.datePublished);
@@ -150,7 +150,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label="Property Filters"
+      aria-label="Filtros de Propiedades"
     >
       {/* Backdrop */}
       <div
@@ -163,11 +163,11 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
         
         {/* Header */}
         <header className="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-30">
-          <h2 className="text-2xl font-semibold tracking-tight text-gray-900">{dict?.title || 'Filters'}</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-gray-900">Filtros</h2>
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-500"
-            aria-label="Close filters"
+            aria-label="Cerrar filtros"
           >
             <span className="material-icons font-material-icons">close</span>
           </button>
@@ -179,7 +179,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
           {/* Section 1: Location */}
           <section>
             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              {dict?.location || 'Location'}
+              Ubicación
             </label>
             <div className="relative group">
               <span className="material-icons font-material-icons absolute left-4 top-3.5 text-gray-400 group-focus-within:text-argentina-blue transition-colors">
@@ -189,7 +189,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                 type="text"
                 value={filters.location}
                 onChange={(e) => setFilters((p) => ({ ...p, location: e.target.value }))}
-                placeholder="City, neighborhood, or address"
+                placeholder="Ciudad, barrio, o dirección"
                 className="w-full pl-12 pr-4 py-3 bg-gray-50 border-0 rounded-lg text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-argentina-blue focus:bg-white transition-all shadow-sm outline-none"
               />
             </div>
@@ -199,7 +199,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
           <section>
             <div className="flex justify-between items-end mb-4">
               <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                {dict?.priceRange || 'Price Range'}
+                Rango de Precio
               </label>
               <span className="text-sm font-medium text-argentina-blue">
                 {formatPrice(filters.minPrice)} – {formatPrice(filters.maxPrice)}
@@ -247,12 +247,12 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
             {/* Min / Max inputs */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-argentina-blue/30 transition-colors">
-                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{dict?.minPrice || 'Min Price'}</label>
+                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Precio Mínimo</label>
                 <div className="flex items-center">
                   <span className="text-gray-400 mr-1">$</span>
                   <input
                     type="text"
-                    value={filters.minPrice.toLocaleString('en-US')}
+                    value={filters.minPrice.toLocaleString('es-AR')}
                     onChange={(e) => {
                       const cleaned = Number(e.target.value.replace(/\D/g, ''));
                       if (!isNaN(cleaned) && cleaned < filters.maxPrice) {
@@ -264,12 +264,12 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                 </div>
               </div>
               <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-argentina-blue/30 transition-colors">
-                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">{dict?.maxPrice || 'Max Price'}</label>
+                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Precio Máximo</label>
                 <div className="flex items-center">
                   <span className="text-gray-400 mr-1">$</span>
                   <input
                     type="text"
-                    value={filters.maxPrice.toLocaleString('en-US')}
+                    value={filters.maxPrice.toLocaleString('es-AR')}
                     onChange={(e) => {
                       const cleaned = Number(e.target.value.replace(/\D/g, ''));
                       if (!isNaN(cleaned) && cleaned > filters.minPrice) {
@@ -334,7 +334,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
           <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                {dict?.propertyType || 'Property Type'}
+                Tipo de Propiedad
               </label>
               <div className="relative">
                 <select
@@ -354,7 +354,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
 
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-argentina-blue/30 transition-colors">
-                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">M2 Desde</label>
+                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Área Mínima (m²)</label>
                 <div className="flex items-center">
                   <input
                     type="text"
@@ -371,7 +371,7 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
                 </div>
               </div>
               <div className="bg-gray-50 p-3 rounded-lg border border-transparent focus-within:border-argentina-blue/30 transition-colors">
-                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">M2 Hasta</label>
+                <label className="block text-[10px] text-gray-500 uppercase font-medium mb-1">Área Máxima (m²)</label>
                 <div className="flex items-center">
                   <input
                     type="text"
@@ -396,20 +396,14 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
 
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-900">Antigüedad</span>
-                <select
+                <span className="text-sm font-medium text-gray-900">Año de Construcción</span>
+                <input
+                  type="text"
+                  placeholder="YYYY"
                   value={filters.age}
-                  onChange={(e) => setFilters((p) => ({ ...p, age: e.target.value }))}
-                  className="w-40 bg-gray-50 border-0 rounded-lg py-2 pl-3 pr-8 text-gray-900 text-sm appearance-none focus:ring-2 focus:ring-argentina-blue cursor-pointer outline-none"
-                >
-                  <option value="Cualquiera">Cualquiera</option>
-                  <option value="En construcción">En construcción</option>
-                  <option value="A estrenar">A estrenar</option>
-                  <option value="Hasta 5 años">Hasta 5 años</option>
-                  <option value="Hasta 10 años">Hasta 10 años</option>
-                  <option value="Hasta 20 años">Hasta 20 años</option>
-                  <option value="Más de 30 años">Más de 30 años</option>
-                </select>
+                  onChange={(e) => setFilters((p) => ({ ...p, age: e.target.value.replace(/\D/g, '').slice(0, 4) }))}
+                  className="w-24 bg-gray-50 border-0 rounded-lg py-2 px-3 text-gray-900 text-sm text-center focus:ring-2 focus:ring-argentina-blue outline-none"
+                />
               </div>
 
               <div className="flex justify-between items-center">
@@ -430,108 +424,108 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
 
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-900">{dict?.bedrooms || 'Bedrooms'}</span>
-                <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1">
+                <span className="text-sm font-medium text-gray-900">Dormitorios</span>
+                <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1 border border-gray-100">
                   <button onClick={() => setFilters((p) => ({ ...p, beds: Math.max(0, p.beds - 1) }))} className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-argentina-blue disabled:opacity-40 transition-colors" disabled={filters.beds === 0}><span className="material-icons font-material-icons text-base">remove</span></button>
-                  <span className="text-sm font-semibold w-6 text-center">{filters.beds === 0 ? 'Cualquiera' : `${filters.beds}+`}</span>
+                  <span className="text-sm font-semibold w-6 text-center">{filters.beds === 0 ? 'Cualq.' : `${filters.beds}+`}</span>
                   <button onClick={() => setFilters((p) => ({ ...p, beds: p.beds + 1 }))} className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-argentina-blue hover:bg-argentina-blue hover:text-white transition-colors"><span className="material-icons font-material-icons text-base">add</span></button>
                 </div>
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-900">{dict?.bathrooms || 'Bathrooms'}</span>
-                <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1">
+                <span className="text-sm font-medium text-gray-900">Baños</span>
+                <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1 border border-gray-100">
                   <button onClick={() => setFilters((p) => ({ ...p, baths: Math.max(0, p.baths - 1) }))} className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-argentina-blue disabled:opacity-40 transition-colors" disabled={filters.baths === 0}><span className="material-icons font-material-icons text-base">remove</span></button>
-                  <span className="text-sm font-semibold w-6 text-center">{filters.baths === 0 ? 'Cualquiera' : `${filters.baths}+`}</span>
+                  <span className="text-sm font-semibold w-6 text-center">{filters.baths === 0 ? 'Cualq.' : `${filters.baths}+`}</span>
                   <button onClick={() => setFilters((p) => ({ ...p, baths: p.baths + 1 }))} className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-argentina-blue hover:bg-argentina-blue hover:text-white transition-colors"><span className="material-icons font-material-icons text-base">add</span></button>
                 </div>
               </div>
               
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-900">Cocheras</span>
-                <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1">
+                <div className="flex items-center space-x-3 bg-gray-50 rounded-full p-1 border border-gray-100">
                   <button onClick={() => setFilters((p) => ({ ...p, parking: Math.max(0, p.parking - 1) }))} className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-gray-500 hover:text-argentina-blue disabled:opacity-40 transition-colors" disabled={filters.parking === 0}><span className="material-icons font-material-icons text-base">remove</span></button>
-                  <span className="text-sm font-semibold w-6 text-center">{filters.parking === 0 ? 'Cualquiera' : `${filters.parking}+`}</span>
+                  <span className="text-sm font-semibold w-6 text-center">{filters.parking === 0 ? 'Cualq.' : `${filters.parking}+`}</span>
                   <button onClick={() => setFilters((p) => ({ ...p, parking: p.parking + 1 }))} className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center text-argentina-blue hover:bg-argentina-blue hover:text-white transition-colors"><span className="material-icons font-material-icons text-base">add</span></button>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Section 5: Amenities */}
-          <section>
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Características de la propiedad
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-              {PROPERTY_FEATURES.property.map((amenity) => {
-                const active = filters.amenities.includes(amenity);
-                return (
-                  <label key={amenity} className="cursor-pointer group relative">
-                    <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="sr-only peer" />
-                    <div className={`h-full px-4 py-3 rounded-lg border text-sm flex items-center justify-center gap-2 transition-all ${active ? 'border-argentina-blue bg-argentina-blue/5 text-argentina-blue font-medium' : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'}`}>
-                      {amenity}
-                    </div>
-                    {active && <div className="absolute top-2 right-2 w-2 h-2 bg-argentina-blue rounded-full" />}
-                  </label>
-                );
-              })}
-            </div>
+          {/* Section 5: Características y Comodidades */}
+          <section className="border-t border-gray-100 pt-8">
+            <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-6">Características y Comodidades</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              
+              {/* Propiedad & Ambientes (Left Column) */}
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-semibold text-argentina-navy mb-4">Propiedad</h4>
+                  <div className="space-y-3">
+                    {PROPERTY_FEATURES.property.map((amenity) => {
+                      const active = filters.amenities.includes(amenity);
+                      return (
+                        <label key={amenity} className="flex items-center gap-3 cursor-pointer">
+                          <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="w-4 h-4 text-argentina-blue bg-white border-gray-300 rounded focus:ring-argentina-blue cursor-pointer" />
+                          <span className="text-sm text-gray-700">{amenity}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Tipos de ambientes
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-              {PROPERTY_FEATURES.rooms.map((amenity) => {
-                const active = filters.amenities.includes(amenity);
-                return (
-                  <label key={amenity} className="cursor-pointer group relative">
-                    <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="sr-only peer" />
-                    <div className={`h-full px-4 py-3 rounded-lg border text-sm flex items-center justify-center gap-2 transition-all ${active ? 'border-argentina-blue bg-argentina-blue/5 text-argentina-blue font-medium' : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'}`}>
-                      {amenity}
-                    </div>
-                    {active && <div className="absolute top-2 right-2 w-2 h-2 bg-argentina-blue rounded-full" />}
-                  </label>
-                );
-              })}
-            </div>
+                <div>
+                  <h4 className="text-sm font-semibold text-argentina-navy mb-4">Ambientes</h4>
+                  <div className="space-y-3">
+                    {PROPERTY_FEATURES.rooms.map((amenity) => {
+                      const active = filters.amenities.includes(amenity);
+                      return (
+                        <label key={amenity} className="flex items-center gap-3 cursor-pointer">
+                          <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="w-4 h-4 text-argentina-blue bg-white border-gray-300 rounded focus:ring-argentina-blue cursor-pointer" />
+                          <span className="text-sm text-gray-700">{amenity}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
 
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Servicios
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-              {PROPERTY_FEATURES.services.map((amenity) => {
-                const active = filters.amenities.includes(amenity);
-                return (
-                  <label key={amenity} className="cursor-pointer group relative">
-                    <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="sr-only peer" />
-                    <div className={`h-full px-4 py-3 rounded-lg border text-sm flex items-center justify-center gap-2 transition-all ${active ? 'border-argentina-blue bg-argentina-blue/5 text-argentina-blue font-medium' : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'}`}>
-                      {amenity}
-                    </div>
-                    {active && <div className="absolute top-2 right-2 w-2 h-2 bg-argentina-blue rounded-full" />}
-                  </label>
-                );
-              })}
-            </div>
+              {/* Servicios & Comodidades (Right Column) */}
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-semibold text-argentina-navy mb-4">Servicios</h4>
+                  <div className="space-y-3">
+                    {PROPERTY_FEATURES.services.map((amenity) => {
+                      const active = filters.amenities.includes(amenity);
+                      return (
+                        <label key={amenity} className="flex items-center gap-3 cursor-pointer">
+                          <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="w-4 h-4 text-argentina-blue bg-white border-gray-300 rounded focus:ring-argentina-blue cursor-pointer" />
+                          <span className="text-sm text-gray-700">{amenity}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Comodidades
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {PROPERTY_FEATURES.amenities.map((amenity) => {
-                const active = filters.amenities.includes(amenity);
-                return (
-                  <label key={amenity} className="cursor-pointer group relative">
-                    <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="sr-only peer" />
-                    <div className={`h-full px-4 py-3 rounded-lg border text-sm flex items-center justify-center gap-2 transition-all ${active ? 'border-argentina-blue bg-argentina-blue/5 text-argentina-blue font-medium' : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'}`}>
-                      {amenity}
-                    </div>
-                    {active && <div className="absolute top-2 right-2 w-2 h-2 bg-argentina-blue rounded-full" />}
-                  </label>
-                );
-              })}
+                <div>
+                  <h4 className="text-sm font-semibold text-argentina-navy mb-4">Comodidades</h4>
+                  <div className="space-y-3">
+                    {PROPERTY_FEATURES.amenities.map((amenity) => {
+                      const active = filters.amenities.includes(amenity);
+                      return (
+                        <label key={amenity} className="flex items-center gap-3 cursor-pointer">
+                          <input type="checkbox" checked={active} onChange={() => toggleAmenity(amenity)} className="w-4 h-4 text-argentina-blue bg-white border-gray-300 rounded focus:ring-argentina-blue cursor-pointer" />
+                          <span className="text-sm text-gray-700">{amenity}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
             </div>
           </section>
+
         </div>
 
         {/* Footer */}
@@ -540,20 +534,19 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
             onClick={clearAll}
             className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors underline decoration-gray-300 underline-offset-4"
           >
-            {dict?.clearAll || 'Clear all filters'}
+            Limpiar filtros
           </button>
           <button
             onClick={applyFilters}
             className="bg-argentina-blue hover:bg-argentina-blue/90 text-white px-8 py-3 rounded-lg font-medium shadow-lg shadow-argentina-blue/30 transition-all hover:shadow-argentina-blue/40 flex items-center gap-2 active:scale-95"
           >
             {totalCount !== undefined 
-              ? (dict?.showHomes ? dict.showHomes.replace('{count}', totalCount.toString()) : `Show ${totalCount} Homes`) 
-              : (dict?.applyFilters || 'Apply Filters')}
+              ? `Mostrar ${totalCount} Propiedades` 
+              : 'Aplicar Filtros'}
             <span className="material-icons font-material-icons text-sm">arrow_forward</span>
           </button>
         </footer>
       </div>
-
 
     </div>
   );
