@@ -68,6 +68,7 @@ export async function createProperty(data: any) {
     features: Array.isArray(data.features) ? data.features : [],
     images: data.images || [],
     is_featured: data.is_featured || false,
+    ...(data.date_entry && { date_entry: new Date(data.date_entry).toISOString() })
   };
 
   // Check max ID to manually auto-increment in case the table is missing the Identity property

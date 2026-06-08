@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import TogglePropertyButton from '@/components/admin/TogglePropertyButton';
 import EditPropertyButton from '@/components/admin/EditPropertyButton';
+import BrokerStatsButton from '@/components/admin/BrokerStatsButton';
 
 export default async function AdminPropertiesPage({
   searchParams,
@@ -46,6 +47,7 @@ export default async function AdminPropertiesPage({
           <h1 className="text-3xl font-bold text-argentina-navy dark:text-white tracking-tight">Mis Propiedades</h1>
         </div>
         <div className="flex items-center gap-3">
+            <BrokerStatsButton />
             <Link 
               href={`/admin/properties/create`}
               className="bg-argentina-blue hover:bg-argentina-blue/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-argentina-blue/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2"

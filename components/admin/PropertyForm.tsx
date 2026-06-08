@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
 import { createProperty, updateProperty, uploadPropertyImage } from '@/app/actions/properties';
 import dynamic from 'next/dynamic';
+import RegisterOperation from './RegisterOperation';
 
 const MapPreview = dynamic(() => import('@/components/admin/MapPreview'), {
   ssr: false,
@@ -42,6 +43,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
     parking: initialData?.parking || 0,
     age: initialData?.age || 'A estrenar',
     disposition: initialData?.disposition || 'Frente',
+    date_entry: initialData?.date_entry ? new Date(initialData.date_entry).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
     features: initialData?.features || [] as string[]
   });
 
@@ -116,6 +118,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         area: formData.area,
         age: formData.age,
         disposition: formData.disposition,
+        date_entry: formData.date_entry,
         features: formData.features,
         images: images,
       };
@@ -233,6 +236,17 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
                   <option value="Chacra">Chacra</option>
                   <option value="Hotel">Hotel</option>
                 </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="date_entry">Fecha de Ingreso</label>
+                <input 
+                  id="date_entry"
+                  type="date" 
+                  required
+                  value={formData.date_entry}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-base font-sf-pro outline-none" 
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="age">Antigüedad</label>
@@ -557,6 +571,12 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
             </div>
           </div>
         </div>
+        
+        {initialData?.id && (
+          <div className="mt-8">
+            <RegisterOperation propertyId={initialData.id} />
+          </div>
+        )}
       </div>
     </form>
   );

@@ -1,0 +1,119 @@
+'use server';
+
+import { createClient } from '@/lib/supabase/server';
+import { revalidatePath } from 'next/cache';
+import { BrokerStats } from '@/types/transaction';
+
+export async function registerOperation(payload: {
+  property_id: string;
+  operation_type: 'venta' | 'alquiler';
+  price: number;
+  operation_date: string;
+  notes?: string;
+}) {
+  const supabase = await createClient();
+
+  // Insert transaction
+  const { error: transactionError } = await supabase
+    .from('property_transactions')
+    .insert([payload]);
+
+  if (transactionError) {
+    throw new Error(`Failed to register operation: ${transactionError.message}`);
+  }
+
+  // Deactivate property since it was sold/rented
+  const { error: updateError } = await supabase
+    .from('properties')
+    .update({ is_active: false })
+    .eq('id', payload.property_id);
+
+  if (updateError) {
+    throw new Error(`Failed to update property status: ${updateError.message}`);
+  }
+
+  revalidatePath('/admin/properties');
+  revalidatePath(`/admin/properties/${payload.property_id}/edit`);
+  
+  return { success: true };
+}
+
+export async function getBrokerStats(): Promise<BrokerStats> {
+  const supabase = await createClient();
+
+  // Get total properties counts
+  const { data: properties, error: propertiesError } = await supabase
+    .from('properties')
+    .select('id, is_active');
+
+  let totalProperties = 0;
+  let activeProperties = 0;
+  let inactiveProperties = 0;
+
+  if (properties) {
+    totalProperties = properties.length;
+    activeProperties = properties.filter(p => p.is_active !== false).length;
+    inactiveProperties = properties.filter(p => p.is_active === false).length;
+  }
+
+  // Get transactions with property details
+  const { data: transactions, error: transactionsError } = await supabase
+    .from('property_transactions')
+    .select(`
+      id,
+      price,
+      operation_type,
+      operation_date,
+      properties (
+        date_entry
+      )
+    `);
+
+  let totalSales = 0;
+  let totalRents = 0;
+  let revenueSales = 0;
+  let revenueRents = 0;
+  let totalDaysSales = 0;
+  let totalDaysRents = 0;
+
+  if (transactions) {
+    transactions.forEach(t => {
+      if (t.operation_type === 'venta') {
+        totalSales++;
+        revenueSales += Number(t.price);
+      } else {
+        totalRents++;
+        revenueRents += Number(t.price);
+      }
+
+      // Calculate days on market
+      if (t.properties && (t.properties as any).date_entry) {
+        const entryDate = new Date((t.properties as any).date_entry);
+        const opDate = new Date(t.operation_date);
+        const diffTime = Math.abs(opDate.getTime() - entryDate.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (t.operation_type === 'venta') {
+          totalDaysSales += diffDays;
+        } else {
+          totalDaysRents += diffDays;
+        }
+      }
+    });
+  }
+
+  const avgDaysOnMarketSales = totalSales > 0 ? Math.round(totalDaysSales / totalSales) : 0;
+  const avgDaysOnMarketRents = totalRents > 0 ? Math.round(totalDaysRents / totalRents) : 0;
+
+  return {
+    totalProperties,
+    activeProperties,
+    inactiveProperties,
+    totalSales,
+    totalRents,
+    revenueSales,
+    revenueRents,
+    avgDaysOnMarketSales,
+    avgDaysOnMarketRents
+  };
+}
