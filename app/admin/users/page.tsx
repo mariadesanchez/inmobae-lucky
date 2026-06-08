@@ -86,8 +86,7 @@ export default async function AdminUsersPage({
       <header className="mb-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-argentina-navy dark:text-white">User Directory</h1>
-            <p className="text-argentina-navy/60 dark:text-gray-400 mt-1 text-sm">Manage user access and roles for your properties.</p>
+            <h1 className="text-3xl font-bold tracking-tight text-argentina-navy dark:text-white">Administrar Usuarios</h1>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative group w-full md:w-80">
