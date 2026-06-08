@@ -189,3 +189,24 @@ export async function getBrokerStats(): Promise<BrokerStats> {
     mapData
   };
 }
+
+export async function getClosedProperties() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('property_transactions')
+    .select(`
+      *,
+      property:properties(*)
+    `)
+    .order('operation_type', { ascending: true }) // 'alquiler' comes before 'venta' alphabetically
+    .order('operation_date', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching closed properties:', error);
+    throw new Error('No se pudieron obtener las propiedades cerradas');
+  }
+
+  // Map the joined data so we just return the 'property' objects
+  return data ? data.map(item => item.property) : [];
+}

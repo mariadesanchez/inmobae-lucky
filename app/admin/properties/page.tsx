@@ -4,6 +4,7 @@ import Link from 'next/link';
 import TogglePropertyButton from '@/components/admin/TogglePropertyButton';
 import EditPropertyButton from '@/components/admin/EditPropertyButton';
 import BrokerStatsButton from '@/components/admin/BrokerStatsButton';
+import ClosedPropertiesButton from '@/components/admin/ClosedPropertiesButton';
 
 export default async function AdminPropertiesPage({
   searchParams,
@@ -55,6 +56,7 @@ export default async function AdminPropertiesPage({
           <h1 className="text-3xl font-bold text-argentina-navy dark:text-white tracking-tight">Mis Propiedades</h1>
         </div>
         <div className="flex items-center gap-3">
+            <ClosedPropertiesButton />
             <BrokerStatsButton />
             <Link 
               href={`/admin/properties/create`}
