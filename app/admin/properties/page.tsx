@@ -147,7 +147,7 @@ export default async function AdminPropertiesPage({
                   <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-1.5"></span>
                   Inactiva
                 </span>
-              ) : prop.status === 'sale' ? (
+              ) : prop.status === 'comprar' ? (
                 <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-argentina-sun text-argentina-blue border border-argentina-blue/10 w-fit">
                   <span className="w-1.5 h-1.5 rounded-full bg-argentina-blue mr-1.5"></span>
                   En Venta

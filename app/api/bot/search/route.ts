@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     title: p.title,
     location: p.location,
     price: p.price,
-    status: p.status === 'rent' ? 'Alquiler' : 'Venta',
+    status: p.status === 'alquilar' ? 'Alquiler' : 'Venta',
     beds: p.beds,
     baths: p.baths,
     area: p.area,
