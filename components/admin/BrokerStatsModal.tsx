@@ -3,6 +3,12 @@
 import { useState, useEffect } from 'react';
 import { getBrokerStats } from '@/app/actions/transactions';
 import { BrokerStats } from '@/types/transaction';
+import dynamic from 'next/dynamic';
+
+const BrokerStatsMap = dynamic(() => import('./BrokerStatsMap'), {
+  ssr: false,
+  loading: () => <div className="w-full h-full min-h-[300px] bg-gray-100 dark:bg-white/5 animate-pulse rounded-xl flex items-center justify-center text-sm font-medium text-gray-400">Cargando mapa...</div>
+});
 
 export default function BrokerStatsModal({ onClose }: { onClose: () => void }) {
   const [stats, setStats] = useState<BrokerStats | null>(null);
@@ -32,8 +38,8 @@ export default function BrokerStatsModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-argentina-navy/40 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-[#152e2a] w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden border border-gray-100 dark:border-white/10">
-        <div className="p-6 border-b border-gray-100 dark:border-white/10 flex items-center justify-between bg-gray-50/50 dark:bg-black/10">
+      <div className="bg-white dark:bg-[#152e2a] w-full max-w-6xl max-h-[90vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-gray-100 dark:border-white/10">
+        <div className="p-6 border-b border-gray-100 dark:border-white/10 flex-shrink-0 flex items-center justify-between bg-gray-50/50 dark:bg-black/10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-argentina-sun/20 flex items-center justify-center text-argentina-navy dark:text-argentina-sun">
               <span className="material-icons text-xl">insights</span>
@@ -51,7 +57,7 @@ export default function BrokerStatsModal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 overflow-y-auto flex-grow">
           {loading ? (
             <div className="py-12 flex flex-col items-center justify-center gap-4">
               <div className="w-10 h-10 border-4 border-argentina-blue/20 border-t-argentina-blue rounded-full animate-spin"></div>
@@ -107,6 +113,21 @@ export default function BrokerStatsModal({ onClose }: { onClose: () => void }) {
                       <p className="text-xl font-bold text-argentina-navy dark:text-white">{stats.avgDaysOnMarketRents} días</p>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Mapas Georeferenciados */}
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4 mt-8">Ubicaciones Geográficas</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[400px]">
+                  <BrokerStatsMap 
+                    title="Propiedades en Venta" 
+                    properties={stats.mapData.filter(p => p.type === 'venta')} 
+                  />
+                  <BrokerStatsMap 
+                    title="Propiedades en Alquiler" 
+                    properties={stats.mapData.filter(p => p.type === 'alquiler')} 
+                  />
                 </div>
               </div>
             </div>

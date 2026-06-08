@@ -20,4 +20,15 @@ export interface BrokerStats {
   revenueRents: number;
   avgDaysOnMarketSales: number;
   avgDaysOnMarketRents: number;
+  mapData: MapProperty[];
+}
+
+export interface MapProperty {
+  id: string;
+  title: string;
+  lat: number;
+  lng: number;
+  price: number;
+  type: string;
+  isClosed: boolean;
 }

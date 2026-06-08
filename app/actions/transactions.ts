@@ -41,10 +41,10 @@ export async function registerOperation(payload: {
 export async function getBrokerStats(): Promise<BrokerStats> {
   const supabase = await createClient();
 
-  // Get total properties counts
+  // Get properties including coordinates
   const { data: properties, error: propertiesError } = await supabase
     .from('properties')
-    .select('id, is_active');
+    .select('id, title, latitude, longitude, price, status, is_active');
 
   let totalProperties = 0;
   let activeProperties = 0;
@@ -61,6 +61,7 @@ export async function getBrokerStats(): Promise<BrokerStats> {
     .from('property_transactions')
     .select(`
       id,
+      property_id,
       price,
       operation_type,
       operation_date,
@@ -105,6 +106,18 @@ export async function getBrokerStats(): Promise<BrokerStats> {
   const avgDaysOnMarketSales = totalSales > 0 ? Math.round(totalDaysSales / totalSales) : 0;
   const avgDaysOnMarketRents = totalRents > 0 ? Math.round(totalDaysRents / totalRents) : 0;
 
+  const mapData = (properties || [])
+    .filter(p => p.latitude !== null && p.longitude !== null)
+    .map(p => ({
+      id: p.id,
+      title: p.title || 'Propiedad sin título',
+      lat: p.latitude,
+      lng: p.longitude,
+      price: Number(p.price) || 0,
+      type: p.status === 'alquilar' ? 'alquiler' : 'venta',
+      isClosed: transactions?.some(t => t.property_id === p.id) || false
+    }));
+
   return {
     totalProperties,
     activeProperties,
@@ -114,6 +127,7 @@ export async function getBrokerStats(): Promise<BrokerStats> {
     revenueSales,
     revenueRents,
     avgDaysOnMarketSales,
-    avgDaysOnMarketRents
+    avgDaysOnMarketRents,
+    mapData
   };
 }
