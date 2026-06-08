@@ -2,6 +2,8 @@ import { createServerClient } from '@supabase/ssr';
 import UserRoleTable from '@/components/admin/UserRoleTable';
 import { createClient as createStandardClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import UsersSearch from '@/components/admin/UsersSearch';
+import AddUserModal from '@/components/admin/AddUserModal';
 
 export default async function AdminUsersPage({
   searchParams,
@@ -81,6 +83,15 @@ export default async function AdminUsersPage({
     };
   });
 
+  const searchTerm = (resolvedSearchParams.search as string || '').toLowerCase();
+  let finalUsers = mappedUsers;
+  if (searchTerm) {
+    finalUsers = mappedUsers.filter(u => 
+      u.email.toLowerCase().includes(searchTerm) || 
+      u.name.toLowerCase().includes(searchTerm)
+    );
+  }
+
   return (
     <div className="w-full pt-8 pb-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col h-full">
       <header className="mb-6">
@@ -89,19 +100,8 @@ export default async function AdminUsersPage({
             <h1 className="text-3xl font-bold tracking-tight text-argentina-navy dark:text-white">Administrar Usuarios</h1>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <div className="relative group w-full md:w-80">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="material-icons text-argentina-navy/40 group-focus-within:text-argentina-blue text-xl">search</span>
-              </div>
-              <input 
-                type="text" 
-                className="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg bg-white dark:bg-gray-800 text-argentina-navy dark:text-white shadow-soft placeholder-argentina-navy/30 focus:ring-2 focus:ring-argentina-blue focus:bg-white transition-all text-sm" 
-                placeholder="Search by email..."
-              />
-            </div>
-            <button className="bg-argentina-blue hover:bg-argentina-blue/90 text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-argentina-blue/20 transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2 whitespace-nowrap">
-              <span className="material-icons text-base">add</span> Add User
-            </button>
+            <UsersSearch />
+            <AddUserModal />
           </div>
         </div>
 
@@ -120,7 +120,7 @@ export default async function AdminUsersPage({
           <div className="col-span-3">Performance</div>
           <div className="col-span-2 text-right">Actions</div>
         </div>
-        <UserRoleTable users={mappedUsers} currentUserId={currentUser?.id || ''} />
+        <UserRoleTable users={finalUsers} currentUserId={currentUser?.id || ''} />
         
         {/* Pagination */}
         <div className="px-6 py-4 border-t border-argentina-navy/5 dark:border-argentina-blue/20 flex items-center justify-between bg-argentina-light/50 dark:bg-argentina-blue/5 rounded-xl border mt-4">
