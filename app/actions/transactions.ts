@@ -29,7 +29,7 @@ export async function registerOperation(payload: {
     .limit(1);
 
   if (existingTransactions && existingTransactions.length > 0) {
-    throw new Error('Esta propiedad ya fue cerrada previamente.');
+    return { success: false, error: 'Esta propiedad ya fue cerrada previamente.' };
   }
 
   // Insert transaction
@@ -38,7 +38,7 @@ export async function registerOperation(payload: {
     .insert([payload]);
 
   if (transactionError) {
-    throw new Error(`Failed to register operation: ${transactionError.message}`);
+    return { success: false, error: `Error al registrar operación: ${transactionError.message}` };
   }
 
   // Deactivate property since it was sold/rented
@@ -48,7 +48,7 @@ export async function registerOperation(payload: {
     .eq('id', payload.property_id);
 
   if (updateError) {
-    throw new Error(`Failed to update property status: ${updateError.message}`);
+    return { success: false, error: `Error al inactivar la propiedad: ${updateError.message}` };
   }
 
   revalidatePath('/admin/properties');

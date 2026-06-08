@@ -48,13 +48,21 @@ export default function RegisterOperation({ propertyId, status, currentPrice, is
     setError('');
     
     try {
-      await registerOperation({
+      const result = await registerOperation({
         property_id: propertyId,
         operation_type: formData.operation_type as 'venta' | 'alquiler',
         price: Number(formData.price),
         operation_date: new Date(formData.operation_date).toISOString(),
         notes: formData.notes
       });
+      
+      if (result && !result.success) {
+        setError(result.error || 'Error desconocido');
+        alert(result.error || 'Error desconocido');
+        setLoading(false);
+        return;
+      }
+
       setSuccess(true);
       setTimeout(() => {
         router.push('/admin/properties');
