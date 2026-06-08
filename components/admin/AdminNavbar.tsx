@@ -50,7 +50,7 @@ export default function AdminNavbar({ user }: AdminNavbarProps) {
     <nav className="bg-white dark:bg-[#152e2a] border-b border-argentina-navy/5 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
         <div className="flex items-center gap-12">
-          <Link href={``} className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
+          <Link href={'/'} className="flex-shrink-0 flex items-center gap-2 cursor-pointer group">
             <span className="text-2xl font-serif font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-argentina-navy to-argentina-blue">Inmobae-Lucky</span>
           </Link>
           <div className="hidden md:flex space-x-2">

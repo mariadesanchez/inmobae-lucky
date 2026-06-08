@@ -18,16 +18,14 @@ export default function UsersSearch() {
     } else {
       params.delete('search');
     }
-    router.push(`${pathname}?${params.toString()}`);
-    router.refresh();
+    window.location.href = `${pathname}?${params.toString()}`;
   };
 
   const handleClear = () => {
     setSearchTerm('');
     const params = new URLSearchParams(searchParams.toString());
     params.delete('search');
-    router.push(`${pathname}?${params.toString()}`);
-    router.refresh();
+    window.location.href = `${pathname}?${params.toString()}`;
   };
 
   return (
