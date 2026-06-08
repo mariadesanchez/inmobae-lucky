@@ -1,25 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { registerOperation } from '@/app/actions/transactions';
 import { useRouter } from 'next/navigation';
 
 interface RegisterOperationProps {
   propertyId: string;
+  status?: string;
 }
 
-export default function RegisterOperation({ propertyId }: RegisterOperationProps) {
+export default function RegisterOperation({ propertyId, status }: RegisterOperationProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   
   const [formData, setFormData] = useState({
-    operation_type: 'venta',
+    operation_type: status === 'alquilar' ? 'alquiler' : 'venta',
     price: '',
     operation_date: new Date().toISOString().split('T')[0],
     notes: ''
   });
+
+  // Update operation_type if status changes
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      operation_type: status === 'alquilar' ? 'alquiler' : 'venta'
+    }));
+  }, [status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,9 +81,9 @@ export default function RegisterOperation({ propertyId }: RegisterOperationProps
               <div>
                 <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro">Tipo de Operación</label>
                 <select 
-                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy focus:ring-1 focus:ring-argentina-blue outline-none text-sm font-sf-pro"
+                  className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-gray-50 text-argentina-navy focus:ring-1 focus:ring-argentina-blue outline-none text-sm font-sf-pro"
                   value={formData.operation_type}
-                  onChange={(e) => setFormData({...formData, operation_type: e.target.value})}
+                  disabled
                 >
                   <option value="venta">Venta</option>
                   <option value="alquiler">Alquiler</option>

@@ -444,7 +444,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         </div>
 
         {/* Details */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-24">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-hint-green/30 flex items-center gap-3 bg-gradient-to-r from-hint-green/10 to-transparent">
             <div className="w-8 h-8 rounded-full bg-hint-green flex items-center justify-center text-argentina-navy">
               <span className="material-icons text-lg">straighten</span>
@@ -574,7 +574,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         
         {initialData?.id && (
           <div className="mt-8">
-            <RegisterOperation propertyId={initialData.id} />
+            <RegisterOperation propertyId={initialData.id} status={formData.status} />
           </div>
         )}
       </div>
