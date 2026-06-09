@@ -85,17 +85,24 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
     query = query.eq('status', status);
   }
 
-  // Beds & Baths & Parking — minimum count
-  if (beds && Number(beds) > 0) query = query.gte('beds', Number(beds));
-  if (baths && Number(baths) > 0) query = query.gte('baths', Number(baths));
-  if (parking && Number(parking) > 0) query = query.gte('parking', Number(parking));
+  // Beds & Baths & Parking — exact match
+  if (beds && Number(beds) > 0) query = query.eq('beds', Number(beds));
+  if (baths && Number(baths) > 0) query = query.eq('baths', Number(baths));
+  if (parking && Number(parking) > 0) query = query.eq('parking', Number(parking));
 
   // Area
   if (minArea && Number(minArea) > 0) query = query.gte('area', Number(minArea));
   if (maxArea && Number(maxArea) < 10000) query = query.lte('area', Number(maxArea));
 
-  // Exact Matches
-  if (age && age !== 'Cualquiera') query = query.eq('age', age);
+  // Exact Matches / Custom Age logic
+  if (age && age !== 'Cualquiera') {
+    if (age === 'En construcción') query = query.eq('age', 'En construcción');
+    else if (age === 'A estrenar') query = query.in('age', ['En construcción', 'A estrenar']);
+    else if (age === 'Hasta 5 años') query = query.in('age', ['En construcción', 'A estrenar', 'Hasta 5 años']);
+    else if (age === 'Hasta 10 años') query = query.in('age', ['En construcción', 'A estrenar', 'Hasta 5 años', 'Hasta 10 años']);
+    else if (age === 'Hasta 20 años') query = query.in('age', ['En construcción', 'A estrenar', 'Hasta 5 años', 'Hasta 10 años', 'Hasta 20 años']);
+    // 'Más de 30 años' would include anything, so no filter needed
+  }
   if (disposition && disposition !== 'Cualquiera') query = query.eq('disposition', disposition);
 
   // Featured Status
@@ -113,13 +120,9 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
     query = query.gte('created_at', date.toISOString());
   }
 
-  // Amenities
-  if (amenities) {
-    const amenitiesArray = amenities.split(',').filter(Boolean);
-    if (amenitiesArray.length > 0) {
-      query = query.contains('features', amenitiesArray);
-    }
-  }
+  // Amenities: We do NOT filter the Supabase query strictly anymore.
+  // Instead, we pass it down to display missing amenities in the card.
+  const amenitiesArray = amenities ? amenities.split(',').filter(Boolean) : [];
 
   const { data: propertiesData, count } = await query.range(from, to);
 
@@ -139,13 +142,14 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
         <div id="propiedades" className="pt-24 pb-8">
           {!hasActiveFilters && <FeaturedCollection dict={{ ...dict.featured, property: dict.property }} />}
           <NewInMarket
-          properties={mappedProperties}
-          totalCount={count ?? 0}
-          currentPage={currentPage}
-          pageSize={PAGE_SIZE}
-          hasActiveFilters={hasActiveFilters}
-          dict={{ ...dict.newInMarket, property: dict.property }}
-        />
+            properties={mappedProperties}
+            totalCount={count ?? 0}
+            currentPage={currentPage}
+            pageSize={PAGE_SIZE}
+            hasActiveFilters={hasActiveFilters}
+            dict={{ ...dict.newInMarket, property: dict.property }}
+            requestedAmenities={amenitiesArray}
+          />
         </div>
       </main>
     </>

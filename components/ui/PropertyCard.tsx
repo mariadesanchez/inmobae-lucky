@@ -9,9 +9,10 @@ import FavoriteButton from './FavoriteButton';
 interface PropertyCardProps {
   property: Property;
   dict?: any;
+  requestedAmenities?: string[];
 }
 
-const PropertyCard = ({ property, dict }: PropertyCardProps) => {
+const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps) => {
   const isNewThisMonth = () => {
     if (!property.date_entry) return false;
     const entryDate = new Date(property.date_entry);
@@ -20,6 +21,11 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
   };
 
   const isNew = isNewThisMonth();
+
+  // Find missing amenities based on requested
+  const missingAmenities = requestedAmenities
+    ? requestedAmenities.filter((amenity) => !property.features?.includes(amenity))
+    : [];
 
   return (
     <Link href={`/propiedades/${property.slug}`} className="block h-full group">
@@ -68,27 +74,31 @@ const PropertyCard = ({ property, dict }: PropertyCardProps) => {
           </h4>
           <p className="text-argentina-navy-muted text-xs mb-4">{property.location}</p>
 
-          {/* Footer Features */}
-          <div className="mt-auto flex items-center justify-between pt-3 border-t border-gray-100">
-            <div className="flex items-center gap-1 text-argentina-navy-muted text-xs">
-              <span className="material-icons text-sm text-argentina-blue/80 font-material-icons">
-                king_bed
-              </span>{' '}
-              {property.beds}
+        </div>
+
+        {/* Property Features */}
+        <div className="p-4 pt-0">
+          <div className="flex items-center gap-4 text-gray-500 text-sm mb-4">
+            <div className="flex items-center gap-1.5">
+              <span className="material-icons text-[18px]">bed</span>
+              <span>{property.beds}</span>
             </div>
-            <div className="flex items-center gap-1 text-argentina-navy-muted text-xs">
-              <span className="material-icons text-sm text-argentina-blue/80 font-material-icons">
-                bathtub
-              </span>{' '}
-              {property.baths}
+            <div className="flex items-center gap-1.5">
+              <span className="material-icons text-[18px]">bathtub</span>
+              <span>{property.baths}</span>
             </div>
-            <div className="flex items-center gap-1 text-argentina-navy-muted text-xs">
-              <span className="material-icons text-sm text-argentina-blue/80 font-material-icons">
-                square_foot
-              </span>{' '}
-              {property.sqft}m²
+            <div className="flex items-center gap-1.5">
+              <span className="material-icons text-[18px]">square_foot</span>
+              <span>{property.sqft} m²</span>
             </div>
           </div>
+          
+          {missingAmenities.length > 0 && (
+            <div className="mt-2 text-xs font-medium text-red-500 bg-red-50 rounded-md px-2 py-1.5 flex items-start gap-1">
+              <span className="material-icons text-[14px]">warning</span>
+              <span>No incluye: {missingAmenities.join(', ')}</span>
+            </div>
+          )}
         </div>
       </article>
     </Link>

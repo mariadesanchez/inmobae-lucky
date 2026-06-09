@@ -396,14 +396,20 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
 
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-900">Año de Construcción</span>
-                <input
-                  type="text"
-                  placeholder="YYYY"
+                <span className="text-sm font-medium text-gray-900">Antigüedad</span>
+                <select
                   value={filters.age}
-                  onChange={(e) => setFilters((p) => ({ ...p, age: e.target.value.replace(/\D/g, '').slice(0, 4) }))}
-                  className="w-24 bg-gray-50 border-0 rounded-lg py-2 px-3 text-gray-900 text-sm text-center focus:ring-2 focus:ring-argentina-blue outline-none"
-                />
+                  onChange={(e) => setFilters((p) => ({ ...p, age: e.target.value }))}
+                  className="w-40 bg-gray-50 border-0 rounded-lg py-2 pl-3 pr-8 text-gray-900 text-sm appearance-none focus:ring-2 focus:ring-argentina-blue cursor-pointer outline-none"
+                >
+                  <option value="Cualquiera">Cualquiera</option>
+                  <option value="En construcción">En construcción</option>
+                  <option value="A estrenar">A estrenar</option>
+                  <option value="Hasta 5 años">Hasta 5 años</option>
+                  <option value="Hasta 10 años">Hasta 10 años</option>
+                  <option value="Hasta 20 años">Hasta 20 años</option>
+                  <option value="Más de 30 años">Más de 30 años</option>
+                </select>
               </div>
 
               <div className="flex justify-between items-center">

@@ -8,7 +8,8 @@ interface NewInMarketProps {
   currentPage: number;
   pageSize: number;
   hasActiveFilters?: boolean;
-  dict?: any;
+  dict: any;
+  requestedAmenities?: string[];
 }
 
 const NewInMarket = ({
@@ -18,6 +19,7 @@ const NewInMarket = ({
   pageSize,
   hasActiveFilters,
   dict,
+  requestedAmenities,
 }: NewInMarketProps) => {
   const totalPages = Math.ceil(totalCount / pageSize);
 
@@ -36,8 +38,13 @@ const NewInMarket = ({
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {properties.map((property) => (
-            <PropertyCard key={property.id} property={property} dict={dict} />
+          {properties.map(property => (
+            <PropertyCard 
+              key={property.id} 
+              property={property} 
+              dict={dict.property}
+              requestedAmenities={requestedAmenities}
+            />
           ))}
         </div>
       )}
