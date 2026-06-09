@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 import Navbar from '@/components/Navbar';
@@ -11,6 +12,52 @@ import { getDictionary } from '@/lib/dictionaries';
 
 interface PropertyPageProps {
   params: Promise<{ slug: string;  }>;
+}
+
+export async function generateMetadata(
+  { params }: PropertyPageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = await params;
+  const segments = slug.split('-');
+  const id = segments[segments.length - 1];
+
+  if (!id) return {};
+
+  const supabase = await createClient();
+  const { data: rawRow } = await supabase
+    .from('properties')
+    .select('title, description, images, image')
+    .eq('id', id)
+    .single();
+
+  if (!rawRow) return {};
+
+  const property = mapDbRowToProperty(rawRow);
+  const imageUrl = property.images && property.images.length > 0 ? property.images[0] : property.image;
+
+  return {
+    title: property.title,
+    description: property.description || 'Descubre esta increíble propiedad en Inmobae-Lucky.',
+    openGraph: {
+      title: property.title,
+      description: property.description || 'Descubre esta increíble propiedad en Inmobae-Lucky.',
+      images: imageUrl ? [
+        {
+          url: imageUrl,
+          width: 800,
+          height: 600,
+          alt: property.title,
+        },
+      ] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: property.title,
+      description: property.description || 'Descubre esta increíble propiedad en Inmobae-Lucky.',
+      images: imageUrl ? [imageUrl] : [],
+    },
+  };
 }
 
 

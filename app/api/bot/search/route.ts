@@ -45,14 +45,14 @@ export async function POST(request: NextRequest) {
       if (val === 'NULL') return;
 
       const k = key.trim().toLowerCase();
-      if (k === 'ubicación' || k === 'ubicacion') parsedLocation = val;
-      if (k === 'precio') parsedMaxPrice = Number(val);
-      if (k === 'camas') parsedBeds = Number(val);
-      if (k === 'baños') parsedBaths = Number(val);
-      if (k === 'estacionamiento') parsedParking = Number(val);
+      if (k === 'ubicación' || k === 'ubicacion' || k === 'location') parsedLocation = val;
+      if (k === 'precio' || k === 'price') parsedMaxPrice = Number(val);
+      if (k === 'camas' || k === 'beds') parsedBeds = Number(val);
+      if (k === 'baños' || k === 'baths') parsedBaths = Number(val);
+      if (k === 'estacionamiento' || k === 'parking') parsedParking = Number(val);
       if (k === 'area') parsedArea = Number(val);
-      if (k === 'estado') parsedStatus = val;
-      if (k === 'categoría' || k === 'categoria') parsedCategory = val;
+      if (k === 'estado' || k === 'status') parsedStatus = val;
+      if (k === 'categoría' || k === 'categoria' || k === 'category') parsedCategory = val;
     });
   }
 
