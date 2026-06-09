@@ -135,6 +135,9 @@ const HeroInner = ({ dict }: { dict?: any }) => {
         isOpen={isFiltersOpen}
         onClose={() => setFiltersOpen(false)}
         dict={dict?.filters}
+        initialLocation={searchText}
+        initialType={activeCategory}
+        initialStatus={activeOperation}
       />
     </section>
   );

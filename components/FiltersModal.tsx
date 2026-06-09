@@ -39,19 +39,22 @@ interface FiltersModalProps {
   onClose: () => void;
   totalCount?: number;
   dict?: any;
+  initialLocation?: string;
+  initialType?: string;
+  initialStatus?: string;
 }
 
-export default function FiltersModal({ isOpen, onClose, totalCount, dict }: FiltersModalProps) {
+export default function FiltersModal({ isOpen, onClose, totalCount, dict, initialLocation, initialType, initialStatus }: FiltersModalProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Initialize from URL
+  // Initialize from URL or Props
   const [filters, setFilters] = useState<FiltersState>({
-    location: searchParams.get('location') ?? '',
+    location: initialLocation !== undefined ? initialLocation : (searchParams.get('location') ?? ''),
     minPrice: Number(searchParams.get('minPrice') ?? MIN_PRICE),
     maxPrice: Number(searchParams.get('maxPrice') ?? MAX_PRICE),
-    propertyType: searchParams.get('type') || 'Todos',
+    propertyType: initialType !== undefined ? initialType : (searchParams.get('type') || 'Todos'),
     beds: Number(searchParams.get('beds') ?? 0),
     baths: Number(searchParams.get('baths') ?? 0),
     parking: Number(searchParams.get('parking') ?? 0),
@@ -63,6 +66,27 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
     featuredStatus: searchParams.get('featuredStatus') || 'Todas',
     datePublished: searchParams.get('datePublished') || 'Cualquiera',
   });
+
+  // Sync state when search params or props change
+  useEffect(() => {
+    if (!isOpen) return; // Only sync when opening
+    setFilters({
+      location: initialLocation !== undefined ? initialLocation : (searchParams.get('location') || ''),
+      minPrice: Number(searchParams.get('minPrice')) || MIN_PRICE,
+      maxPrice: Number(searchParams.get('maxPrice')) || MAX_PRICE,
+      propertyType: initialType !== undefined ? initialType : (searchParams.get('type') || 'Todos'),
+      beds: Number(searchParams.get('beds')) || 0,
+      baths: Number(searchParams.get('baths')) || 0,
+      parking: Number(searchParams.get('parking')) || 0,
+      amenities: searchParams.get('amenities') ? searchParams.get('amenities')!.split(',') : [],
+      minArea: Number(searchParams.get('minArea')) || 0,
+      maxArea: Number(searchParams.get('maxArea')) || 10000,
+      age: searchParams.get('age') || '',
+      disposition: searchParams.get('disposition') || 'Cualquiera',
+      featuredStatus: searchParams.get('featuredStatus') || 'Todas',
+      datePublished: searchParams.get('datePublished') || 'Cualquiera',
+    });
+  }, [searchParams, isOpen, initialLocation, initialType]);
 
   // Slider thumb positions (0-100%)
   const minPct = ((filters.minPrice - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100;
@@ -120,7 +144,10 @@ export default function FiltersModal({ isOpen, onClose, totalCount, dict }: Filt
     if (filters.amenities.length > 0) params.set('amenities', filters.amenities.join(','));
     params.set('page', '1');
 
-    router.push(`${pathname}?${params.toString()}`);
+    const status = initialStatus || searchParams.get('status') || 'comprar';
+    params.set('status', status);
+
+    router.push(`/buscar?${params.toString()}`);
     onClose();
   }, [filters, pathname, router, onClose]);
 
