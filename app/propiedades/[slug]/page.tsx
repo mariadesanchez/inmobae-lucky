@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata, ResolvingMetadata } from 'next';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 import Navbar from '@/components/Navbar';
@@ -24,14 +25,23 @@ export async function generateMetadata(
 
   if (!id) return {};
 
-  const supabase = await createClient();
-  const { data: rawRow } = await supabase
+  const supabaseMeta = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  const { data: rawRow, error } = await supabaseMeta
     .from('properties')
     .select('title, description, images, image')
     .eq('id', id)
     .single();
 
-  if (!rawRow) return {};
+  if (error || !rawRow) {
+    return {
+      title: 'Propiedad no encontrada',
+      description: 'La propiedad solicitada no existe o no está disponible.',
+    };
+  }
 
   const property = mapDbRowToProperty(rawRow);
   const imageUrl = property.images && property.images.length > 0 ? property.images[0] : property.image;
