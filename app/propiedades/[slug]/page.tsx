@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { getBotSupabase } from '@/lib/bot-auth';
 import { createClient } from '@/lib/supabase/server';
 import { mapDbRowToProperty } from '@/lib/property-mapper';
 import Navbar from '@/components/Navbar';
@@ -25,10 +25,7 @@ export async function generateMetadata(
 
   if (!id) return {};
 
-  const supabaseMeta = createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabaseMeta = getBotSupabase();
 
   const { data: rawRow, error } = await supabaseMeta
     .from('properties')
@@ -39,7 +36,7 @@ export async function generateMetadata(
   if (error || !rawRow) {
     return {
       title: 'Propiedad no encontrada',
-      description: 'La propiedad solicitada no existe o no está disponible.',
+      description: error ? error.message : 'La propiedad solicitada no existe o no está disponible.',
     };
   }
 
