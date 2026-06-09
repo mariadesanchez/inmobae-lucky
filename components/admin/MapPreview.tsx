@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useEffect } from 'react';
@@ -22,7 +22,18 @@ function ChangeView({ center, zoom }: { center: [number, number], zoom: number }
   return null;
 }
 
-export default function MapPreview({ lat, lng }: { lat: string | number, lng: string | number }) {
+function MapClickEvents({ onLocationSelect }: { onLocationSelect?: (lat: number, lng: number) => void }) {
+  useMapEvents({
+    click(e) {
+      if (onLocationSelect) {
+        onLocationSelect(e.latlng.lat, e.latlng.lng);
+      }
+    },
+  });
+  return null;
+}
+
+export default function MapPreview({ lat, lng, onLocationSelect }: { lat: string | number, lng: string | number, onLocationSelect?: (lat: number, lng: number) => void }) {
   const parsedLat = parseFloat(lat as string);
   const parsedLng = parseFloat(lng as string);
 
@@ -44,6 +55,7 @@ export default function MapPreview({ lat, lng }: { lat: string | number, lng: st
       />
       {isValid && <Marker position={center} />}
       <ChangeView center={center} zoom={zoom} />
+      <MapClickEvents onLocationSelect={onLocationSelect} />
     </MapContainer>
   );
 }

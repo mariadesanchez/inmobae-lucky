@@ -24,6 +24,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeocoding, setIsGeocoding] = useState(false);
   const [images, setImages] = useState<string[]>(initialData?.images || []);
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -61,6 +62,39 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
     if (type === 'checkbox') return;
 
     setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleLocationSelect = (lat: number, lng: number) => {
+    setFormData(prev => ({
+      ...prev,
+      latitude: lat.toString(),
+      longitude: lng.toString()
+    }));
+  };
+
+  const geocodeAddress = async () => {
+    if (!formData.location.trim()) return;
+    setIsGeocoding(true);
+    try {
+      const query = encodeURIComponent(formData.location);
+      // Nominatim requires a user-agent, but for browser requests it usually works.
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        setFormData(prev => ({
+          ...prev,
+          latitude: data[0].lat,
+          longitude: data[0].lon
+        }));
+      } else {
+        alert('No se encontraron coordenadas para esta dirección.');
+      }
+    } catch (err) {
+      console.error('Error geocoding:', err);
+      alert('Hubo un error al buscar las coordenadas.');
+    } finally {
+      setIsGeocoding(false);
+    }
   };
 
   const handleNumberChange = (field: 'beds' | 'baths' | 'parking', delta: number) => {
@@ -404,14 +438,25 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
           <div className="p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-argentina-navy mb-1.5 font-sf-pro" htmlFor="location">Dirección</label>
-              <input 
-                id="location"
-                type="text" 
-                value={formData.location}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-sm font-sf-pro outline-none" 
-                placeholder="Calle, Ciudad, Código Postal" 
-              />
+              <div className="flex gap-2">
+                <input 
+                  id="location"
+                  type="text" 
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  className="flex-1 px-4 py-2.5 rounded-md border border-gray-200 bg-white text-argentina-navy placeholder-gray-400 focus:ring-1 focus:ring-argentina-blue focus:border-argentina-blue transition-all text-sm font-sf-pro outline-none" 
+                  placeholder="Calle, Ciudad, Código Postal" 
+                />
+                <button
+                  type="button"
+                  onClick={geocodeAddress}
+                  disabled={isGeocoding || !formData.location.trim()}
+                  className="px-4 py-2.5 bg-argentina-blue text-white rounded-md hover:bg-argentina-navy transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium"
+                >
+                  <span className="material-icons text-sm">{isGeocoding ? 'hourglass_empty' : 'search'}</span>
+                  Buscar
+                </button>
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -438,7 +483,11 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
               </div>
             </div>
             <div className="relative h-48 w-full rounded-lg overflow-hidden bg-gray-100 border border-gray-200 group flex items-center justify-center">
-              <MapPreview lat={formData.latitude} lng={formData.longitude} />
+              <MapPreview 
+                lat={formData.latitude} 
+                lng={formData.longitude} 
+                onLocationSelect={handleLocationSelect}
+              />
             </div>
           </div>
         </div>
