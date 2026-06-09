@@ -29,7 +29,7 @@ export async function generateMetadata(
 
   const { data: rawRow, error } = await supabaseMeta
     .from('properties')
-    .select('title, description, images, image')
+    .select('*')
     .eq('id', id)
     .single();
 
