@@ -20,7 +20,41 @@ export async function POST(request: NextRequest) {
     minPrice,
     maxPrice,
     limit = 5,
+    produccion,
+    producción,
   } = body;
+
+  const rawProduccion = produccion || producción;
+  let parsedLocation = location;
+  let parsedMinPrice = minPrice;
+  let parsedMaxPrice = maxPrice;
+  let parsedBeds = beds;
+  let parsedBaths = baths;
+  let parsedParking;
+  let parsedArea;
+  let parsedStatus = status;
+  let parsedCategory = category;
+
+  if (rawProduccion && typeof rawProduccion === 'string') {
+    // Parse the raw key-value string
+    const lines = rawProduccion.split('\n');
+    lines.forEach(line => {
+      const [key, ...rest] = line.split(':');
+      if (!key || rest.length === 0) return;
+      const val = rest.join(':').trim().replace(/,$/, '').replace(/^"|"$/g, '');
+      if (val === 'NULL') return;
+
+      const k = key.trim().toLowerCase();
+      if (k === 'ubicación' || k === 'ubicacion') parsedLocation = val;
+      if (k === 'precio') parsedMaxPrice = Number(val);
+      if (k === 'camas') parsedBeds = Number(val);
+      if (k === 'baños') parsedBaths = Number(val);
+      if (k === 'estacionamiento') parsedParking = Number(val);
+      if (k === 'area') parsedArea = Number(val);
+      if (k === 'estado') parsedStatus = val;
+      if (k === 'categoría' || k === 'categoria') parsedCategory = val;
+    });
+  }
 
   const supabase = getBotSupabase();
 
@@ -32,8 +66,8 @@ export async function POST(request: NextRequest) {
     .limit(limit);
 
   // Text search across all title/location columns
-  if (location && location.trim()) {
-    const term = location.trim();
+  if (parsedLocation && parsedLocation.trim()) {
+    const term = parsedLocation.trim();
     dbQuery = dbQuery.or(
       [
         `title.ilike.%${term}%`,
@@ -44,7 +78,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Also try the raw query text for location matching if no structured location
-  if (!location && query && query.trim()) {
+  if (!parsedLocation && query && query.trim()) {
     const term = query.trim();
     dbQuery = dbQuery.or(
       [
@@ -55,12 +89,22 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (status) dbQuery = dbQuery.eq('status', status);
-  if (category) dbQuery = dbQuery.ilike('category', category);
-  if (beds && Number(beds) > 0) dbQuery = dbQuery.gte('beds', Number(beds));
-  if (baths && Number(baths) > 0) dbQuery = dbQuery.gte('baths', Number(baths));
-  if (minPrice) dbQuery = dbQuery.gte('price', Number(minPrice));
-  if (maxPrice) dbQuery = dbQuery.lte('price', Number(maxPrice));
+  if (parsedStatus) {
+    if (parsedStatus.toLowerCase().includes('comprar') || parsedStatus.toLowerCase().includes('venta')) {
+      dbQuery = dbQuery.eq('status', 'comprar');
+    } else if (parsedStatus.toLowerCase().includes('alquilar') || parsedStatus.toLowerCase().includes('renta')) {
+      dbQuery = dbQuery.eq('status', 'alquilar');
+    } else {
+      dbQuery = dbQuery.eq('status', parsedStatus);
+    }
+  }
+  if (parsedCategory) dbQuery = dbQuery.ilike('type', `%${parsedCategory}%`);
+  if (parsedBeds && Number(parsedBeds) > 0) dbQuery = dbQuery.gte('beds', Number(parsedBeds));
+  if (parsedBaths && Number(parsedBaths) > 0) dbQuery = dbQuery.gte('baths', Number(parsedBaths));
+  if (parsedParking && Number(parsedParking) > 0) dbQuery = dbQuery.gte('parking', Number(parsedParking));
+  if (parsedArea && Number(parsedArea) > 0) dbQuery = dbQuery.gte('area', Number(parsedArea) * 0.8); // 20% tolerance
+  if (parsedMinPrice) dbQuery = dbQuery.gte('price', Number(parsedMinPrice));
+  if (parsedMaxPrice) dbQuery = dbQuery.lte('price', Number(parsedMaxPrice) * 1.2); // 20% tolerance
 
   const { data, error } = await dbQuery;
 
