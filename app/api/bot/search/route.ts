@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
 
   // Type (Departamento, Casa, etc.)
   if (type && type !== 'Todos' && type !== 'Any Type') {
-    dbQuery = dbQuery.ilike('type', type);
+    dbQuery = dbQuery.ilike('type', `%${type}%`);
   }
 
   // Status (comprar / alquilar)
