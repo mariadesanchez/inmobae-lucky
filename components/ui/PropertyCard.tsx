@@ -32,16 +32,13 @@ const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps)
   const hasAgua = features.includes('Agua Corriente');
   const hasLuz  = features.includes('Luz');
   const hasGas  = features.includes('Gas natural');
-  const missingEssentials = [
-    !hasAgua && 'Agua Corriente',
-    !hasLuz  && 'Luz',
-  ].filter(Boolean) as string[];
+  // missingEssentials ya no se usa (las propiedades sin agua/luz se descartan en DB)
 
   return (
     <Link href={`/propiedades/${property.slug}`} className="block h-full group">
-      <article className="bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 cursor-pointer h-full flex flex-col">
-        {/* Image Container */}
-        <div className="relative aspect-4/3 overflow-hidden">
+      <article className="bg-white rounded-xl shadow-card hover:shadow-soft transition-all duration-300 cursor-pointer h-full flex flex-col">
+        {/* Image Container — overflow-hidden aquí para recortar la imagen, no en el article */}
+        <div className="relative aspect-4/3 overflow-hidden rounded-t-xl">
           <Image
             src={property.image}
             alt={property.title}
