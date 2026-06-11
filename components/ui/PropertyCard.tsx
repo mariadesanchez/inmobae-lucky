@@ -27,6 +27,16 @@ const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps)
     ? requestedAmenities.filter((amenity) => !property.features?.includes(amenity))
     : [];
 
+  // Servicios esenciales (siempre se muestran)
+  const features = property.features ?? [];
+  const hasAgua = features.includes('Agua Corriente');
+  const hasLuz  = features.includes('Luz');
+  const hasGas  = features.includes('Gas natural');
+  const missingEssentials = [
+    !hasAgua && 'Agua Corriente',
+    !hasLuz  && 'Luz',
+  ].filter(Boolean) as string[];
+
   return (
     <Link href={`/propiedades/${property.slug}`} className="block h-full group">
       <article className="bg-white rounded-xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 cursor-pointer h-full flex flex-col">
@@ -78,7 +88,7 @@ const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps)
 
         {/* Property Features */}
         <div className="p-4 pt-0">
-          <div className="flex items-center gap-4 text-gray-500 text-sm mb-4">
+          <div className="flex items-center gap-4 text-gray-500 text-sm mb-3">
             <div className="flex items-center gap-1.5">
               <span className="material-icons text-[18px]">bed</span>
               <span>{property.beds}</span>
@@ -92,9 +102,31 @@ const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps)
               <span>{property.sqft} m²</span>
             </div>
           </div>
-          
+
+          {/* Servicios esenciales — siempre visibles */}
+          <div className="flex flex-wrap items-center gap-1.5 mb-2">
+            {/* Agua Corriente */}
+            <span className={`inline-flex items-center gap-1 text-[11px] font-medium px-1.5 py-0.5 rounded-full border ${hasAgua ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
+              <span className="material-icons text-[11px]">{hasAgua ? 'water_drop' : 'water_drop'}</span>
+              Agua {hasAgua ? '' : '✗'}
+            </span>
+            {/* Luz */}
+            <span className={`inline-flex items-center gap-1 text-[11px] font-medium px-1.5 py-0.5 rounded-full border ${hasLuz ? 'bg-yellow-50 text-yellow-600 border-yellow-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
+              <span className="material-icons text-[11px]">bolt</span>
+              Luz {hasLuz ? '' : '✗'}
+            </span>
+            {/* Gas — solo si lo tiene (opcional) */}
+            {hasGas && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-1.5 py-0.5 rounded-full border bg-orange-50 text-orange-500 border-orange-200">
+                <span className="material-icons text-[11px]">local_fire_department</span>
+                Gas
+              </span>
+            )}
+          </div>
+
+          {/* Amenities solicitadas faltantes */}
           {missingAmenities.length > 0 && (
-            <div className="mt-2 text-xs font-medium text-red-500 bg-red-50 rounded-md px-2 py-1.5 flex items-start gap-1">
+            <div className="mt-1.5 text-xs font-medium text-red-500 bg-red-50 rounded-md px-2 py-1.5 flex items-start gap-1">
               <span className="material-icons text-[14px]">warning</span>
               <span>No incluye: {missingAmenities.join(', ')}</span>
             </div>
