@@ -48,16 +48,33 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  // Type (Departamento, Casa, etc.)
+  // Type (Departamento, Casa, etc.) with normalization
   if (type && type !== 'Todos' && type !== 'Any Type') {
-    dbQuery = dbQuery.ilike('type', `%${type}%`);
+    let normalizedType = type.trim().toLowerCase();
+    if (normalizedType.startsWith('departamento')) {
+      normalizedType = 'Departamento';
+    } else if (normalizedType.startsWith('casa')) {
+      normalizedType = 'Casa';
+    } else if (normalizedType.startsWith('cochera')) {
+      normalizedType = 'Cochera';
+    } else if (normalizedType.startsWith('ph')) {
+      normalizedType = 'PH';
+    } else if (normalizedType.startsWith('local')) {
+      normalizedType = 'Local';
+    } else if (normalizedType.startsWith('oficina')) {
+      normalizedType = 'Oficina';
+    } else {
+      normalizedType = normalizedType.charAt(0).toUpperCase() + normalizedType.slice(1);
+    }
+    dbQuery = dbQuery.eq('type', normalizedType);
   }
 
-  // Status (comprar / alquilar)
+  // Status (comprar / alquilar) with mapping/normalization
   if (status) {
-    if (status.toLowerCase().includes('comprar') || status.toLowerCase().includes('venta')) {
+    const s = status.trim().toLowerCase();
+    if (s.includes('comprar') || s.includes('venta') || s.includes('sale') || s.includes('buy')) {
       dbQuery = dbQuery.eq('status', 'comprar');
-    } else if (status.toLowerCase().includes('alquilar') || status.toLowerCase().includes('renta')) {
+    } else if (s.includes('alquilar') || s.includes('alquiler') || s.includes('renta') || s.includes('rent')) {
       dbQuery = dbQuery.eq('status', 'alquilar');
     } else {
       dbQuery = dbQuery.eq('status', status);
@@ -196,15 +213,35 @@ export async function POST(request: NextRequest) {
   }
 
   if (parsedStatus) {
-    if (parsedStatus.toLowerCase().includes('comprar') || parsedStatus.toLowerCase().includes('venta')) {
+    const s = parsedStatus.trim().toLowerCase();
+    if (s.includes('comprar') || s.includes('venta') || s.includes('sale') || s.includes('buy')) {
       dbQuery = dbQuery.eq('status', 'comprar');
-    } else if (parsedStatus.toLowerCase().includes('alquilar') || parsedStatus.toLowerCase().includes('renta')) {
+    } else if (s.includes('alquilar') || s.includes('alquiler') || s.includes('renta') || s.includes('rent')) {
       dbQuery = dbQuery.eq('status', 'alquilar');
     } else {
       dbQuery = dbQuery.eq('status', parsedStatus);
     }
   }
-  if (parsedCategory) dbQuery = dbQuery.ilike('type', `%${parsedCategory}%`);
+  
+  if (parsedCategory) {
+    let normalizedCategory = parsedCategory.trim().toLowerCase();
+    if (normalizedCategory.startsWith('departamento')) {
+      normalizedCategory = 'Departamento';
+    } else if (normalizedCategory.startsWith('casa')) {
+      normalizedCategory = 'Casa';
+    } else if (normalizedCategory.startsWith('cochera')) {
+      normalizedCategory = 'Cochera';
+    } else if (normalizedCategory.startsWith('ph')) {
+      normalizedCategory = 'PH';
+    } else if (normalizedCategory.startsWith('local')) {
+      normalizedCategory = 'Local';
+    } else if (normalizedCategory.startsWith('oficina')) {
+      normalizedCategory = 'Oficina';
+    } else {
+      normalizedCategory = normalizedCategory.charAt(0).toUpperCase() + normalizedCategory.slice(1);
+    }
+    dbQuery = dbQuery.eq('type', normalizedCategory);
+  }
   if (parsedBeds && Number(parsedBeds) > 0) dbQuery = dbQuery.gte('beds', Number(parsedBeds));
   if (parsedBaths && Number(parsedBaths) > 0) dbQuery = dbQuery.gte('baths', Number(parsedBaths));
   if (parsedParking && Number(parsedParking) > 0) dbQuery = dbQuery.gte('parking', Number(parsedParking));

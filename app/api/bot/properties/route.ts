@@ -53,14 +53,38 @@ export async function GET(request: NextRequest) {
   if (minPrice) query = query.gte('price', Number(minPrice));
   if (maxPrice) query = query.lte('price', Number(maxPrice));
 
-  // Property type — exact match (case-insensitive)
+  // Property type — exact match with normalization (plural-tolerant and case-insensitive)
   if (type && type !== 'Todos' && type !== 'Any Type') {
-    query = query.eq('type', type);
+    let normalizedType = type.trim().toLowerCase();
+    if (normalizedType.startsWith('departamento')) {
+      normalizedType = 'Departamento';
+    } else if (normalizedType.startsWith('casa')) {
+      normalizedType = 'Casa';
+    } else if (normalizedType.startsWith('cochera')) {
+      normalizedType = 'Cochera';
+    } else if (normalizedType.startsWith('ph')) {
+      normalizedType = 'PH';
+    } else if (normalizedType.startsWith('local')) {
+      normalizedType = 'Local';
+    } else if (normalizedType.startsWith('oficina')) {
+      normalizedType = 'Oficina';
+    } else {
+      // capitalize first letter as a fallback
+      normalizedType = normalizedType.charAt(0).toUpperCase() + normalizedType.slice(1);
+    }
+    query = query.eq('type', normalizedType);
   }
 
-  // Status (comprar / alquilar)
+  // Status (comprar / alquilar) with mapping/normalization
   if (status && status !== 'active' && status !== 'inactive' && status !== 'all') {
-    query = query.eq('status', status);
+    const s = status.trim().toLowerCase();
+    if (s.includes('comprar') || s.includes('venta') || s.includes('sale') || s.includes('buy')) {
+      query = query.eq('status', 'comprar');
+    } else if (s.includes('alquilar') || s.includes('alquiler') || s.includes('renta') || s.includes('rent')) {
+      query = query.eq('status', 'alquilar');
+    } else {
+      query = query.eq('status', status);
+    }
   }
 
   // Beds, Baths, Parking — exact match
