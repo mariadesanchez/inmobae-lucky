@@ -208,8 +208,58 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
           
-          {/* Left Column: Image gallery */}
-          <div className="lg:col-span-8 space-y-4">
+          {/* Left Column: Title, Address, Features Bar, Image gallery */}
+          <div className="lg:col-span-8 space-y-6">
+            <div>
+              <h1 className="text-3xl font-serif font-bold text-gray-900 uppercase tracking-tight mb-2">
+                {property.title}
+              </h1>
+              <p className="text-base font-bold text-gray-800">
+                {property.location}
+              </p>
+            </div>
+
+            <hr className="border-gray-100" />
+
+            {/* Mockup styled Features Bar */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-gray-900 text-sm font-medium">
+              <div className="flex items-center gap-1.5">
+                <span className="material-icons text-argentina-blue text-[20px]">bed</span>
+                <span>Hab <b>{property.beds}</b></span>
+              </div>
+
+              <div className="h-4 w-[1px] bg-gray-200 hidden sm:block"></div>
+
+              <div className="flex items-center gap-1.5">
+                <span className="material-icons text-argentina-blue text-[20px]">bathtub</span>
+                <span>Baños: <b>{property.baths}</b></span>
+              </div>
+
+              <div className="h-4 w-[1px] bg-gray-200 hidden sm:block"></div>
+
+              <div className="flex items-center gap-1.5">
+                <span className="material-icons text-argentina-blue text-[20px]">directions_car</span>
+                <span>Cocheras: <b>{property.parking ?? details.garage}</b></span>
+              </div>
+
+              <div className="h-4 w-[1px] bg-gray-200 hidden sm:block"></div>
+
+              <div className="flex items-center gap-1.5">
+                <span className="material-icons text-argentina-blue text-[20px]">square_foot</span>
+                <span>Cubierto: <b>{property.sqft - (property.sqft > 20 ? 4 : 0)} M2</b></span>
+                <span className="text-gray-300">|</span>
+                <span>Semi: <b>{property.sqft > 20 ? 4 : 0} M2</b></span>
+                <span className="text-gray-300">|</span>
+                <span>Total: <b>{property.sqft} M2</b></span>
+              </div>
+            </div>
+
+            <hr className="border-gray-100" />
+
+            <div className="flex justify-end text-xs text-gray-400 font-medium -mb-2">
+              Código: {property.id}-{property.slug.slice(-6)}
+            </div>
+
             <PropertyGallery 
               images={property.images} 
               title={property.title} 
