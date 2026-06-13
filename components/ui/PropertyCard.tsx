@@ -98,14 +98,14 @@ const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps)
             <div className="h-4 w-[1px] bg-gray-200"></div>
 
             <div className="flex items-center gap-1.5">
-              <span className="material-icons text-[#84cc16] text-[20px]">bed</span>
+              <span className="material-icons text-argentina-blue text-[20px]">bed</span>
               <span className="font-semibold text-gray-900">{property.beds}</span>
             </div>
 
             <div className="h-4 w-[1px] bg-gray-200"></div>
 
             <div className="flex items-center gap-1.5">
-              <span className="material-icons text-[#84cc16] text-[20px]">bathtub</span>
+              <span className="material-icons text-argentina-blue text-[20px]">bathtub</span>
               <span className="font-semibold text-gray-900">{property.baths}</span>
             </div>
 
@@ -113,7 +113,7 @@ const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps)
               <>
                 <div className="h-4 w-[1px] bg-gray-200"></div>
                 <div className="flex items-center gap-1.5">
-                  <span className="material-icons text-[#84cc16] text-[20px]">directions_car</span>
+                  <span className="material-icons text-argentina-blue text-[20px]">directions_car</span>
                   <span className="font-semibold text-gray-900">{property.parking}</span>
                 </div>
               </>

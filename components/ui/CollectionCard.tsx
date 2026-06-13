@@ -21,73 +21,95 @@ const CollectionCard = ({ collection, dict }: CollectionCardProps) => {
 
   const isNew = isNewThisMonth();
 
+  const formattedPrice = collection.status === 'comprar' 
+    ? `U$S ${collection.price.toLocaleString('es-AR')}`
+    : `$ ${collection.price.toLocaleString('es-AR')}`;
+
   return (
-    <Link href={`/propiedades/${collection.slug || ''}`} className="block group relative rounded-xl overflow-hidden shadow-soft bg-white cursor-pointer">
-      {/* Image Container */}
-      <div className="aspect-4/3 w-full overflow-hidden relative">
-        <Image
-          src={collection.image}
-          alt={collection.title}
-          fill
-          sizes="(max-w-7xl) 50vw, 600px"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+    <Link href={`/propiedades/${collection.slug || ''}`} className="block h-full group">
+      <article className="bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 cursor-pointer h-full flex flex-col overflow-hidden">
+        {/* Image Container */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden">
+          <Image
+            src={collection.image}
+            alt={collection.title}
+            fill
+            sizes="(max-w-7xl) 50vw, 600px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
 
-        {/* New Badge */}
-        {isNew && (
-          <div className="absolute top-4 left-4 h-10 bg-gradient-to-r from-argentina-sun to-yellow-400 text-argentina-navy text-xs font-bold px-5 rounded-full shadow-[0_4px_12px_rgba(246,180,14,0.4)] z-10 uppercase tracking-widest flex items-center justify-center border border-yellow-300">
-            {dict?.property?.new || 'Nueva'}
+          {/* Favorite Button */}
+          <FavoriteButton propertyId={collection.id} initialIsFavorite={collection.isFavorite} className="top-4 right-4" />
+
+          {/* Slide dots overlay representing image pagination */}
+          <div className="absolute bottom-4 right-6 flex items-center gap-1.5 z-10 bg-black/10 backdrop-blur-[1px] px-2.5 py-1 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full border border-white opacity-60"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+            <span className="w-1.5 h-1.5 rounded-full border border-white opacity-60"></span>
           </div>
-        )}
 
-        {/* Favorite Button */}
-        <FavoriteButton propertyId={collection.id} initialIsFavorite={collection.isFavorite} className="top-4 right-4" />
+          {/* Sleek Type/Status Tag */}
+          {collection.status && (
+            <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-[2px] text-gray-800 text-[10px] font-bold px-2.5 py-1 rounded-md shadow-sm tracking-wider uppercase">
+              {collection.status === 'comprar' ? 'Venta' : 'Alquiler'}
+            </div>
+          )}
+        </div>
 
-        {/* Gradient Overlay */}
-        <div className="absolute bottom-0 inset-x-0 h-1/2 bg-linear-to-t from-black/60 to-transparent opacity-60"></div>
-      </div>
-
-      {/* Content */}
-      <div className="p-6 relative">
-        <div className="flex justify-between items-start mb-2">
-          <div>
-            <h3 className="text-xl font-medium text-argentina-navy group-hover:text-argentina-blue transition-colors">
-              {collection.title}
-            </h3>
-            <p className="text-argentina-navy-muted text-sm flex items-center gap-1 mt-1">
-              <span className="material-icons text-sm font-material-icons">
-                place
-              </span>{' '}
-              {collection.location}
+        {/* Content */}
+        <div className="p-5 flex flex-col grow">
+          <div className="mb-1">
+            <p className="font-serif text-[26px] font-semibold text-gray-900 leading-tight">
+              {formattedPrice}
+              {collection.status === 'alquilar' && (
+                <span className="text-sm font-normal text-gray-500 font-sans"> /mes</span>
+              )}
             </p>
           </div>
-          <span className="text-xl font-semibold text-argentina-blue">
-            ${collection.price.toLocaleString('en-US')}
-          </span>
-        </div>
 
-        {/* Features */}
-        <div className="flex items-center gap-6 mt-6 pt-6 border-t border-argentina-navy/5">
-          <div className="flex items-center gap-2 text-argentina-navy-muted text-sm">
-            <span className="material-icons text-lg font-material-icons">
-              king_bed
-            </span>{' '}
-            {collection.beds} {dict?.property?.beds || 'Beds'}
-          </div>
-          <div className="flex items-center gap-2 text-argentina-navy-muted text-sm">
-            <span className="material-icons text-lg font-material-icons">
-              bathtub
-            </span>{' '}
-            {collection.baths} {dict?.property?.baths || 'Baths'}
-          </div>
-          <div className="flex items-center gap-2 text-argentina-navy-muted text-sm">
-            <span className="material-icons text-lg font-material-icons">
-              square_foot
-            </span>{' '}
-            {collection.sqft.toLocaleString('en-US')} m²
+          <h3 className="text-gray-900 font-bold text-lg leading-snug mt-1 group-hover:text-argentina-blue transition-colors truncate">
+            {collection.title}
+          </h3>
+          
+          <p className="text-gray-400 text-sm mt-1 font-normal truncate">
+            {collection.location}
+          </p>
+
+          {/* Divider line */}
+          <hr className="border-gray-100 my-4" />
+
+          {/* Features container */}
+          <div className="flex items-center gap-3.5 text-gray-900 text-sm mt-auto">
+            <div className="font-bold text-sm tracking-tight text-gray-900">
+              {collection.sqft} M2
+            </div>
+
+            <div className="h-4 w-[1px] bg-gray-200"></div>
+
+            <div className="flex items-center gap-1.5">
+              <span className="material-icons text-argentina-blue text-[20px]">bed</span>
+              <span className="font-semibold text-gray-900">{collection.beds}</span>
+            </div>
+
+            <div className="h-4 w-[1px] bg-gray-200"></div>
+
+            <div className="flex items-center gap-1.5">
+              <span className="material-icons text-argentina-blue text-[20px]">bathtub</span>
+              <span className="font-semibold text-gray-900">{collection.baths}</span>
+            </div>
+
+            {(collection.parking !== undefined && collection.parking > 0) && (
+              <>
+                <div className="h-4 w-[1px] bg-gray-200"></div>
+                <div className="flex items-center gap-1.5">
+                  <span className="material-icons text-argentina-blue text-[20px]">directions_car</span>
+                  <span className="font-semibold text-gray-900">{collection.parking}</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 };

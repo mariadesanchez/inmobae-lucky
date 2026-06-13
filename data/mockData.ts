@@ -26,6 +26,8 @@ export interface Collection {
   slug?: string;
   date_entry?: string;
   isFavorite?: boolean;
+  status?: string;
+  parking?: number;
 }
 
 

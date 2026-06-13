@@ -44,6 +44,8 @@ const FeaturedCollection = async ({ dict }: { dict?: any }) => {
       slug: prop.slug,
       date_entry: prop.date_entry,
       isFavorite: favoriteIds.has(String(prop.id)),
+      status: prop.status,
+      parking: prop.parking,
     };
   });
 
