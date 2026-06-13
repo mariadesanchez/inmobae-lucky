@@ -253,27 +253,18 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
                   </div>
                   <div>
                     <h3 className="font-semibold text-argentina-navy">{details.agent.name}</h3>
-                    <div className="flex items-center gap-1 text-xs text-argentina-blue font-medium">
-                      <span className="material-icons text-[14px]">star</span>
-                      <span>{details.agent.rating}</span>
-                    </div>
                   </div>
-                  <div className="ml-auto flex gap-2">
+                  <div className="ml-auto">
                     <a
                       href={`https://wa.me/5491122334455?text=Hola%2C%20estoy%20interesado%20en%20la%20propiedad%20${encodeURIComponent(property.title)}%20(ID%3A%20${property.id})`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-argentina-blue/10 text-argentina-blue hover:bg-argentina-blue hover:text-white transition-colors"
+                      className="w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white shadow-md transition-all flex items-center justify-center hover:scale-105"
                       title="WhatsApp Chat"
                     >
-                      <span className="material-icons text-sm">chat</span>
-                    </a>
-                    <a
-                      href="tel:+5491122334455"
-                      className="p-2 rounded-full bg-argentina-blue/10 text-argentina-blue hover:bg-argentina-blue hover:text-white transition-colors"
-                      title="Call Agent"
-                    >
-                      <span className="material-icons text-sm">call</span>
+                      <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.5-5.729-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.86.002-2.637-1.03-5.114-2.905-6.99C16.558 1.88 14.09.848 11.458.848c-5.441 0-9.865 4.42-9.869 9.861-.001 1.77.463 3.5 1.34 5.03l-.224 1.258-.887 3.243 3.32-.871 1.218-.286zm11.391-7.234c-.308-.154-1.82-.9-2.1-.998-.281-.1-.484-.154-.688.154-.204.308-.79.998-.968 1.201-.178.203-.356.228-.664.074-.308-.154-1.3-.478-2.478-1.53-.918-.818-1.537-1.83-1.717-2.138-.18-.308-.018-.475.137-.629.139-.138.308-.358.462-.538.154-.18.204-.308.308-.514.103-.205.051-.385-.026-.538-.077-.154-.688-1.658-.943-2.274-.248-.598-.501-.518-.688-.528-.178-.008-.383-.01-.588-.01-.205 0-.538.077-.82.385-.282.308-1.077 1.051-1.077 2.564 0 1.513 1.103 2.974 1.256 3.18.154.205 2.17 3.313 5.258 4.646.734.317 1.309.506 1.758.649.738.234 1.41.201 1.94.122.59-.088 1.82-.744 2.077-1.46.256-.718.256-1.334.18-1.46-.077-.128-.282-.205-.59-.359z" />
+                      </svg>
                     </a>
                   </div>
                 </div>
