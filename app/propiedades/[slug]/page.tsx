@@ -342,34 +342,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
           </div>
 
           {/* Left Bottom Column: Details, description, amenities */}
-          <div className="lg:col-span-8 lg:row-start-2 -mt-8 space-y-8">
-            
-            {/* Features block */}
-            <div className="bg-white p-8 rounded-xl shadow-sm border border-argentina-blue/5">
-              <h2 className="text-lg font-semibold mb-6 text-argentina-navy">Property Features</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="flex flex-col items-center justify-center p-4 bg-argentina-blue/5 rounded-lg border border-argentina-blue/10">
-                  <span className="material-icons text-argentina-blue text-2xl mb-2">square_foot</span>
-                  <span className="text-xl font-bold text-argentina-navy">{property.sqft}</span>
-                  <span className="text-xs uppercase tracking-wider text-argentina-navy/50">Square Meters</span>
-                </div>
-                <div className="flex flex-col items-center justify-center p-4 bg-argentina-blue/5 rounded-lg border border-argentina-blue/10">
-                  <span className="material-icons text-argentina-blue text-2xl mb-2">bed</span>
-                  <span className="text-xl font-bold text-argentina-navy">{property.beds}</span>
-                  <span className="text-xs uppercase tracking-wider text-argentina-navy/50">Bedrooms</span>
-                </div>
-                <div className="flex flex-col items-center justify-center p-4 bg-argentina-blue/5 rounded-lg border border-argentina-blue/10">
-                  <span className="material-icons text-argentina-blue text-2xl mb-2">shower</span>
-                  <span className="text-xl font-bold text-argentina-navy">{property.baths}</span>
-                  <span className="text-xs uppercase tracking-wider text-argentina-navy/50">Bathrooms</span>
-                </div>
-                <div className="flex flex-col items-center justify-center p-4 bg-argentina-blue/5 rounded-lg border border-argentina-blue/10">
-                  <span className="material-icons text-argentina-blue text-2xl mb-2">directions_car</span>
-                  <span className="text-xl font-bold text-argentina-navy">{details.garage}</span>
-                  <span className="text-xs uppercase tracking-wider text-argentina-navy/50">Garage</span>
-                </div>
-              </div>
-            </div>
+          <div className="lg:col-span-8 lg:row-start-2 space-y-8">
 
             {/* Description block */}
             <div className="bg-white p-8 rounded-xl shadow-sm border border-argentina-blue/5">

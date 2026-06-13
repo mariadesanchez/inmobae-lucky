@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 interface PropertyGalleryProps {
@@ -22,6 +22,17 @@ const PropertyGallery = ({ images, title, isNew, category }: PropertyGalleryProp
   const handleNext = () => {
     setActiveIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
+
+  // Autoplay effect: transition image every 4 seconds
+  useEffect(() => {
+    if (images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      handleNext();
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [activeIndex, images.length]);
 
   // Tag helper
   const isPremium = category?.toLowerCase() === 'featured' || category?.toLowerCase() === 'exclusive';
