@@ -225,13 +225,15 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
               {/* Pricing & Booking Card */}
               <div className="bg-white p-6 rounded-xl shadow-sm border border-argentina-blue/5">
                 <div className="mb-4">
-                  <h1 className="text-4xl font-display font-light text-argentina-navy mb-2">
-                    ${property.price.toLocaleString('en-US')}
-                    {property.type === 'rent' && (
-                      <span className="text-lg font-normal text-argentina-navy-muted">/mo</span>
+                  <h1 className="text-[32px] font-serif font-semibold text-gray-900 mb-2">
+                    {property.status === 'comprar' 
+                      ? `U$S ${property.price.toLocaleString('es-AR')}`
+                      : `$ ${property.price.toLocaleString('es-AR')}`}
+                    {property.status === 'alquilar' && (
+                      <span className="text-lg font-normal text-gray-500 font-sans"> /mes</span>
                     )}
                   </h1>
-                  <p className="text-argentina-navy/60 font-medium flex items-center gap-1">
+                  <p className="text-gray-500 font-normal flex items-center gap-1">
                     <span className="material-icons text-argentina-blue text-sm">location_on</span>
                     {property.location}
                   </p>
