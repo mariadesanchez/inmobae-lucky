@@ -34,96 +34,95 @@ const PropertyCard = ({ property, dict, requestedAmenities }: PropertyCardProps)
   const hasGas  = features.includes('Gas natural');
   // missingEssentials ya no se usa (las propiedades sin agua/luz se descartan en DB)
 
+  const formattedPrice = property.status === 'comprar' 
+    ? `U$S ${property.price.toLocaleString('es-AR')}`
+    : `$ ${property.price.toLocaleString('es-AR')}`;
+
   return (
     <Link href={`/propiedades/${property.slug}`} className="block h-full group">
-      <article className="bg-white rounded-xl shadow-card hover:shadow-soft transition-all duration-300 cursor-pointer h-full flex flex-col">
-        {/* Image Container — overflow-hidden aquí para recortar la imagen, no en el article */}
-        <div className="relative aspect-4/3 overflow-hidden rounded-t-xl">
+      <article className="bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 cursor-pointer h-full flex flex-col overflow-hidden">
+        {/* Image Container */}
+        <div className="relative aspect-[4/3] overflow-hidden">
           <Image
             src={property.image}
             alt={property.title}
             fill
             sizes="(max-w-7xl) 25vw, 300px"
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
           {/* Favorite Button */}
           <FavoriteButton propertyId={property.id} initialIsFavorite={property.isFavorite} />
 
-          {/* New Badge */}
-          {isNew && (
-            <div className="absolute top-3 left-3 h-[34px] bg-gradient-to-r from-argentina-sun to-yellow-400 text-argentina-navy text-xs font-bold px-4 rounded-full shadow-[0_4px_12px_rgba(246,180,14,0.4)] z-10 uppercase tracking-widest flex items-center justify-center border border-yellow-300">
-              {dict?.property?.new || 'Nueva'}
-            </div>
-          )}
+          {/* Slide dots overlay representing image pagination */}
+          <div className="absolute bottom-4 right-6 flex items-center gap-1.5 z-10 bg-black/10 backdrop-blur-[1px] px-2.5 py-1 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full border border-white opacity-60"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
+            <span className="w-1.5 h-1.5 rounded-full border border-white opacity-60"></span>
+          </div>
 
-          {/* Type Tag */}
-          <div 
-            className={`absolute bottom-3 left-3 text-white text-xs font-bold px-2 py-1 rounded ${property.status === 'comprar' ? 'bg-argentina-navy/90' : 'bg-argentina-blue/90'}`}
-          >
-            {property.status === 'comprar' ? 'EN VENTA' : 'ALQUILER'}
+          {/* Sleek Type/Status Tag */}
+          <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-[2px] text-gray-800 text-[10px] font-bold px-2.5 py-1 rounded-md shadow-sm tracking-wider uppercase">
+            {property.status === 'comprar' ? 'Venta' : 'Alquiler'}
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-4 flex flex-col grow">
-          <div className="flex justify-between items-baseline mb-2">
-            <p className="text-2xl font-bold text-argentina-navy font-sf-pro">
-              ${property.price.toLocaleString('es-AR')}
+        <div className="p-5 flex flex-col grow">
+          <div className="mb-1">
+            <p className="font-serif text-[26px] font-semibold text-gray-900 leading-tight">
+              {formattedPrice}
               {property.status === 'alquilar' && (
-                <span className="text-sm font-normal text-gray-500 font-sf-pro"> /mes</span>
+                <span className="text-sm font-normal text-gray-500 font-sans"> /mes</span>
               )}
             </p>
           </div>
 
-          <h4 className="text-argentina-navy font-medium truncate mb-1">
+          <h4 className="text-gray-900 font-bold text-lg leading-snug mt-1 group-hover:text-argentina-blue transition-colors truncate">
             {property.title}
           </h4>
-          <p className="text-argentina-navy-muted text-xs mb-4">{property.location}</p>
+          
+          <p className="text-gray-400 text-sm mt-1 font-normal truncate">
+            {property.location}
+          </p>
 
-        </div>
+          {/* Divider line */}
+          <hr className="border-gray-100 my-4" />
 
-        {/* Property Features */}
-        <div className="p-4 pt-0">
-          <div className="flex items-center gap-4 text-gray-500 text-sm mb-3">
-            <div className="flex items-center gap-1.5">
-              <span className="material-icons text-[18px]">bed</span>
-              <span>{property.beds}</span>
+          {/* Features container */}
+          <div className="flex items-center gap-3.5 text-gray-900 text-sm mt-auto">
+            <div className="font-bold text-sm tracking-tight text-gray-900">
+              {property.sqft} M2
             </div>
-            <div className="flex items-center gap-1.5">
-              <span className="material-icons text-[18px]">bathtub</span>
-              <span>{property.baths}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="material-icons text-[18px]">square_foot</span>
-              <span>{property.sqft} m²</span>
-            </div>
-          </div>
 
-          {/* Servicios esenciales — siempre visibles */}
-          <div className="flex flex-wrap items-center gap-1.5 mb-2">
-            {/* Agua Corriente */}
-            <span className={`inline-flex items-center gap-1 text-[11px] font-medium px-1.5 py-0.5 rounded-full border ${hasAgua ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
-              <span className="material-icons text-[11px]">{hasAgua ? 'water_drop' : 'water_drop'}</span>
-              Agua {hasAgua ? '' : '✗'}
-            </span>
-            {/* Luz */}
-            <span className={`inline-flex items-center gap-1 text-[11px] font-medium px-1.5 py-0.5 rounded-full border ${hasLuz ? 'bg-yellow-50 text-yellow-600 border-yellow-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
-              <span className="material-icons text-[11px]">bolt</span>
-              Luz {hasLuz ? '' : '✗'}
-            </span>
-            {/* Gas — solo si lo tiene (opcional) */}
-            {hasGas && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-medium px-1.5 py-0.5 rounded-full border bg-orange-50 text-orange-500 border-orange-200">
-                <span className="material-icons text-[11px]">local_fire_department</span>
-                Gas
-              </span>
+            <div className="h-4 w-[1px] bg-gray-200"></div>
+
+            <div className="flex items-center gap-1.5">
+              <span className="material-icons text-[#84cc16] text-[20px]">bed</span>
+              <span className="font-semibold text-gray-900">{property.beds}</span>
+            </div>
+
+            <div className="h-4 w-[1px] bg-gray-200"></div>
+
+            <div className="flex items-center gap-1.5">
+              <span className="material-icons text-[#84cc16] text-[20px]">bathtub</span>
+              <span className="font-semibold text-gray-900">{property.baths}</span>
+            </div>
+
+            {(property.parking !== undefined && property.parking > 0) && (
+              <>
+                <div className="h-4 w-[1px] bg-gray-200"></div>
+                <div className="flex items-center gap-1.5">
+                  <span className="material-icons text-[#84cc16] text-[20px]">directions_car</span>
+                  <span className="font-semibold text-gray-900">{property.parking}</span>
+                </div>
+              </>
             )}
           </div>
 
-          {/* Amenities solicitadas faltantes */}
+          {/* Missing amenities feedback */}
           {missingAmenities.length > 0 && (
-            <div className="mt-1.5 text-xs font-medium text-red-500 bg-red-50 rounded-md px-2 py-1.5 flex items-start gap-1">
+            <div className="mt-3 text-xs font-medium text-red-500 bg-red-50/50 rounded-md px-2 py-1.5 flex items-start gap-1">
               <span className="material-icons text-[14px]">warning</span>
               <span>No incluye: {missingAmenities.join(', ')}</span>
             </div>
