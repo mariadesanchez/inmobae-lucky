@@ -320,7 +320,7 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
                 </div>
 
                 <div className="space-y-3">
-                  <button className="w-full bg-argentina-blue hover:bg-primary-hover text-white py-4 px-6 rounded-lg font-medium transition-all shadow-lg shadow-argentina-blue/20 flex items-center justify-center gap-2 group">
+                  <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 px-6 rounded-lg font-medium transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 group">
                     <span className="material-icons text-xl group-hover:scale-110 transition-transform">calendar_today</span>
                     Schedule Visit
                   </button>
