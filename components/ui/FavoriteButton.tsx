@@ -46,6 +46,8 @@ export default function FavoriteButton({ propertyId, initialIsFavorite = false, 
           console.error('Error adding favorite:', error);
           setIsFavorite(!newStatus);
           alert('Hubo un error al agregar a favoritos.');
+        } else {
+          router.refresh();
         }
       } else {
         const { error } = await supabase
@@ -58,6 +60,8 @@ export default function FavoriteButton({ propertyId, initialIsFavorite = false, 
           console.error('Error removing favorite:', error);
           setIsFavorite(!newStatus);
           alert('Hubo un error al quitar de favoritos.');
+        } else {
+          router.refresh();
         }
       }
     } catch (error) {
