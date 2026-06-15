@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import UserMenu from './UserMenu';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface NavbarClientProps {
   dict?: any;
@@ -13,6 +14,10 @@ interface NavbarClientProps {
 
 export default function NavbarClient({ dict, user, isAdmin }: NavbarClientProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isBuscarActive = pathname === '/buscar';
+  const isFavoritosActive = pathname === '/favoritos';
 
   return (
     <nav className="sticky top-0 z-50 bg-argentina-light/60 backdrop-blur-lg border-b border-argentina-navy/5">
@@ -25,13 +30,24 @@ export default function NavbarClient({ dict, user, isAdmin }: NavbarClientProps)
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="#" className="text-argentina-blue font-medium text-sm border-b-2 border-argentina-blue px-1 py-1">
-              {dict?.buy || 'Comprar'}
+            <Link 
+              href="/buscar" 
+              className={`font-medium text-sm px-1 py-1 transition-all ${
+                isBuscarActive 
+                  ? 'text-argentina-blue border-b-2 border-argentina-blue font-semibold' 
+                  : 'text-argentina-navy/70 hover:text-argentina-navy hover:border-b-2 hover:border-argentina-navy/20'
+              }`}
+            >
+              {dict?.properties || 'Todas las Propiedades'}
             </Link>
-            <Link href="#" className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
-              {dict?.rent || 'Alquilar'}
-            </Link>
-            <Link href={`/favoritos`} className="text-argentina-navy/70 hover:text-argentina-navy font-medium text-sm hover:border-b-2 hover:border-argentina-navy/20 px-1 py-1 transition-all">
+            <Link 
+              href="/favoritos" 
+              className={`font-medium text-sm px-1 py-1 transition-all ${
+                isFavoritosActive 
+                  ? 'text-argentina-blue border-b-2 border-argentina-blue font-semibold' 
+                  : 'text-argentina-navy/70 hover:text-argentina-navy hover:border-b-2 hover:border-argentina-navy/20'
+              }`}
+            >
               {dict?.saved || 'Favoritos'}
             </Link>
 
@@ -84,13 +100,26 @@ export default function NavbarClient({ dict, user, isAdmin }: NavbarClientProps)
       {isMenuOpen && (
         <div className="md:hidden border-t border-argentina-navy/10 bg-argentina-light shadow-lg">
           <div className="px-4 py-3 space-y-1">
-            <Link href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-blue bg-argentina-blue/10">
-              {dict?.buy || 'Comprar'}
+            <Link 
+              href="/buscar" 
+              onClick={() => setIsMenuOpen(false)} 
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium ${
+                isBuscarActive 
+                  ? 'text-argentina-blue bg-argentina-blue/10 font-semibold' 
+                  : 'text-argentina-navy hover:bg-argentina-navy/5'
+              }`}
+            >
+              {dict?.properties || 'Todas las Propiedades'}
             </Link>
-            <Link href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
-              {dict?.rent || 'Alquilar'}
-            </Link>
-            <Link href={`/favoritos`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-argentina-navy hover:bg-argentina-navy/5">
+            <Link 
+              href="/favoritos" 
+              onClick={() => setIsMenuOpen(false)} 
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium ${
+                isFavoritosActive 
+                  ? 'text-argentina-blue bg-argentina-blue/10 font-semibold' 
+                  : 'text-argentina-navy hover:bg-argentina-navy/5'
+              }`}
+            >
               {dict?.saved || 'Favoritos'}
             </Link>
 

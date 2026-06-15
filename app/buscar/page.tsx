@@ -57,7 +57,11 @@ export default async function BuscarPage({ params, searchParams }: HomePageProps
     .from('properties')
     .select('*', { count: 'exact' })
     .eq('is_active', true)
-    .contains('features', ['Agua Corriente', 'Luz']) // Servicios esenciales obligatorios
+    .contains('features', ['Agua Corriente', 'Luz']); // Servicios esenciales obligatorios
+
+  // Order first by status (alquilar then comprar), then by id descending
+  query = query
+    .order('status', { ascending: true })
     .order('id', { ascending: false });
 
   // Search filter — case-insensitive partial match across title and location in all languages

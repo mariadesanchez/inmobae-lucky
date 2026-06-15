@@ -1,7 +1,6 @@
 {
   "navbar": {
-    "buy": "Comprar",
-    "rent": "Alquilar",
+    "properties": "Todas las Propiedades",
     "commercial": "Comercial",
     "saved": "Favoritos",
     "language": "Idioma",
